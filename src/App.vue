@@ -1,26 +1,49 @@
 <script setup lang="ts">
-  import { onMounted, ref } from "vue";
-  import Editor from "@toast-ui/editor";
-  import "@toast-ui/editor/dist/toastui-editor.css"; // Editor's Style
+import { ref } from "vue";
+import NoteIde from "./components/markIde/NoteIde.vue";
+import HelloWorld from "./components/HelloWorld.vue";
+</script>
 
-  const editorRef = ref(null);
-  const editor = ref(null);
+<template>
+  <div class="card w-96 bg-base-100 shadow-sm">
+  <div class="card-body">
+    <span class="badge badge-xs badge-warning">Most Popular</span>
+    <div class="flex justify-between">
+      <h2 class="text-3xl font-bold">Premium</h2>
+      <span class="text-xl">$29/mo</span>
+    </div>
+    <ul class="mt-6 flex flex-col gap-2 text-xs">
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span>High-resolution image generation</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span>Customizable style templates</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span>Batch processing capabilities</span>
+      </li>
+      <li>
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span>AI-driven image enhancements</span>
+      </li>
+      <li class="opacity-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-base-content/50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span class="line-through">Seamless cloud integration</span>
+      </li>
+      <li class="opacity-50">
+        <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-base-content/50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        <span class="line-through">Real-time collaboration tools</span>
+      </li>
+    </ul>
+    <div class="mt-6">
+      <button class="btn btn-primary btn-block">Subscribe</button>
+    </div>
+  </div>
+</div>
 
-  onMounted(() => {
-    console.log(editorRef.value);
-    editor.value = new Editor({
-      // el: document.querySelector("#editor"),
-      el: editorRef.value,
-      height: "500px",
-      initialEditType: "markdown",
-      previewStyle: "vertical",
-    });
-    editor.value.getMarkdown();
-  });
-  </script>
-
-  <template>
-    <div ref="editorRef"></div>
-  </template>
-
-  <style scoped></style>
+  <HelloWorld />
+  <NoteIde />
+</template>
