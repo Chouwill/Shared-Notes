@@ -1,3 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "daisyui";
 
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tabs-box {
+  background-color: transparent;
+}
+
+.tab-active {
+  background-color: blue;
+  border-radius: 40px;
+  padding: 0 10px;
+}
