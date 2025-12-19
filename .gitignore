@@ -34,3 +34,6 @@ coverage
 
 # Vitest
 __screenshots__/
+
+# Documentation (MD files)
+docs/*.md
