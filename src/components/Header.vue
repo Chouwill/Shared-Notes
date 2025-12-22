@@ -7,7 +7,7 @@
     <div class="flex justify-center items-center">
       <img class="w-[150px] h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
     </div>
-    <div class="w-[260px] bg-base-300 rounded-3xl border border-base-300">
+    <div class="w-[260px] hidden md:block bg-base-300 rounded-3xl border border-base-300">
       <div role="tablist" class="tabs tabs-box flex justify-around">
         <a role="tab" class="tab">首頁</a>
         <a
@@ -22,7 +22,7 @@
     <div class="flex gap-3">
       <button class="btn btn-neutral rounded-3xl">登入</button>
       <button class="btn btn-primary rounded-3xl">註冊</button>
-      <div class="dropdown dropdown-end">
+      <div class="dropdown dropdown-end hidden">
         <div tabindex="0" role="button" class="btn m-1">
           Theme
           <svg

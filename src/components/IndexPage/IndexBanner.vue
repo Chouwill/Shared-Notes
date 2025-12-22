@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="box bg-base-100  text-center w-full h-auto flex">
+  <div class="box bg-base-100 text-center md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4 ">
     <!-- Left section -->
-    <div class="w-[50%] flex flex-col justify-around">
-      <h2 class="text-left text-[42px] text-base-content">把重點寫得精準，也展示得乾淨。</h2>
+    <div class="md:w-[50%] flex flex-col justify-around md:gap-0 gap-3">
+      <h2 class="text-left md:text-[42px] text-base-content">把重點寫得精準，也展示得乾淨。</h2>
 
       <p class="py-3 text-left text-base-content/70">支援 Markdown 編輯、標籤整理、公開分享。</p>
 
@@ -16,7 +16,7 @@
         <button class="btn btn-outline rounded-xl">逛公開筆記</button>
       </div>
 
-      <div class="flex flex-row gap-2  py-3">
+      <div class="flex flex-row gap-2 py-3">
         <div class="badge badge-soft badge-info">Markdown</div>
         <div class="badge badge-soft badge-info">標籤分類</div>
         <div class="badge badge-soft badge-info">分享連結</div>
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Right section -->
-    <div class="w-[50%] bg-base-100 h-auto flex items-center justify-center">
+    <div class="md:w-[50%] w-full  bg-base-100 h-auto flex items-center justify-center">
       <div
         class="noteCard border border-base-content/20 rounded-xl bg-base-100 shadow-md w-[90%] p-4"
       >
