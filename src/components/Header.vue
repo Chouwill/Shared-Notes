@@ -22,7 +22,7 @@
     <div class="flex gap-3">
       <button class="btn btn-neutral rounded-3xl">登入</button>
       <button class="btn btn-primary rounded-3xl">註冊</button>
-      <div class="dropdown dropdown-end hidden">
+      <div class="dropdown dropdown-end hidden md:block">
         <div tabindex="0" role="button" class="btn m-1">
           Theme
           <svg
