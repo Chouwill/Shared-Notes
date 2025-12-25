@@ -8,9 +8,9 @@ import NoteIde from '../markIde/NoteIde.vue'
 <template>
   <div class="w-full bg-base-100">
     <!-- Header -->
-    <Header />
+    <Header class="sticky top-0 z-20" />
 
-    <main class="flex flex-col justify-center items-center">
+    <main class="flex flex-col pb-40 justify-center items-center">
       <router-view></router-view>
     </main>
 

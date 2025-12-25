@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="box bg-base-100 text-center md:w-full h-[500px] flex md:flex-row flex-col md:gap-0 gap-4 ">
+  <div class="box mt-[500px] bg-base-100 text-center md:w-full h-[500px] flex md:flex-row flex-col md:gap-0 gap-4 ">
     <!-- Left section -->
     <div class="md:w-[50%] flex flex-col justify-around md:gap-0 gap-3">
       <h2 class="text-left md:text-[42px] text-base-content">把重點寫得精準，也展示得乾淨。</h2>
