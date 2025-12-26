@@ -96,7 +96,7 @@ const articleLists = ref([
       </div>
     </div>
     <div class="">
-      <div class="flex md:flex-row md:gap-0 flex-col justify-between items-center border">
+      <div class="flex md:flex-row md:gap-0 flex-col justify-between items-center ">
         <div class="first-title text-3xl text-base-content p-3">所有主題</div>
         <div class="flex gap-3 items-center">
           <div class="flex  gap-5 p-3 items-center">
