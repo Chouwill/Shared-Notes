@@ -1,14 +1,18 @@
 <script setup></script>
 
 <template>
-  <div class="w-full flex justify-center items-center  h-[100px] bg-base-200 text-base-content  shadow-md">
-    <div class="w-full  max-w-[1280px]   h-full px-4  flex justify-between items-center">
+  <div
+    class="w-full flex justify-center items-center h-[100px] bg-base-200 text-base-content shadow-md"
+  >
+    <div class="w-full max-w-[1280px] h-full px-4 flex justify-between items-center">
       <div class="flex justify-center items-center">
         <img class="w-[150px] h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
       </div>
       <div class="w-[260px] hidden md:block bg-base-300 rounded-3xl border border-base-300">
         <div role="tablist" class="tabs tabs-box flex justify-around">
-          <a role="tab" class="tab">首頁</a>
+          <!-- <a role="tab" class="tab">首頁</a> -->
+          <RouterLink role="tab" class="tab" to="/"> 首頁 </RouterLink>
+
           <a
             role="tab"
             class="tab tab-active bg-primary text-primary-content rounded-[40px] px-[10px]"
