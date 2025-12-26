@@ -35,3 +35,7 @@
 .fa-brands::before {
   display: inline-block;
 }
+
+a {
+  color: #000;
+}
