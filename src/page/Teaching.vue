@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import TeachingBanner from '@/components/TeachingPage/TeachingBanner.vue'
+import TeachingIntro from '@/components/TeachingPage/TeachingIntro.vue';
 </script>
 
 <template>
-  <div class="md:w-full w-[85%] py-4 mx-auto flex flex-col gap-15  ">
+  <div class="md:w-full w-[85%]  mx-auto flex flex-col   ">
     <TeachingBanner />
+    <TeachingIntro />
   </div>
 </template>

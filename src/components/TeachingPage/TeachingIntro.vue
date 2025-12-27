@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="box py-10  bg-base-100 text-center md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4"
+    class="box mt-[500px] bg-base-100 text-center md:w-full h-[500px] flex md:flex-row flex-col md:gap-0 gap-4"
   >
     <!-- Left section -->
     <div class="md:w-[50%] flex flex-col justify-center gap-3">
