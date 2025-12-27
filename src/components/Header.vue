@@ -8,19 +8,22 @@
       <div class="flex justify-center items-center">
         <img class="w-[150px] h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
       </div>
-      <div class="w-[260px] hidden md:block bg-base-300 rounded-3xl border border-base-300">
+      <div class="w-[130px] hidden md:block bg-base-300 rounded-3xl border border-base-300">
         <div role="tablist" class="tabs tabs-box flex justify-around">
           <!-- <a role="tab" class="tab">首頁</a> -->
           <RouterLink role="tab" class="tab" to="/"> 首頁 </RouterLink>
 
-          <a
+          <!-- <a
             role="tab"
             class="tab tab-active bg-primary text-primary-content rounded-[40px] px-[10px]"
             >公開筆記</a
           >
-          <a role="tab" class="tab">標籤</a>
+
+          <a role="tab" class="tab">標籤</a> -->
           <!-- <a role="tab" class="tab">關於</a> -->
           <RouterLink role="tab" class="tab" to="/about"> 關於 </RouterLink>
+          <RouterLink role="tab" class="tab" to="/about"> 教學</RouterLink>
+
         </div>
       </div>
       <div class="flex gap-3">
