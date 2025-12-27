@@ -22,7 +22,7 @@
           <a role="tab" class="tab">標籤</a> -->
           <!-- <a role="tab" class="tab">關於</a> -->
           <RouterLink role="tab" class="tab" to="/about"> 關於 </RouterLink>
-          <RouterLink role="tab" class="tab" to="/about"> 教學</RouterLink>
+          <RouterLink role="tab" class="tab" to="/teaching"> 教學</RouterLink>
 
         </div>
       </div>
