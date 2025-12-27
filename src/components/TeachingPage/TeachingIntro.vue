@@ -1,63 +1,65 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const cards = ref([
+  {
+    id: 1,
+    cardTag:"概念",
+    cardTitle: '什麼是 Shared Notes？',
+    contText: '一個以「技術筆記」為主的共享平台，重點放在可讀性、分類與之後好找回來。',
+  },
+  {
+    id: 2,
+    cardTag:"開始",
+    cardTitle: '從一篇小筆記開始',
+    contText: '不用追求完美，先寫下 3～5 個重點，用粗體、標題把結構拉出來。',
+  },
+  {
+    id: 3,
+    cardTag:"整理",
+    cardTitle: '靠標籤找回舊內容',
+    contText: '每篇至少加上 1～2 個 tag，例如 Vue、Zod、表單驗證，未來好搜尋。',
+  },
+  {
+    id: 4,
+    cardTag:"分享",
+    cardTitle: '公開或先自己收藏',
+    contText: '可以先當成自己的技術備忘錄，之後再挑幾篇整理成可公開的版本。',
+  },
+])
+</script>
 
 <template>
   <div
-    class="box mt-[500px] bg-base-100 text-center md:w-full h-[500px] flex md:flex-row flex-col md:gap-0 gap-4"
+    class="box py-10 bg-base-100 text-center md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4"
   >
     <!-- Left section -->
-    <div class="md:w-[50%] flex flex-col justify-center gap-3">
-      <h2 class="text-left md:text-[42px] text-base-content font-black">如何使用 Shared Notes</h2>
+    <div class="flex flex-col justify-center gap-3">
+      <h2 class="text-left md:text-[32px] text-base-content font-black">
+        快速理解 Shared Notes 在做什麼
+      </h2>
 
       <p class="py-1 text-left text-base-content/70">
-        這裡整理了基本的 Markdown 語法、寫筆記的流程，以及怎麼在 Shared Notes 裡找到你要的內容。
+        先不用管後端和權限，只要把筆記寫好、整理好，就已經比大多數人多走一大步。
       </p>
 
-      <div class="flex gap-2">
-        <!-- 主按鈕：吃 theme.primary -->
-        <button class="btn btn-primary rounded-xl">開始寫筆記</button>
-
-        <!-- 副按鈕：使用 outline，不破壞背景 -->
-        <button class="btn btn-outline rounded-xl">逛公開筆記</button>
-      </div>
-
-      <div class="flex flex-row gap-2 py-3">
-        <div class="badge badge-soft badge-info">Markdown教學</div>
-        <div class="badge badge-soft badge-info">寫作平台</div>
-        <div class="badge badge-soft badge-info">平台使用說明</div>
+      <div class="flex md:justify-start justify-center items-center md:flex-row flex-wrap gap-4">
+      <div
+        class="card md:w-[300px] w-[165px] md:h-[170px] h-[270px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
+        v-for="item in cards"
+        :key="item.id"
+      >
+        <div class="card-body md:w-[270px]  w-full ">
+          <div class="text-left text-blue-600">{{ item.cardTag }}</div>
+          <h2 class="card-title text-left font-black text-base-content">
+            {{ item.cardTitle }}
+          </h2>
+          <p class="text-base-content/70 text-left">
+            {{ item.contText }}
+          </p>
+        </div>
       </div>
     </div>
-
-    <!-- Right section -->
-    <div class="md:w-[50%] w-full bg-base-100 h-auto flex items-center justify-center">
-      <div
-        class="noteCard border border-base-content/20 rounded-xl bg-base-100 shadow-md w-[90%] p-4"
-      >
-        <!-- macOS 頂部三顆點 -->
-        <div class="cardTop py-2 flex gap-2 mb-4">
-          <span class="block w-3 h-3 rounded-full bg-error/40"></span>
-          <span class="block w-3 h-3 rounded-full bg-warning/40"></span>
-          <span class="block w-3 h-3 rounded-full bg-success/40"></span>
-        </div>
-
-        <!-- Skeleton-like Body -->
-        <div class="cardBody flex flex-col gap-3">
-          <div class="h-4 rounded-md bg-base-content/20 pt-2 w-[80%]"></div>
-          <div class="h-4 rounded-md bg-base-content/20 w-[40%]"></div>
-          <div class="h-4 rounded-md bg-base-content/20 w-[30%]"></div>
-
-          <!-- 大區塊 -->
-          <div class="h-[125px] flex justify-start items-center rounded-xl bg-black border border-primary/40">
-            <div class="text-white text-left ">
-              <div class="flex flex-col gap-1">
-                <div class="line">- # Vue 表單驗證筆記</div>
-                <div class="line">- 使用 Zod 定義 schema</div>
-                <div class="line">- 搭配 PrimeVue 顯示錯誤狀態</div>
-                <div class="line">- 送出前再整體驗證一次</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
