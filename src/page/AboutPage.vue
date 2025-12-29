@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { C } from 'vue-router/dist/router-CWoNjPRp.mjs'
 
 const cardList = ref([
   {
