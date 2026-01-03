@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import Register from './Auth/Register.vue'
+
+const registerRef = ref(null)
+
+
+function openDialog() {
+  registerRef.value.openDialog()
+}
+</script>
 
 <template>
   <div
@@ -23,12 +33,11 @@
           <!-- <a role="tab" class="tab">關於</a> -->
           <RouterLink role="tab" class="tab" to="/about"> 關於 </RouterLink>
           <RouterLink role="tab" class="tab" to="/teaching"> 教學</RouterLink>
-
         </div>
       </div>
       <div class="flex gap-3">
         <button class="btn btn-neutral rounded-3xl">登入</button>
-        <button class="btn btn-primary rounded-3xl">註冊</button>
+        <button class="btn btn-primary rounded-3xl" @click="openDialog">註冊</button>
         <div class="dropdown dropdown-end hidden md:block">
           <div tabindex="0" role="button" class="btn m-1">
             Theme
@@ -69,5 +78,7 @@
         </div>
       </div>
     </div>
+
+    <Register ref="registerRef"/>
   </div>
 </template>
