@@ -30,6 +30,8 @@ const noteLists = ref<InoteLists[]>([
 ])
 const folders = ref<Ifolders[]>([]) //儲存所有的資料夾
 
+const renameInput = ref(null) // 資料夾編輯模式
+
 const favoriteNotes = ref<Ifolders[]>([])
 
 const selectedNote = ref<number[]>([])
@@ -84,6 +86,34 @@ function selectOption(id: string) {
     dropdown.value = id
   }
 }
+
+function renameFolder(id) {
+  renameInput.value = id
+  console.log('renameInput:', renameInput.value)
+
+  if (dropdown.value === id) {
+    dropdown.value = null
+  } else {
+    dropdown.value = id
+  }
+}
+
+function saveName() {
+  console.log('saveName 被調用了') // 先加這行測試
+
+  console.log(folderName.value)
+}
+
+function deleteFolder(id: string) {
+  console.log(id)
+
+  const filterResult = folders.value.filter(function (item) {
+    return item.id !== id
+  })
+
+  console.log(filterResult)
+  folders.value = filterResult
+}
 </script>
 
 <template>
@@ -131,8 +161,14 @@ function selectOption(id: string) {
           >
             <div class="folder overflow-hidden whitespace-nowrap w-[120px] text-base-content">
               <div>{{ item.name }}</div>
+              <label class="input" v-if="renameInput === item.id">
+                <input type="text" class="w-full" placeholder="" />
+              </label>
             </div>
-            <button class="btn-reset w-[25px] h-[25px] shrink-0 rounded-full">
+            <button
+              class="btn-reset w-[25px] h-[25px] shrink-0 rounded-full"
+              @click="renameFolder(item.id)"
+            >
               <i class="fa-solid fa-pen text-base text-base-content/60 hover:text-base-content"></i>
             </button>
           </div>
@@ -164,12 +200,19 @@ function selectOption(id: string) {
       </div>
 
       <div class="border border-base-300 flex gap-3 pl-8 flex-wrap justify-start items-center">
-        <div class="card bg-base-100 border border-base-300 w-[320px] shadow-sm" v-for="item in folders" :key="item.id">
+        <div
+          class="card bg-base-100 border border-base-300 w-[320px] shadow-sm"
+          v-for="item in folders"
+          :key="item.id"
+        >
           <div class="card-body flex flex-row justify-between">
-            <div>
+            <div class="w-full">
               <h2 class="file-title font-black text-base text-base-content">
                 {{ item.name }}
               </h2>
+              <label class="input" v-if="renameInput === item.id">
+                <input type="text" class="w-full" placeholder="" :value="item.name" />
+              </label>
               <p class="text-sm text-base-content/60">8 個項目</p>
             </div>
 
@@ -178,17 +221,17 @@ function selectOption(id: string) {
                 <img src="@/assets/images/icon-more.png" class="w-[25px] h-[25px]" alt="" />
               </button>
               <ul
-                class="menu bg-base-200 rounded-box w-36 absolute top-8 z-[5] text-base-content"
+                class="menu bg-base-200 rounded-box w-36 absolute top-14 right-0 z-[5] text-base-content"
                 v-if="dropdown === item.id"
               >
                 <li>
-                  <button>
+                  <button @click="renameFolder(item.id)">
                     <i class="fa-solid fa-pen text-base-content/60"></i>
                     編輯資料夾
                   </button>
                 </li>
                 <li>
-                  <button class="hover:text-error">
+                  <button class="hover:text-error" @click="deleteFolder(item.id)">
                     <i class="fa-solid fa-trash"></i>
                     刪除資料夾
                   </button>
@@ -215,6 +258,8 @@ function selectOption(id: string) {
         </div>
       </div>
     </dialog>
+
+    <!-- 編輯資料夾名稱彈窗 -->
 
     <div v-if="message" role="alert" class="alert alert-success h-[50px]">
       <span>資料夾：{{ folderName }} 新增成功</span>
