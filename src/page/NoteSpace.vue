@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
+import { useRoute, useRouter } from 'vue-router'
 
-interface InoteLists {
+const router = useRouter()
+const route = useRoute()
+
+// 定義筆記型別
+interface IarticleNote {
   id: string
+  noteId: string
   title: string
   updateDate: string
   isFavorite: boolean
@@ -17,15 +23,16 @@ interface Ifolders {
   name: string
 }
 
-const noteLists = ref<InoteLists[]>([
+const articleNotes = ref<IarticleNote[]>([
   {
     id: '1',
+    noteId: '',
     title: 'ddd',
     updateDate: '00000',
     isFavorite: false,
     tags: ['1', '2'],
     pinning: false,
-    folderId: '',
+    folderId: '', //會在哪個資料夾
   },
 ])
 const folders = ref<Ifolders[]>([]) //儲存所有的資料夾
@@ -114,6 +121,10 @@ function deleteFolder(id: string) {
   console.log(filterResult)
   folders.value = filterResult
 }
+
+function addNotes() {
+  router.push('/noteEditor/edit ')
+}
 </script>
 
 <template>
@@ -188,7 +199,7 @@ function deleteFolder(id: string) {
     <div class="overflow-x-auto w-full">
       <div class="flex gap-2 p-2 justify-end">
         <div class="flex w-[280px] gap-2">
-          <button class="btn btn-info flex-1" @click="addFolder">
+          <button class="btn btn-info flex-1" @click="addNotes">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增筆記</div>
           </button>

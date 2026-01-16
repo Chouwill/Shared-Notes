@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { it } from 'node:test'
 import { ref } from 'vue'
 
 const lists = ref([
