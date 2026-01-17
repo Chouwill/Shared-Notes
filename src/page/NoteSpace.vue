@@ -123,7 +123,7 @@ function deleteFolder(id: string) {
 }
 
 function addNotes() {
-  router.push('/noteEditor/edit ')
+  router.push('/noteEditor/edit')
 }
 </script>
 
