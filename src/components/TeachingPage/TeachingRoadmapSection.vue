@@ -28,14 +28,14 @@ const cards = ref([
     class="box w-full justify-center items-center py-10 bg-base-100 text-center md:w-full h-auto flex flex-col gap-7"
   >
     <!-- Left section -->
-    <div class="flex flex-col justify-center gap-3 ">
+    <div class="flex flex-col justify-center gap-3">
       <h2 class="text-left md:text-[32px] text-base-content font-black">專案 開發計畫</h2>
 
       <p class="py-1 text-left text-base-content/70">
         現在你看到的是作品集版本，未來會持續補上實際後端與會員機制，讓它更接近真的產品。
       </p>
 
-      <div class="flex  justify-center items-center md:flex-row flex-wrap gap-4">
+      <div class="flex justify-center items-center md:flex-row flex-wrap gap-4">
         <div
           class="card range-1 md:w-[412px] w-[200px] md:h-[190px] h-[270px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
           v-for="(item, line) in cards"
@@ -57,12 +57,14 @@ const cards = ref([
     </div>
 
     <div
-      class="card  flex md:w-[95%] bg-blue-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
+      class="card flex md:w-[95%] bg-blue-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
     >
-      <div class="card-body flex flex-row justify-around items-center    w-full">
-        <div class=" w-[50%] text-left">
+      <div class="card-body flex flex-row justify-around items-center w-full">
+        <div class="w-[50%] text-left">
           <div class="text-2xl font-black">準備開始你的下一篇技術筆記了嗎？</div>
-          <p class="text-sm">不需要一次寫出完美文章，只要先把今天學到的兩三個重點記下來，就很夠用了。</p>
+          <p class="text-sm">
+            不需要一次寫出完美文章，只要先把今天學到的兩三個重點記下來，就很夠用了。
+          </p>
         </div>
 
         <div class="w-[50%] flex justify-end gap-3">
@@ -73,5 +75,3 @@ const cards = ref([
     </div>
   </div>
 </template>
-
-

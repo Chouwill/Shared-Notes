@@ -63,18 +63,8 @@ const articleLists = ref([
 ])
 </script>
 
-
-
-
-
-
-
-
-
-
-
 <template>
-  <div class="h-[900px] flex flex-col gap-4 ">
+  <div class="h-[900px] flex flex-col gap-4">
     <div class="first-title text-3xl text-base-content">你會用到的核心功能</div>
 
     <p class="text-base text-base-content/80">先把最常用的流程做順：寫、找、分享、再回來整理。</p>
@@ -96,10 +86,10 @@ const articleLists = ref([
       </div>
     </div>
     <div class="">
-      <div class="flex md:flex-row md:gap-0 flex-col justify-between items-center ">
+      <div class="flex md:flex-row md:gap-0 flex-col justify-between items-center">
         <div class="first-title text-3xl text-base-content p-3">所有主題</div>
         <div class="flex gap-3 items-center">
-          <div class="flex  gap-5 p-3 items-center">
+          <div class="flex gap-5 p-3 items-center">
             <!-- <legend class="fieldset-legend"></legend> -->
 
             <fieldset class="fieldset">
@@ -136,7 +126,7 @@ const articleLists = ref([
       </div>
 
       <div
-        class="flex rounded-md md:justify-start  border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
+        class="flex rounded-md md:justify-start border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
       >
         <div
           class="card md:w-full md:h-[100px] h-[165px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
@@ -171,7 +161,6 @@ const articleLists = ref([
     </div>
   </div>
 </template>
-
 
 <style>
 /* 確保 Font Awesome 圖示正確顯示 */

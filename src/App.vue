@@ -1,15 +1,7 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import Layout from './components/Layout/Layout.vue'
-// import NoteIde from "./components/markIde/NoteIde.vue";
-// import HelloWorld from "./components/HelloWorld.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="w-full">
-    <Layout />
+    <router-view />
   </div>
-
-  <!-- <HelloWorld />
-  <NoteIde /> -->
 </template>

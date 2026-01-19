@@ -45,28 +45,27 @@ const cardList = ref([
     </div>
 
     <div class="text-2xl">
-      <a href="" >開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i></a>
+      <a href="">開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i></a>
     </div>
   </div>
 </template>
 
-
 <style>
-  /* 確保 Font Awesome 圖示正確顯示 */
-  .fa-solid,
-  .fa-regular,
-  .fa-brands,
-  .fa-solid::before,
-  .fa-regular::before,
-  .fa-brands::before {
-    font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
-    font-weight: 900 !important;
-    font-style: normal !important;
-    font-variant: normal !important;
-    text-rendering: auto !important;
-    line-height: 1 !important;
-    display: inline-block !important;
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-  }
-  </style>
+/* 確保 Font Awesome 圖示正確顯示 */
+.fa-solid,
+.fa-regular,
+.fa-brands,
+.fa-solid::before,
+.fa-regular::before,
+.fa-brands::before {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+</style>

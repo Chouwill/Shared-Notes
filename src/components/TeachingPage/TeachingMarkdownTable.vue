@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { it } from 'node:test'
 import { ref } from 'vue'
 
 const lists = ref([
@@ -58,7 +57,7 @@ const lists = ref([
   <div class="w-full">
     <div class="py-10 bg-base-100 md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4">
       <!-- Left section -->
-      <div class="flex flex-col justify-center gap-3  w-full">
+      <div class="flex flex-col justify-center gap-3 w-full">
         <h2 class="text-left md:text-[32px] text-base-content font-black">常用 Markdown 對照表</h2>
 
         <p class="py-1 text-left text-base-content/70">
