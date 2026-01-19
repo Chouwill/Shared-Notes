@@ -46,8 +46,6 @@ a {
   box-shadow: none !important;
 }
 
-
-
 /* dropDown 下拉選項樣式 */
 .menu li:empty {
   background-color: transparent;

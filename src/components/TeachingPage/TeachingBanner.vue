@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="box py-10  bg-base-100 text-center md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4"
+    class="box py-10 bg-base-100 text-center md:w-full h-auto flex md:flex-row flex-col md:gap-0 gap-4"
   >
     <!-- Left section -->
     <div class="md:w-[50%] flex flex-col justify-center gap-3">
@@ -46,8 +46,10 @@
           <div class="h-4 rounded-md bg-base-content/20 w-[30%]"></div>
 
           <!-- 大區塊 -->
-          <div class="h-[125px] flex justify-start items-center rounded-xl bg-black border border-primary/40">
-            <div class="text-white text-left ">
+          <div
+            class="h-[125px] flex justify-start items-center rounded-xl bg-black border border-primary/40"
+          >
+            <div class="text-white text-left">
               <div class="flex flex-col gap-1">
                 <div class="line">- # Vue 表單驗證筆記</div>
                 <div class="line">- 使用 Zod 定義 schema</div>

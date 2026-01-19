@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
 const cards = ref([
   {
     id: 1,
@@ -54,20 +53,20 @@ const cards = ref([
         Shared Notes 主打的是「清楚好讀」的技術筆記，以下是實際寫程式筆記時會用到的基本語法。
       </p>
 
-      <div class="flex md:justify-star  justify-center items-center   md:flex-row flex-wrap gap-4">
+      <div class="flex md:justify-star justify-center items-center md:flex-row flex-wrap gap-4">
         <div
           class="card md:w-[357px] w-[165px] md:h-[250px] h-[315px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
           v-for="item in cards"
           :key="item.id"
         >
-          <div class="card-body  w-full">
+          <div class="card-body w-full">
             <div class="text-left text-blue-600">{{ item.cardTag }}</div>
             <h2 class="card-title text-sm text-left font-black text-base-content">
               {{ item.cardTitle }}
             </h2>
 
             <div
-              class="h-auto  p-2 flex justify-start items-center rounded-xl bg-black border border-primary/40"
+              class="h-auto p-2 flex justify-start items-center rounded-xl bg-black border border-primary/40"
             >
               <div class="text-white text-left">
                 <div class="flex flex-col gap-1">

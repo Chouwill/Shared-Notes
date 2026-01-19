@@ -32,11 +32,12 @@ import NoteIde from '@/components/markIde/NoteIde.vue'
         <div class="flex flex-row gap-2 w-100" v-if="isPiblic">
           <div class="badge badge-soft badge-info group">
             <div>Markdown</div>
-            <button class="hidden group-hover:flex w-5 h-5 border-1 justify-center items-center rounded-full">X</button>
-
-
+            <button
+              class="hidden group-hover:flex w-5 h-5 border-1 justify-center items-center rounded-full"
+            >
+              X
+            </button>
           </div>
-
         </div>
       </div>
     </div>

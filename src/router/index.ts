@@ -22,7 +22,7 @@ const router = createRouter({
         {
           path: 'teaching',
           name: 'TeachingPage',
-          component: () => import("@/page/Teaching.vue"),
+          component: () => import('@/page/Teaching.vue'),
         },
         {
           path: 'noteSpace',

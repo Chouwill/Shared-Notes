@@ -24,7 +24,6 @@
           <RouterLink role="tab" class="tab" to="/about"> 關於 </RouterLink>
           <RouterLink role="tab" class="tab" to="/teaching"> 教學</RouterLink>
           <RouterLink role="tab" class="tab" to="/noteSpace"> 筆記空間 </RouterLink>
-
         </div>
       </div>
       <div class="flex gap-3">
