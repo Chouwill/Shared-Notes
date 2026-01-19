@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Register from './Auth/Register.vue'
+import Login from './Auth/Login.vue'
 
 const registerRef = ref(null)
-
+const loginRef = ref(null)
 
 function openDialog() {
   registerRef.value.openDialog()
+}
+function openLogin() {
+  loginRef.value.openLogin()
 }
 </script>
 
@@ -36,7 +40,7 @@ function openDialog() {
         </div>
       </div>
       <div class="flex gap-3">
-        <button class="btn btn-neutral rounded-3xl">登入</button>
+        <button class="btn btn-neutral rounded-3xl" @click="openLogin">登入</button>
         <button class="btn btn-primary rounded-3xl" @click="openDialog">註冊</button>
         <div class="dropdown dropdown-end hidden md:block">
           <div tabindex="0" role="button" class="btn m-1">
@@ -79,6 +83,7 @@ function openDialog() {
       </div>
     </div>
 
-    <Register ref="registerRef"/>
+    <Register ref="registerRef" />
+    <Login ref="loginRef" />
   </div>
 </template>
