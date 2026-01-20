@@ -1,9 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { onLogin } from '@/api/method'
+import { onLogin, onRegister } from '@/api/method'
 
 export const useAuthStore = defineStore('user', () => {
   const userToken = ref(null)
+  const apiStatus = ref(null) //定義儲存api回傳狀態
 
   async function onLoginForm(data) {
     try {
@@ -18,9 +19,24 @@ export const useAuthStore = defineStore('user', () => {
       console.log('登入錯誤', error)
     }
   }
+  async function onRegisterForm(data) {
+    try {
+      const res = await onRegister(data)
+
+      console.log(res.data.success)
+
+      apiStatus.value = res.data.success
+
+      console.log(apiStatus)
+    } catch (error) {
+      console.log('註冊錯誤', error)
+    }
+  }
 
   return {
     onLoginForm,
+    onRegisterForm,
     userToken,
+    apiStatus,
   }
 })
