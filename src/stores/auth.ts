@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('user', () => {
 
       console.log(res.data.success)
 
+      // 儲存紀錄註冊狀態
       apiStatus.value = res.data.success
 
       console.log(apiStatus)

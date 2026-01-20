@@ -30,7 +30,7 @@ async function getRegister() {
   await authStore.onRegisterForm(registerForm.value)
 
   console.log('api狀態：', authStore.apiStatus)
-
+  // 判斷api 狀態
   if (authStore.apiStatus) {
     console.log('正常註冊')
 
