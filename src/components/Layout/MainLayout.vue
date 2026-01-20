@@ -1,14 +1,14 @@
-<script setup>
-import Header from '../Header.vue'
-import Footer from '../Footer.vue'
+<script setup lang="ts">
+import MainHeader from '@/components/MainHeader.vue'
+import MainFooter from '../Footer.vue'
 
-import NoteIde from '../markIde/NoteIde.vue'
+// import NoteIde from '../markIde/NoteIde.vue'
 </script>
 
 <template>
   <div class="w-full bg-base-100">
     <!-- Header -->
-    <Header class="sticky top-0 z-20" />
+    <MainHeader class="sticky top-0 z-20" />
 
     <div class="flex justify-center items-center">
       <main
@@ -17,6 +17,6 @@ import NoteIde from '../markIde/NoteIde.vue'
         <router-view></router-view>
       </main>
     </div>
-    <Footer class="fixed bottom-0" />
+    <MainFooter class="fixed bottom-0" />
   </div>
 </template>

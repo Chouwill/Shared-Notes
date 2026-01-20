@@ -15,12 +15,27 @@ function openLogin() {
   console.log(authdialog.value)
   authdialog.value.showModal()
 }
+
+function closeModal() {
+  authdialog.value.close()
+  console.log(authStore.userToken)
+}
 defineExpose({
   openLogin,
+  closeModal,
 })
 
-function getLogin() {
-  authStore.onLoginForm(loginForm.value)
+async function getLogin() {
+  await authStore.onLoginForm(loginForm.value)
+  setTimeout(() => {
+    if (authStore.userToken) {
+      console.log('正常登入')
+
+      authdialog.value.close()
+    } else {
+      console.log('無法登入')
+    }
+  }, 2000)
 }
 </script>
 
@@ -29,8 +44,11 @@ function getLogin() {
     <!-- Open the modal using ID.showModal() method -->
     <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
     <dialog ref="authdialog" class="modal">
-      <div class="modal-box max-w-xs">
-        <div class="bg-base-200 w-full p-8 flex flex-col gap-3 justify-center items-center">
+      <div class="modal-box max-w-xs border-4 relative bg-base-200">
+        <button class="border rounded-full absolute top-1 right-1" @click="closeModal">
+          <img class="w-[30px]" src="@/assets/images/icon-close.png" alt="" />
+        </button>
+        <div class="w-full p-10 flex flex-col gap-3 justify-center items-center">
           <div class="w-full flex flex-col gap-2">
             <label for="">帳號</label>
 

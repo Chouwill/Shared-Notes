@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Register from './Auth/Register.vue'
-import Login from './Auth/Login.vue'
+import LoginModal from '@/components/Auth/LoginModal.vue'
 
 const registerRef = ref(null)
 const loginRef = ref(null)
@@ -84,6 +84,6 @@ function openLogin() {
     </div>
 
     <Register ref="registerRef" />
-    <Login ref="loginRef" />
+    <LoginModal ref="loginRef" />
   </div>
 </template>
