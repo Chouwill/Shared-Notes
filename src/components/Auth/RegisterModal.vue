@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
+const emit = defineEmits(['switch-to-login'])
+
 const authdialog = ref(null)
 
 const authStore = useAuthStore()
@@ -21,10 +23,6 @@ function closeModal() {
   authdialog.value.close()
   console.log(authStore.userToken)
 }
-defineExpose({
-  openRegister,
-  closeModal,
-})
 
 async function getRegister() {
   await authStore.onRegisterForm(registerForm.value)
@@ -39,6 +37,17 @@ async function getRegister() {
     console.log('無法註冊')
   }
 }
+
+// 切換至登入函式
+function switchToLogin() {
+  authdialog.value.close()
+  emit('switch-to-login') // 通知父組件
+}
+
+defineExpose({
+  openRegister,
+  closeModal,
+})
 </script>
 
 <template>
@@ -107,6 +116,16 @@ async function getRegister() {
                 <p class="text-[10px]">本服務為學習用途，不提供第三方。</p>
               </label>
             </fieldset>
+          </div>
+          <div class="w-full flex flex-col gap-2 justify-center items-center">
+            <div class="flex gap-3 items-center" @click="switchToLogin">
+              <img src="@/assets/images/go-icon.png" alt="" class="w-[30px]" />
+              <p
+                class="text-[13px] text-center text-base-content/70 cursor-pointer transition-colors hover:text-primary active:text-primary/80"
+              >
+                已有帳號，立即登入
+              </p>
+            </div>
           </div>
 
           <div class="w-full flex flex-col gap-2">

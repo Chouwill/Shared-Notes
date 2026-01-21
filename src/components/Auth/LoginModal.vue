@@ -2,13 +2,15 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
+const emit = defineEmits(['switch-to-register'])
+
 const authdialog = ref(null)
 
 const authStore = useAuthStore()
 
 const loginForm = ref({
-  email: 'guest@gmail.com',
-  password: '1W23456r78',
+  email: 'red@gmail.com',
+  password: 'redA123456',
 })
 
 function openLogin() {
@@ -36,6 +38,12 @@ async function getLogin() {
       console.log('無法登入')
     }
   }, 2000)
+}
+
+function switchToRegister() {
+  authdialog.value.close()
+
+  emit('switch-to-register')
 }
 </script>
 
@@ -82,6 +90,17 @@ async function getLogin() {
               />
             </label>
           </div>
+          <div class="w-full flex flex-col gap-2 justify-center items-center">
+            <div class="flex gap-3 items-center" @click="switchToRegister">
+              <img src="@/assets/images/go-icon.png" alt="" class="w-[30px]" />
+              <p
+                class="text-[13px] text-center text-base-content/70 cursor-pointer transition-colors hover:text-primary active:text-primary/80"
+              >
+                還不是會員? 加入會員
+              </p>
+            </div>
+          </div>
+
           <div class="w-full flex flex-col gap-2">
             <button class="btn btn-active btn-success" @click="getLogin">登入</button>
           </div>

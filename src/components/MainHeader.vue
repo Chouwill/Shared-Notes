@@ -12,6 +12,14 @@ function openRegister() {
 function openLogin() {
   loginRef.value.openLogin()
 }
+
+function handleSwitchToLogin() {
+  loginRef.value.openLogin()
+}
+
+function handleSwitchToRegister() {
+  registerRef.value.openRegister()
+}
 </script>
 
 <template>
@@ -83,7 +91,7 @@ function openLogin() {
       </div>
     </div>
 
-    <RegisterModal ref="registerRef" />
-    <LoginModal ref="loginRef" />
+    <RegisterModal ref="registerRef" @switch-to-login="handleSwitchToLogin" />
+    <LoginModal ref="loginRef" @switch-to-register="handleSwitchToRegister" />
   </div>
 </template>
