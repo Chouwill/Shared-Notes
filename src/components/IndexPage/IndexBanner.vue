@@ -11,10 +11,10 @@
       <p class="py-3 text-left text-base-content/70">支援 Markdown 編輯、標籤整理、公開分享。</p>
 
       <div class="flex gap-2">
-        <!-- 主按鈕：吃 theme.primary -->
-        <button class="btn btn-primary rounded-xl">開始寫筆記</button>
+        <button class="btn btn-primary rounded-xl">
+          <router-link to="/noteEditor/edit"><p class="text-white">開始寫筆記</p></router-link>
+        </button>
 
-        <!-- 副按鈕：使用 outline，不破壞背景 -->
         <button class="btn btn-outline rounded-xl">逛公開筆記</button>
       </div>
 
@@ -38,13 +38,11 @@
           <span class="block w-3 h-3 rounded-full bg-success/40"></span>
         </div>
 
-        <!-- Skeleton-like Body -->
         <div class="cardBody flex flex-col gap-3">
           <div class="h-4 rounded-md bg-base-content/20 w-[70%]"></div>
           <div class="h-4 rounded-md bg-base-content/20 w-[40%]"></div>
           <div class="h-4 rounded-md bg-base-content/20 w-[30%]"></div>
 
-          <!-- 大區塊 -->
           <div class="h-[90px] rounded-xl bg-primary/20 border border-primary/40"></div>
 
           <div class="h-4 rounded-md bg-base-content/20 w-[70%]"></div>

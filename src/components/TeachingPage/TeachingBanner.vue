@@ -13,10 +13,9 @@
       </p>
 
       <div class="flex gap-2">
-        <!-- 主按鈕：吃 theme.primary -->
-        <button class="btn btn-primary rounded-xl">開始寫筆記</button>
-
-        <!-- 副按鈕：使用 outline，不破壞背景 -->
+        <button class="btn btn-primary rounded-xl">
+          <router-link to="/noteEditor/edit"><p class="text-white">開始寫筆記</p></router-link>
+        </button>
         <button class="btn btn-outline rounded-xl">逛公開筆記</button>
       </div>
 
@@ -32,25 +31,22 @@
       <div
         class="noteCard border border-base-content/20 rounded-xl bg-base-100 shadow-md w-[90%] p-4"
       >
-        <!-- macOS 頂部三顆點 -->
         <div class="cardTop py-2 flex gap-2 mb-4">
           <span class="block w-3 h-3 rounded-full bg-error/40"></span>
           <span class="block w-3 h-3 rounded-full bg-warning/40"></span>
           <span class="block w-3 h-3 rounded-full bg-success/40"></span>
         </div>
 
-        <!-- Skeleton-like Body -->
         <div class="cardBody flex flex-col gap-3">
           <div class="h-4 rounded-md bg-base-content/20 pt-2 w-[80%]"></div>
           <div class="h-4 rounded-md bg-base-content/20 w-[40%]"></div>
           <div class="h-4 rounded-md bg-base-content/20 w-[30%]"></div>
 
-          <!-- 大區塊 -->
           <div
-            class="h-[125px] flex justify-start items-center rounded-xl bg-black border border-primary/40"
+            class="h-[125px] flex justify-start items-center rounded-xl bg-black border border-black"
           >
             <div class="text-white text-left">
-              <div class="flex flex-col gap-1">
+              <div class="flex flex-col gap-1 p-3">
                 <div class="line">- # Vue 表單驗證筆記</div>
                 <div class="line">- 使用 Zod 定義 schema</div>
                 <div class="line">- 搭配 PrimeVue 顯示錯誤狀態</div>
