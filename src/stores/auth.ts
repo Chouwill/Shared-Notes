@@ -5,6 +5,7 @@ import { onLogin, onRegister } from '@/api/method'
 export const useAuthStore = defineStore('user', () => {
   const userToken = ref(null)
   const apiStatus = ref(null) //定義儲存api回傳狀態
+  const showUser = ref(false)
 
   async function onLoginForm(data) {
     try {
@@ -15,6 +16,7 @@ export const useAuthStore = defineStore('user', () => {
       userToken.value = res.data.token
 
       console.log(userToken.value)
+      showUser.value = true
     } catch (error) {
       console.log('登入錯誤', error)
     }
@@ -39,5 +41,6 @@ export const useAuthStore = defineStore('user', () => {
     onRegisterForm,
     userToken,
     apiStatus,
+    showUser,
   }
 })

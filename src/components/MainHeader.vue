@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import RegisterModal from '@/components/Auth/RegisterModal.vue'
 import LoginModal from '@/components/Auth/LoginModal.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const registerRef = ref(null)
 const loginRef = ref(null)
+
+const authStore = useAuthStore()
 
 function openRegister() {
   registerRef.value.openRegister()
@@ -47,7 +50,7 @@ function handleSwitchToRegister() {
           <RouterLink role="tab" class="tab" to="/teaching"> 教學</RouterLink>
         </div>
       </div>
-      <div class="flex gap-3">
+      <div class="flex gap-3" v-show="authStore.showUser == false">
         <button class="btn btn-neutral rounded-3xl" @click="openLogin">登入</button>
         <button class="btn btn-primary rounded-3xl" @click="openRegister">註冊</button>
         <div class="dropdown dropdown-end hidden md:block">
@@ -87,6 +90,34 @@ function handleSwitchToRegister() {
               />
             </li>
           </ul>
+        </div>
+      </div>
+      <div v-if="authStore.showUser">
+        <div class="flex-none">
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost avatar">
+              <div class="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                />
+              </div>
+            </div>
+            <ul
+              tabindex="-1"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a class="justify-between">
+                  Profile
+                  <!-- <span class="badge">New</span> -->
+                </a>
+              </li>
+              <!-- <li><a>Settings</a></li> -->
+              <li><a>工作區</a></li>
+              <li><a>Logout</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
