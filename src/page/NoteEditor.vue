@@ -2,9 +2,12 @@
 import { onMounted, ref } from 'vue'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
+import { onCreateNote } from '@/api/method'
 
 const editorRef = ref(null)
 const editor = ref(null)
+
+const customTags = ref('')
 
 const noteContext = ref({
   title: '',
@@ -15,8 +18,20 @@ const noteContext = ref({
   collaborators: [],
 })
 
+// api 要求
+
+// {
+//   "title": "我的筆記標題",
+//   "content": "# Markdown 內容\n\n這是筆記的內容...",
+//   "is_public": false,
+//   "folder_id": null,
+//   "category": "技術筆記",
+//   "tags": ["JavaScript", "Vue3"],
+//   "collaborators": ["user-id-2", "user-id-3"]
+// }
+
 onMounted(() => {
-  console.log(editorRef.value)
+  // console.log(editorRef.value)
   editor.value = new Editor({
     // el: document.querySelector("#editor"),
     el: editorRef.value,
@@ -24,11 +39,27 @@ onMounted(() => {
     initialEditType: 'markdown',
     previewStyle: 'vertical',
   })
-  editor.value.getMarkdown()
 })
 
-function sendForm() {
+async function createNote() {
+  console.log('customTags', customTags.value)
+  const markdown = editor.value.getMarkdown()
+  // console.log(noteContext.value)
+  // console.log(markdown)
+
+  noteContext.value.content = markdown
+
+  noteContext.value.tags.push(customTags.value)
+
   console.log(noteContext.value)
+
+  try {
+    const res = await onCreateNote(noteContext.value)
+
+    console.log(res)
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 
@@ -75,7 +106,7 @@ function sendForm() {
               type="text"
               placeholder=""
               class="input input-xs w-[150px] p-3"
-              v-model="noteContext.tags"
+              v-model="customTags"
             />
 
             <div class="flex flex-row flex-wrap gap-2 min-w-[100px]">
@@ -92,7 +123,7 @@ function sendForm() {
         </div>
 
         <div class="flex justify-end gap-3 pt-2 border-t border-base-content/10">
-          <button class="btn btn-primary" @click="sendForm">建立筆記</button>
+          <button class="btn btn-primary" @click="createNote">建立筆記</button>
         </div>
       </div>
     </div>

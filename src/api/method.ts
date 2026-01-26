@@ -16,7 +16,7 @@ export function onRegister(data) {
   })
 }
 
-export function createNote(data: object) {
+export function onCreateNote(data: object) {
   return instance({
     url: `/api/notes`,
     method: 'post',
