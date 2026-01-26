@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
-import { onCreateNote } from '@/api/method'
+import { onCreateNote, onuploadImage } from '@/api/method'
 
 const editorRef = ref(null)
 const editor = ref(null)
@@ -18,18 +18,6 @@ const noteContext = ref({
   collaborators: [],
 })
 
-// api 要求
-
-// {
-//   "title": "我的筆記標題",
-//   "content": "# Markdown 內容\n\n這是筆記的內容...",
-//   "is_public": false,
-//   "folder_id": null,
-//   "category": "技術筆記",
-//   "tags": ["JavaScript", "Vue3"],
-//   "collaborators": ["user-id-2", "user-id-3"]
-// }
-
 onMounted(() => {
   // console.log(editorRef.value)
   editor.value = new Editor({
@@ -38,6 +26,22 @@ onMounted(() => {
     height: '500px',
     initialEditType: 'markdown',
     previewStyle: 'vertical',
+    hooks: {
+      async addImageBlobHook(blob, callback) {
+        const formData = new FormData()
+        formData.append('image', blob)
+        try {
+          const imageRes = await onuploadImage(formData)
+          console.log(imageRes)
+
+          const imageUrl = imageRes.data.image_url
+
+          callback(imageUrl)
+        } catch (error) {
+          console.log(error)
+        }
+      },
+    },
   })
 })
 

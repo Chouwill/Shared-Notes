@@ -23,3 +23,14 @@ export function onCreateNote(data: object) {
     data,
   })
 }
+
+// http://localhost:4000/api/notes/images
+
+// 筆記編輯區上傳圖片
+export function onuploadImage(data) {
+  return instance({
+    url: `/api/notes/images`,
+    method: 'post',
+    data,
+  })
+}
