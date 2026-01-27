@@ -34,3 +34,20 @@ export function onuploadImage(data) {
     data,
   })
 }
+
+// 創建資料夾
+export function onCreateFolder(data) {
+  return instance({
+    url: `/api/folders`,
+    method: 'post',
+    data,
+  })
+}
+
+// 取得個人工作站所有資料夾、筆記
+export function getAllFolder() {
+  return instance({
+    url: `/api/folders`,
+    method: 'get',
+  })
+}

@@ -2,9 +2,12 @@
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { useRoute, useRouter } from 'vue-router'
+import { useworkSpace } from '@/stores/workSpace'
 
 const router = useRouter()
 const route = useRoute()
+
+const workSpace = useworkSpace()
 
 // 定義筆記型別
 interface IarticleNote {
@@ -47,17 +50,30 @@ const addFolderdialog = ref<null>(null)
 
 const folderName = ref<string>('請輸入資料夾名稱')
 
+const createFolderName = ref({
+  name: '',
+})
+
 const message = ref(false)
 
 const dropdown = ref<string | null>(null)
+
+function getAllInformation() {
+  workSpace.getAll()
+}
+
+getAllInformation()
 
 function addFolderName() {
   console.log(folderName.value)
   if (!folderName.value) return // 如果沒有名字就不做動作
 
-  folders.value = [...folders.value, { id: nanoid(), name: folderName.value }]
+  createFolderName.value.name = folderName.value
 
-  console.log(folders.value)
+  console.log('createFolderName', createFolderName.value)
+
+  workSpace.createFolder(createFolderName.value)
+
   closeDialog()
 
   message.value = true
@@ -211,9 +227,13 @@ function addNotes() {
       </div>
 
       <div class="border border-base-300 flex gap-3 pl-8 flex-wrap justify-start items-center">
+        <div class="w-full flex justify-start items-center gap-2 p-3">
+          <i class="fa-regular fa-folder text-[22px]"></i>
+          <h2 class="text-[20px] font-black">資料夾</h2>
+        </div>
         <div
           class="card bg-base-100 border border-base-300 w-[320px] shadow-sm"
-          v-for="item in folders"
+          v-for="item in workSpace.userAllFolder"
           :key="item.id"
         >
           <div class="card-body flex flex-row justify-between">
@@ -250,6 +270,39 @@ function addNotes() {
               </ul>
             </div>
           </div>
+        </div>
+        <div class="border-2 w-full p-5">
+          <div class="w-full flex items-center gap-2 p-3">
+            <span class="material-symbols-outlined"> sell </span>
+
+            <h2 class="text-[20px] font-black">無標籤</h2>
+          </div>
+          <ul class="list bg-base-100 rounded-box shadow-md w-full flex flex-col pr-5">
+            <li
+              class="list-row flex justify-between"
+              v-for="item in workSpace.rawNotes"
+              :key="item.id"
+            >
+              <div class="flex gap-2">
+                <img src="@/assets/images/google-font-docs.svg" alt="檔案" />
+                <div class="text-red-500">{{ item.title }}</div>
+              </div>
+              <div>{{ item.created_at }}</div>
+
+              <div class="flex gap-3">
+                <button @click="renameFolder(item.id)" class="flex items-center">
+                  <i class="fa-solid fa-pen text-base-content/60 text-[14px]"></i>
+                  <!-- <span class="material-symbols-outlined"> sell </span> -->
+                </button>
+                <button @click="renameFolder(item.id)" class="flex items-center">
+                  <span class="material-symbols-outlined text-[20px]!"> keep </span>
+                </button>
+                <button @click="renameFolder(item.id)">
+                  <i class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

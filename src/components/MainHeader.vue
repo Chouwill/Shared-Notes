@@ -4,6 +4,9 @@ import RegisterModal from '@/components/Auth/RegisterModal.vue'
 import LoginModal from '@/components/Auth/LoginModal.vue'
 import { useAuthStore } from '@/stores/auth'
 
+import { useRouter } from 'vue-router'
+import router from '@/router'
+
 const registerRef = ref(null)
 const loginRef = ref(null)
 
@@ -22,6 +25,10 @@ function handleSwitchToLogin() {
 
 function handleSwitchToRegister() {
   registerRef.value.openRegister()
+}
+
+function goWorkSpace() {
+  router.push('/noteSpace')
 }
 </script>
 
@@ -114,7 +121,7 @@ function handleSwitchToRegister() {
                 </a>
               </li>
               <!-- <li><a>Settings</a></li> -->
-              <li><a>工作區</a></li>
+              <li @click="goWorkSpace"><a>工作區</a></li>
               <li><a>Logout</a></li>
             </ul>
           </div>
