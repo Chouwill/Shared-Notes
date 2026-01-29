@@ -4,6 +4,8 @@ import { nanoid } from 'nanoid'
 import { useRoute, useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 
+import { onEditFolder } from '@/api/method'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -49,6 +51,9 @@ const selectedNote = ref<number[]>([])
 const addFolderdialog = ref<null>(null)
 
 const folderName = ref<string>('請輸入資料夾名稱')
+const editFolderName = ref({
+  name: '',
+})
 
 const createFolderName = ref({
   name: '',
@@ -88,13 +93,22 @@ function addFolder() {
   // const name = prompt('新資料夾')
 }
 
-function addfavoriteNotes(item) {
-  // console.log('22', item)
+// 加入收藏功能
+function addfavoriteNote(item) {
+  console.log('加入收藏', item)
 
-  if (item.isFavorite === false) {
-    item.isFavorite = !item.isFavorite
-    console.log('更新的資料', noteLists.value)
-  }
+  workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
+
+  workSpace.getAll()
+}
+
+// 釘選筆記狀態
+function addPinningNote(item) {
+  console.log('加入收藏', item)
+
+  workSpace.addPinninglist(item.note_id, { pinning: !item.pinning })
+
+  workSpace.getAll()
 }
 
 function closeDialog() {
@@ -116,15 +130,25 @@ function renameFolder(id) {
 
   if (dropdown.value === id) {
     dropdown.value = null
+    console.log('-----')
   } else {
     dropdown.value = id
   }
 }
 
-function saveName() {
+async function saveName(id) {
   console.log('saveName 被調用了') // 先加這行測試
 
   console.log(folderName.value)
+  try {
+    const res = await onEditFolder(renameInput.value, { name: editFolderName.value.name })
+
+    console.log(res)
+
+    workSpace.getAll()
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 function deleteFolder(id: string) {
@@ -145,7 +169,7 @@ function addNotes() {
 
 <template>
   <div class="md:w-full w-[85%] mx-auto pb-8 flex border border-base-300">
-    <div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-2">
       <div class="border border-base-300 overflow-x-hidden w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
           <div class="card card-side w-full p-4 bg-base-100 shadow-sm">
@@ -178,7 +202,15 @@ function addNotes() {
           </label>
         </div>
 
-        <div class="font-black text-base text-base-content p-3">資料夾</div>
+        <!-- <div class="font-black text-base text-base-content p-3">資料夾</div>
+        <div class=" p-3">
+          <div class="">
+            <div class="w-full flex justify-start items-center gap-2 p-3" v-for="item in workSpace.userAllFolder">
+              <i class="fa-regular fa-folder text-[18px]"></i>
+              <h2 class="text-[15px] font-black">{{ item.name }}</h2>
+            </div>
+          </div>
+        </div> -->
 
         <div class="flex flex-col justify-center items-center gap-2">
           <div
@@ -241,10 +273,19 @@ function addNotes() {
               <h2 class="file-title font-black text-base text-base-content">
                 {{ item.name }}
               </h2>
-              <label class="input" v-if="renameInput === item.id">
-                <input type="text" class="w-full" placeholder="" :value="item.name" />
-              </label>
-              <p class="text-sm text-base-content/60">8 個項目</p>
+              <div v-if="renameInput === item.id" class="flex gap-2">
+                <label class="input">
+                  <input
+                    type="text"
+                    class="w-full"
+                    placeholder="----"
+                    v-model="editFolderName.name"
+                  />
+                </label>
+                <button class="btn btn-neutral p-2" @click="saveName">保存</button>
+              </div>
+
+              <p class="text-sm text-base-content/60 w-[70%] pl-2">{{ item.notes.length }}個項目</p>
             </div>
 
             <div class="flex flex-col justify-center items-end relative">
@@ -271,7 +312,7 @@ function addNotes() {
             </div>
           </div>
         </div>
-        <div class="border-2 w-full p-5">
+        <div class="w-full p-5">
           <div class="w-full flex items-center gap-2 p-3">
             <span class="material-symbols-outlined"> sell </span>
 
@@ -281,11 +322,11 @@ function addNotes() {
             <li
               class="list-row flex justify-between"
               v-for="item in workSpace.rawNotes"
-              :key="item.id"
+              :key="item.note_id"
             >
               <div class="flex gap-2">
                 <img src="@/assets/images/google-font-docs.svg" alt="檔案" />
-                <div class="text-red-500">{{ item.title }}</div>
+                <div class="">{{ item.title }}</div>
               </div>
               <div>{{ item.created_at }}</div>
 
@@ -294,11 +335,29 @@ function addNotes() {
                   <i class="fa-solid fa-pen text-base-content/60 text-[14px]"></i>
                   <!-- <span class="material-symbols-outlined"> sell </span> -->
                 </button>
-                <button @click="renameFolder(item.id)" class="flex items-center">
-                  <span class="material-symbols-outlined text-[20px]!"> keep </span>
+                <button @click="addPinningNote(item)" class="flex items-center">
+                  <span
+                    class="material-symbols-outlined text-[20px] transition-transform duration-150 active:scale-95"
+                    :class="item.pinning ? 'text-base-content' : 'text-base-content/50'"
+                    :style="{
+                      fontVariationSettings: item.pinning
+                        ? `'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20`
+                        : `'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20`,
+                    }"
+                  >
+                    keep
+                  </span>
                 </button>
-                <button @click="renameFolder(item.id)">
-                  <i class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"></i>
+
+                <button class="flex items-center gap-2" @click="addfavoriteNote(item)">
+                  <i
+                    class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
+                    v-if="item.favorite"
+                  ></i>
+                  <i
+                    class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
+                    v-else="item.favorite"
+                  ></i>
                 </button>
               </div>
             </li>

@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 // import { useAuthStore } from './auth'
-import { onCreateFolder, getAllFolder } from '@/api/method'
+import { onCreateFolder, getAllFolder, onfavoriteNote, onPinningNote } from '@/api/method'
 
 export const useworkSpace = defineStore(
   'event',
@@ -37,9 +37,31 @@ export const useworkSpace = defineStore(
       }
     }
 
+    async function addFavoritelist(id: string, data) {
+      try {
+        const res = await onfavoriteNote(id, data)
+
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function addPinninglist(id: string, data) {
+      try {
+        const res = await onPinningNote(id, data)
+
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return {
       createFolder,
       getAll,
+      addFavoritelist,
+      addPinninglist,
       userAllFolder,
       rawNotes,
     }

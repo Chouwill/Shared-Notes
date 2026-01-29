@@ -65,3 +65,26 @@ a {
 .menu::before {
   margin: 3px;
 }
+
+a,
+button {
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+button:hover {
+  filter: brightness(1.15);
+  box-shadow:
+    0 0 0 2px hsl(var(--p) / 0.35),
+    0 6px 16px hsl(var(--p) / 0.25);
+  transform: translateY(-1px);
+}
+
+button:active {
+  filter: brightness(0.95);
+  box-shadow: 0 0 0 1px hsl(var(--p) / 0.25);
+  transform: translateY(0);
+}

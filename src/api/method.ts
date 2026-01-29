@@ -51,3 +51,31 @@ export function getAllFolder() {
     method: 'get',
   })
 }
+
+// 修改資料夾名稱
+export function onEditFolder(id: string, data: object) {
+  return instance({
+    url: `/api/folders/${id}/name`,
+    method: 'patch',
+    data,
+  })
+}
+
+// 收藏筆記
+// http://localhost:4000/api/notes/c1af33a8-6b7c-4f04-9456-b3654ea929ba/favorite
+export function onfavoriteNote(id: string, data: object) {
+  return instance({
+    url: `/api/notes/${id}/favorite`,
+    method: 'patch',
+    data,
+  })
+}
+// 釘選筆記
+// http://localhost:4000/api/notes/c1af33a8-6b7c-4f04-9456-b3654ea929ba/favorite
+export function onPinningNote(id: string, data: object) {
+  return instance({
+    url: `/api/notes/${id}/pinning`,
+    method: 'patch',
+    data,
+  })
+}
