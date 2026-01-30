@@ -169,7 +169,7 @@ function addNotes() {
 
 <template>
   <div class="md:w-full w-[85%] mx-auto pb-8 flex border border-base-300">
-    <div class="flex flex-col gap-2">
+    <div class="md:flex flex-col gap-2 border-4 hidden">
       <div class="border border-base-300 overflow-x-hidden w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
           <div class="card card-side w-full p-4 bg-base-100 shadow-sm">
@@ -198,7 +198,7 @@ function addNotes() {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" class="search grow" placeholder="Search" />
+            <input type="search" class="search grow" placeholder="Searchdsads" />
           </label>
         </div>
 
@@ -245,8 +245,8 @@ function addNotes() {
     </div>
 
     <div class="overflow-x-auto w-full">
-      <div class="flex gap-2 p-2 justify-end">
-        <div class="flex w-[280px] gap-2">
+      <div class="flex gap-2 md:p-2 justify-end p-4">
+        <div class="flex w-[280px] gap-2 ">
           <button class="btn btn-info flex-1" @click="addNotes">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增筆記</div>
@@ -258,13 +258,15 @@ function addNotes() {
         </div>
       </div>
 
-      <div class="border border-base-300 flex gap-3 pl-8 flex-wrap justify-start items-center">
+      <div
+        class="border border-base-300 flex gap-3 md:pl-8 flex-wrap md:justify-start justify-center items-center"
+      >
         <div class="w-full flex justify-start items-center gap-2 p-3">
           <i class="fa-regular fa-folder text-[22px]"></i>
           <h2 class="text-[20px] font-black">資料夾</h2>
         </div>
         <div
-          class="card bg-base-100 border border-base-300 w-[320px] shadow-sm"
+          class="card bg-base-100 border border-base-300 md:w-[320px] w-full shadow-sm"
           v-for="item in workSpace.userAllFolder"
           :key="item.id"
         >
@@ -312,7 +314,7 @@ function addNotes() {
             </div>
           </div>
         </div>
-        <div class="w-full p-5">
+        <div class="w-full md:p-5">
           <div class="w-full flex items-center gap-2 p-3">
             <span class="material-symbols-outlined"> sell </span>
 
@@ -325,10 +327,11 @@ function addNotes() {
               :key="item.note_id"
             >
               <div class="flex gap-2">
-                <img src="@/assets/images/google-font-docs.svg" alt="檔案" />
-                <div class="">{{ item.title }}</div>
+                <img class="shrink-0 w-[20px]" src="@/assets/images/google-font-docs.svg" alt="檔案" />
+                <div class="md:w-[150px] w-[50px] overflow-hidden whitespace-nowrap">{{ item.title }}</div>
               </div>
-              <div>{{ item.created_at }}</div>
+              <!-- <div>{{ item.created_at }}</div> -->
+              <div>2026-01-01</div>
 
               <div class="flex gap-3">
                 <button @click="renameFolder(item.id)" class="flex items-center">
@@ -360,6 +363,7 @@ function addNotes() {
                   ></i>
                 </button>
               </div>
+
             </li>
           </ul>
         </div>
