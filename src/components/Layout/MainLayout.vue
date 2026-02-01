@@ -8,7 +8,7 @@ import MainFooter from '../Footer.vue'
 <template>
   <div class="w-full bg-base-100">
     <!-- Header -->
-    <MainHeader class="sticky top-0 z-20" />
+    <MainHeader class="sticky top-0 z-50" />
 
     <div class="flex justify-center items-center">
       <main
@@ -17,6 +17,6 @@ import MainFooter from '../Footer.vue'
         <router-view></router-view>
       </main>
     </div>
-    <MainFooter class="fixed bottom-0" />
+    <!-- <MainFooter class="fixed bottom-0" /> -->
   </div>
 </template>

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, nextTick } from 'vue'
-import Editor from '@toast-ui/editor'
-import '@toast-ui/editor/dist/toastui-editor.css'
+import { onMounted, onUnmounted, ref, nextTick } from 'vue'
+import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer'
+import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import { useRoute } from 'vue-router'
+import { onvisiteNotes } from '@/api/method'
 
 const route = useRoute()
 const viewerRef = ref(null)
@@ -19,21 +20,87 @@ const noteData = ref({
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-onMounted(async () => {
+// 從路由參數獲取 id
+const noteId = route.params.id as string
+
+// 載入筆記資料的函數
+async function visitNotes() {
+  if (!noteId) {
+    error.value = '缺少筆記 ID'
+    return
+  }
+
+  // Debug: 檢查實際傳遞的 id
+  console.log('🔍 準備載入筆記，ID:', noteId)
+  console.log('🔍 ID 類型:', typeof noteId)
+  console.log('🔍 完整 URL 會是: /api/notes/public/' + noteId)
+
   try {
-    // 使用 Editor.factory() 建立 Viewer（更輕量的 Viewer）
+    loading.value = true
+    error.value = null
+
+    // 使用公開筆記 API 載入筆記資料
+    const res = await onvisiteNotes(noteId)
+    const responseData = res.data
+
+    console.log('✅ API 回應:', responseData)
+
+    // API 回應結構: { success, message, note: { ... } }
+    // 資料在 responseData.note 中
+    const note = responseData.note || responseData
+
+    console.log('✅ 載入的筆記資料:', note)
+
+    // 根據 API 回應結構更新 noteData
+    noteData.value = {
+      title: note.title || '',
+      category: note.category || '',
+      content: note.content || '',
+      tags: note.tags || [],
+      created_at: note.created_at || '',
+    }
+  } catch (err) {
+    console.error('載入筆記失敗:', err)
+    error.value = '無法載入筆記內容'
+  } finally {
+    loading.value = false
+    // 等待 loading 狀態更新後，DOM 會重新渲染（v-else 區塊會顯示）
+    // 
     await nextTick()
-    if (viewerRef.value) {
-      viewer.value = Editor.factory({
+
+    // 初始化 Viewer（此時 viewerRef 應該已經在 DOM 中了）
+    if (viewerRef.value && noteData.value.content) {
+      // 如果已經有 Viewer 實例，先銷毀它
+      if (viewer.value) {
+        viewer.value.destroy()
+      }
+
+      // 使用專用的 Viewer 建構函數（更輕量，不包含編輯功能）
+      viewer.value = new Viewer({
         el: viewerRef.value,
-        viewer: true,
         height: 'auto',
         initialValue: noteData.value.content,
       })
+
+      console.log('✅ Viewer 初始化完成，內容長度:', noteData.value.content.length)
+    } else {
+      console.warn('⚠️ Viewer 初始化失敗:', {
+        viewerRefExists: !!viewerRef.value,
+        hasContent: !!noteData.value.content,
+      })
     }
-  } catch (err) {
-    console.error('初始化失敗:', err)
-    error.value = '無法載入筆記內容'
+  }
+}
+
+onMounted(async () => {
+  await visitNotes()
+})
+
+// 組件卸載時清理 Viewer 實例
+onUnmounted(() => {
+  if (viewer.value) {
+    viewer.value.destroy()
+    viewer.value = null
   }
 })
 </script>
@@ -75,9 +142,9 @@ onMounted(async () => {
       </div>
 
       <!-- Viewer 區域 -->
-      <div class="card bg-base-100 ring-1 ring-base-content/20 shadow-lg rounded-xl">
+      <div class="card bg-base-100 ring-1 ring-base-content/20 shadow-lg rounded-xl relative z-0">
         <div class="card-body p-6">
-          <div ref="viewerRef"></div>
+          <div ref="viewerRef" class="toastui-editor-contents relative z-0"></div>
         </div>
       </div>
     </div>

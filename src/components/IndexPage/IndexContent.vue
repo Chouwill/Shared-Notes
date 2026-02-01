@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useworkSpace } from '@/stores/workSpace'
+import router from '@/router'
+
+const workSpace = useworkSpace()
 
 const cards = ref([
   {
@@ -24,43 +28,79 @@ const cards = ref([
   },
 ])
 
-const articleLists = ref([
-  {
-    id: 1,
-    title: 'Vue 表單驗證：Zod + PrimeVue 的踩雷整理',
-    author: 'chouwill',
-    time: '2 小時前',
-    tags: ['Vue', 'Zod', 'Form'],
-  },
-  {
-    id: 2,
-    title: 'Toast UI Editor：onMounted 初始化與 ref 容器',
-    author: 'chouwill',
-    time: '昨天',
-    tags: ['Editor', 'Vue3'],
-  },
-  {
-    id: 3,
-    title: 'Git Flow：feat / fix 的 commit 寫法模板',
-    author: 'chouwill',
-    time: '3 天前',
-    tags: ['Git', 'Workflow'],
-  },
-  {
-    id: 4,
-    title: 'Git Flow：feat / fix 的 commit 寫法模板',
-    author: 'chouwill',
-    time: '3 天前',
-    tags: ['Git', 'Workflow'],
-  },
-  {
-    id: 5,
-    title: 'Git Flow：feat / fix 的 commit 寫法模板',
-    author: 'chouwill',
-    time: '3 天前',
-    tags: ['Git', 'Workflow'],
-  },
-])
+// const articleLists = ref([
+//   {
+//     id: 1,
+//     title: 'Vue 表單驗證：Zod + PrimeVue 的踩雷整理',
+//     author: 'chouwill',
+//     time: '2 小時前',
+//     tags: ['Vue', 'Zod', 'Form'],
+//   },
+//   {
+//     id: 2,
+//     title: 'Toast UI Editor：onMounted 初始化與 ref 容器',
+//     author: 'chouwill',
+//     time: '昨天',
+//     tags: ['Editor', 'Vue3'],
+//   },
+//   {
+//     id: 3,
+//     title: 'Git Flow：feat / fix 的 commit 寫法模板',
+//     author: 'chouwill',
+//     time: '3 天前',
+//     tags: ['Git', 'Workflow'],
+//   },
+//   {
+//     id: 4,
+//     title: 'Git Flow：feat / fix 的 commit 寫法模板',
+//     author: 'chouwill',
+//     time: '3 天前',
+//     tags: ['Git', 'Workflow'],
+//   },
+//   {
+//     id: 5,
+//     title: 'Git Flow：feat / fix 的 commit 寫法模板',
+//     author: 'chouwill',
+//     time: '3 天前',
+//     tags: ['Git', 'Workflow'],
+//   },
+// ])
+
+// 分頁相關狀態
+const currentPage = ref(1)
+const itemsPerPage = ref(3) // 每頁顯示 3 筆文章
+
+// 計算總頁數
+const totalPages = computed(() => {
+  return Math.ceil(workSpace.rawNotes.length / itemsPerPage.value)
+})
+
+// 計算當前頁要顯示的文章
+const paginatedArticles = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return workSpace.rawNotes.slice(start, end)
+})
+
+// 上一頁
+const goToPreviousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
+// 下一頁
+const goToNextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
+}
+
+function visitNotes(id) {
+  console.log(id)
+
+  router.push(`/visiteNotes/${id}`)
+}
 </script>
 
 <template>
@@ -129,9 +169,10 @@ const articleLists = ref([
         class="flex rounded-md md:justify-start border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
       >
         <div
-          class="card md:w-full md:h-[100px] h-[165px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
-          v-for="item in articleLists"
-          :key="item.id"
+          class="card md:w-full md:h-[100px] cursor-pointer h-[165px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
+          v-for="item in paginatedArticles"
+          :key="item.note_id"
+          @click="visitNotes(item.note_id)"
         >
           <div class="card-body flex md:gap-0 gap-3 md:flex-row flex-col justify-between">
             <div class="card-left w-full">
@@ -147,14 +188,28 @@ const articleLists = ref([
             </div>
           </div>
         </div>
-        <div class="w-full flex justify-center mx-auto">
+        <div class="w-full flex justify-center mx-auto mt-4">
           <div
-            class="join join-vertical lg:join-horizontal mx-auto flex justify-center items-center border-3 border-base-200 rounded-2xl"
+            class="join join-vertical lg:join-horizontal mx-auto flex justify-center items-center border-3 border-base-200 rounded-2xl w-fit"
           >
-            <button class="btn"><i class="fa-solid fa-angle-left"></i></button>
+            <button
+              class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0"
+              :disabled="currentPage === 1"
+              @click="goToPreviousPage"
+            >
+              <i class="fa-solid fa-angle-left"></i>
+            </button>
 
-            <p class="btn">1 &nbsp; of &nbsp; 10</p>
-            <button class="btn"><i class="fa-solid fa-angle-right"></i></button>
+            <p class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0 text-center">
+              {{ currentPage }} &nbsp; of &nbsp; {{ totalPages }}
+            </p>
+            <button
+              class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0"
+              :disabled="currentPage === totalPages"
+              @click="goToNextPage"
+            >
+              <i class="fa-solid fa-angle-right"></i>
+            </button>
           </div>
         </div>
       </div>

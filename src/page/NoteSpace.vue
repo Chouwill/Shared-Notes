@@ -167,7 +167,7 @@ function addNotes() {
 }
 
 async function viewNotes(id) {
-  console.log(id);
+  console.log(id)
 
   router.push(`/noteViewer/${id}`)
 

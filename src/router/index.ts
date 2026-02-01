@@ -30,7 +30,7 @@ const router = createRouter({
           component: () => import('@/page/NoteSpace.vue'),
         },
         {
-          path: 'noteProfile',
+          path: 'noteProfile/:id',
           name: 'NoteProfile',
           component: () => import('@/page/NoteProfile.vue'),
         },
@@ -38,6 +38,11 @@ const router = createRouter({
           path: 'noteViewer/:id',
           name: 'noteViewer',
           component: () => import('@/page/NotesViewer.vue'),
+        },
+        {
+          path: 'visiteNotes/:id',
+          name: 'visiteNotes',
+          component: () => import('@/page/VisitorsViewer.vue'),
         },
       ],
     },

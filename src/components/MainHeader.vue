@@ -37,7 +37,7 @@ function goUserProfile() {
 
 <template>
   <div
-    class="w-full flex justify-center items-center h-[100px] bg-base-200 text-base-content shadow-md"
+    class="w-full flex justify-center items-center h-[100px] bg-base-200 text-base-content shadow-md backdrop-blur-sm"
   >
     <div class="w-full max-w-[1280px] h-full px-4 flex justify-between items-center">
       <div class="flex justify-center items-center">

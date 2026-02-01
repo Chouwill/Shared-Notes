@@ -114,3 +114,10 @@ export function onviewerNotes(id: string) {
     method: 'get',
   })
 }
+// 查看公開的筆記
+export function onvisiteNotes(id: string) {
+  return instance({
+    url: `/api/notes/public/${id}`,
+    method: 'get',
+  })
+}
