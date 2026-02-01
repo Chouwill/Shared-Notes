@@ -29,6 +29,11 @@ const router = createRouter({
           name: 'NoteSpace',
           component: () => import('@/page/NoteSpace.vue'),
         },
+        {
+          path: 'noteProfile',
+          name: 'NoteProfile',
+          component: () => import('@/page/NoteProfile.vue'),
+        },
       ],
     },
     {

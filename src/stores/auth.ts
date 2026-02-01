@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { onLogin, onRegister } from '@/api/method'
+import { onLogin, onRegister, onGetProfile } from '@/api/method'
 
 export const useAuthStore = defineStore(
   'user',
@@ -8,6 +8,7 @@ export const useAuthStore = defineStore(
     const userToken = ref(null)
     const apiStatus = ref(null) //定義儲存api回傳狀態
     const showUser = ref(false)
+    const userProfileData = ref(null)
 
     async function onLoginForm(data) {
       try {
@@ -38,12 +39,28 @@ export const useAuthStore = defineStore(
       }
     }
 
+    async function getProfile() {
+      try {
+        const res = await onGetProfile()
+
+        // console.log(res)
+
+        userProfileData.value = res.data.profile
+
+        console.log('會員檔案', userProfileData.value)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return {
       onLoginForm,
       onRegisterForm,
+      getProfile,
       userToken,
       apiStatus,
       showUser,
+      userProfileData,
     }
   },
   {

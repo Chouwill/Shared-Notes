@@ -246,7 +246,7 @@ function addNotes() {
 
     <div class="overflow-x-auto w-full">
       <div class="flex gap-2 md:p-2 justify-end p-4">
-        <div class="flex w-[280px] gap-2 ">
+        <div class="flex w-[280px] gap-2">
           <button class="btn btn-info flex-1" @click="addNotes">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增筆記</div>
@@ -327,8 +327,14 @@ function addNotes() {
               :key="item.note_id"
             >
               <div class="flex gap-2">
-                <img class="shrink-0 w-[20px]" src="@/assets/images/google-font-docs.svg" alt="檔案" />
-                <div class="md:w-[150px] w-[50px] overflow-hidden whitespace-nowrap">{{ item.title }}</div>
+                <img
+                  class="shrink-0 w-[20px]"
+                  src="@/assets/images/google-font-docs.svg"
+                  alt="檔案"
+                />
+                <div class="md:w-[150px] w-[50px] overflow-hidden whitespace-nowrap">
+                  {{ item.title }}
+                </div>
               </div>
               <!-- <div>{{ item.created_at }}</div> -->
               <div>2026-01-01</div>
@@ -363,7 +369,6 @@ function addNotes() {
                   ></i>
                 </button>
               </div>
-
             </li>
           </ul>
         </div>
