@@ -106,3 +106,11 @@ export function onuploadProfile(data: object) {
     data,
   })
 }
+
+// 查看自己的筆記
+export function onviewerNotes(id: string) {
+  return instance({
+    url: `/api/notes/${id}`,
+    method: 'get',
+  })
+}

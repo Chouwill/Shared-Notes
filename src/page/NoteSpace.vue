@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import { useRoute, useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 
-import { onEditFolder } from '@/api/method'
+import { onEditFolder, onviewerNotes } from '@/api/method'
 
 const router = useRouter()
 const route = useRoute()
@@ -165,6 +165,21 @@ function deleteFolder(id: string) {
 function addNotes() {
   router.push('/noteEditor/edit')
 }
+
+async function viewNotes(id) {
+  console.log(id);
+
+  router.push(`/noteViewer/${id}`)
+
+  // try {
+  //   const res = await onviewerNotes(id)
+
+  //   console.log(res);
+
+  // } catch (error) {
+  //   console.log(error)
+  // }
+}
 </script>
 
 <template>
@@ -240,6 +255,16 @@ function addNotes() {
         >
           <i class="fa-regular fa-bookmark text-sm text-base-content/60"></i>
           <div>收藏</div>
+        </div>
+        <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
+          <div class="flex flex-col gap-3 min-w-0 flex-1">
+            <div
+              v-for="item in workSpace.rawNotes"
+              class="w-full p-0 bg-white truncate min-w-0 cursor-pointer"
+            >
+              {{ item.title }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -322,9 +347,10 @@ function addNotes() {
           </div>
           <ul class="list bg-base-100 rounded-box shadow-md w-full flex flex-col pr-5">
             <li
-              class="list-row flex justify-between"
+              class="list-row flex justify-between cursor-pointer"
               v-for="item in workSpace.rawNotes"
               :key="item.note_id"
+              @click="viewNotes(item.note_id)"
             >
               <div class="flex gap-2">
                 <img

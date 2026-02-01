@@ -34,6 +34,11 @@ const router = createRouter({
           name: 'NoteProfile',
           component: () => import('@/page/NoteProfile.vue'),
         },
+        {
+          path: 'noteViewer/:id',
+          name: 'noteViewer',
+          component: () => import('@/page/NotesViewer.vue'),
+        },
       ],
     },
     {
