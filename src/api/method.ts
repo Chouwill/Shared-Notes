@@ -79,3 +79,30 @@ export function onPinningNote(id: string, data: object) {
     data,
   })
 }
+
+// 取得個人會員檔案
+// http://localhost:4000/api/user/profile
+export function onGetProfile(data: object) {
+  return instance({
+    url: `/api/user/profile`,
+    method: 'get',
+    data,
+  })
+}
+
+// 會員檔案-編輯個人檔案
+export function oneditProfile(data: object) {
+  return instance({
+    url: `/api/user/profile`,
+    method: 'post',
+    data,
+  })
+}
+// 會員檔案-上傳個人頭像
+export function onuploadProfile(data: object) {
+  return instance({
+    url: `/api/user/avatar`,
+    method: 'post',
+    data,
+  })
+}
