@@ -7,16 +7,12 @@ import { onuploadProfile, oneditProfile } from '@/api/method'
 const userStore = useAuthStore()
 const workSpace = useworkSpace()
 
-// 編輯/預覽模式切換
 const isEditMode = ref(false)
 
-// Tab 切換（所有公開筆記 / 讚賞列表）
 const activeTab = ref('notes')
 
-// Loading 狀態
 const isLoading = ref(false)
 
-// 編輯表單資料（用於雙向綁定）
 const editForm = ref({
   display_name: '',
   avatar_url: '',
@@ -27,7 +23,6 @@ const editForm = ref({
 const fromError = ref(null)
 const errorTimer = ref(null)
 
-// 使用 computed 來確保響應式更新
 const profileData = computed(() => userStore.userProfileData)
 
 async function getUserProfile() {
@@ -42,18 +37,15 @@ async function getUserProfile() {
   }
 }
 
-// 組件掛載時載入資料
 onMounted(() => {
   getUserProfile()
 })
 
-// 切換到編輯模式
 function enterEditMode() {
   if (!profileData.value) {
     console.warn('個人資料尚未載入')
     return
   }
-  // 將現有資料複製到編輯表單
   editForm.value = {
     display_name: profileData.value.display_name || '',
     avatar_url: profileData.value.avatar_url || '',
@@ -63,12 +55,10 @@ function enterEditMode() {
   isEditMode.value = true
 }
 
-// 取消編輯
 function cancelEdit() {
   isEditMode.value = false
 }
 
-// 取得上傳的圖片檔案
 async function updateDateAvatar(event: Event) {
   const file = (event.target as HTMLInputElement)?.files?.[0]
 
@@ -81,7 +71,6 @@ async function updateDateAvatar(event: Event) {
     return
   }
 
-  // 先預覽圖片
   const reader = new FileReader()
   reader.onload = (e) => {
     const result = e.target?.result as string
@@ -91,7 +80,6 @@ async function updateDateAvatar(event: Event) {
   }
   reader.readAsDataURL(file)
 
-  // 上傳圖片
   const fd = new FormData()
   fd.append('avatar', file)
 
@@ -106,15 +94,12 @@ async function updateDateAvatar(event: Event) {
   } catch (error) {
     console.log(error)
     alert('上傳失敗，請稍後再試')
-    // 上傳失敗時恢復原來的頭像
     editForm.value.avatar_url = profileData.value?.avatar_url || ''
   }
 }
 
-// 更新會員檔案
 async function updateDateProfile() {
   try {
-    // 清除之前的錯誤和計時器
     if (errorTimer.value) {
       clearTimeout(errorTimer.value)
       errorTimer.value = null
@@ -125,13 +110,12 @@ async function updateDateProfile() {
     console.log(res)
 
     userStore.getProfile()
-    isEditMode.value = false // 成功後關閉編輯模式
+    isEditMode.value = false
   } catch (error) {
     console.log(error)
     fromError.value = error.response?.data?.message || error.message || '更新失敗'
     console.log(fromError.value)
 
-    // 5 秒後自動清除錯誤訊息
     if (errorTimer.value) {
       clearTimeout(errorTimer.value)
     }
@@ -142,7 +126,6 @@ async function updateDateProfile() {
   }
 }
 
-// 格式化日期顯示
 function formatDate(dateString: string) {
   const date = new Date(dateString)
   const year = date.getFullYear()

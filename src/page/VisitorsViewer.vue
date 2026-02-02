@@ -20,17 +20,14 @@ const noteData = ref({
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-// 從路由參數獲取 id
 const noteId = route.params.id as string
 
-// 載入筆記資料的函數
 async function visitNotes() {
   if (!noteId) {
     error.value = '缺少筆記 ID'
     return
   }
 
-  // Debug: 檢查實際傳遞的 id
   console.log('🔍 準備載入筆記，ID:', noteId)
   console.log('🔍 ID 類型:', typeof noteId)
   console.log('🔍 完整 URL 會是: /api/notes/public/' + noteId)
@@ -39,19 +36,15 @@ async function visitNotes() {
     loading.value = true
     error.value = null
 
-    // 使用公開筆記 API 載入筆記資料
     const res = await onvisiteNotes(noteId)
     const responseData = res.data
 
     console.log('✅ API 回應:', responseData)
 
-    // API 回應結構: { success, message, note: { ... } }
-    // 資料在 responseData.note 中
     const note = responseData.note || responseData
 
     console.log('✅ 載入的筆記資料:', note)
 
-    // 根據 API 回應結構更新 noteData
     noteData.value = {
       title: note.title || '',
       category: note.category || '',
@@ -64,18 +57,13 @@ async function visitNotes() {
     error.value = '無法載入筆記內容'
   } finally {
     loading.value = false
-    // 等待 loading 狀態更新後，DOM 會重新渲染（v-else 區塊會顯示）
-    //
     await nextTick()
 
-    // 初始化 Viewer（此時 viewerRef 應該已經在 DOM 中了）
     if (viewerRef.value && noteData.value.content) {
-      // 如果已經有 Viewer 實例，先銷毀它
       if (viewer.value) {
         viewer.value.destroy()
       }
 
-      // 使用專用的 Viewer 建構函數（更輕量，不包含編輯功能）
       viewer.value = new Viewer({
         el: viewerRef.value,
         height: 'auto',
@@ -96,7 +84,6 @@ onMounted(async () => {
   await visitNotes()
 })
 
-// 組件卸載時清理 Viewer 實例
 onUnmounted(() => {
   if (viewer.value) {
     viewer.value.destroy()
@@ -107,26 +94,21 @@ onUnmounted(() => {
 
 <template>
   <div class="md:w-full w-[85%] mx-auto flex flex-col gap-6 py-8">
-    <!-- 載入中狀態 -->
     <div v-if="loading" class="flex justify-center items-center min-h-[400px]">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
 
-    <!-- 錯誤狀態 -->
     <div v-else-if="error" class="alert alert-error">
       <span>{{ error }}</span>
     </div>
 
-    <!-- 筆記內容 -->
     <div v-else class="flex flex-col gap-6">
-      <!-- 筆記標題與資訊 -->
       <div
         class="card bg-base-100 ring-1 ring-base-content/10 shadow-md dark:border dark:border-base-content/10 rounded-xl"
       >
         <div class="card-body gap-5 p-6 md:p-7">
           <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">{{ noteData.title }}</h1>
 
-          <!-- 分類與標籤 -->
           <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-base-content/5">
             <div v-if="noteData.category" class="badge badge-outline badge-lg">
               {{ noteData.category }}
@@ -141,7 +123,6 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <!-- Viewer 區域 -->
       <div class="card bg-base-100 ring-1 ring-base-content/10 shadow-md rounded-xl relative z-0">
         <div class="card-body p-6 md:p-7">
           <div ref="viewerRef" class="toastui-editor-contents relative z-0"></div>

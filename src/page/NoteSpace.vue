@@ -11,7 +11,6 @@ const route = useRoute()
 
 const workSpace = useworkSpace()
 
-// 定義筆記型別
 interface IarticleNote {
   id: string
   noteId: string
@@ -37,12 +36,12 @@ const articleNotes = ref<IarticleNote[]>([
     isFavorite: false,
     tags: ['1', '2'],
     pinning: false,
-    folderId: '', //會在哪個資料夾
+    folderId: '',
   },
 ])
-const folders = ref<Ifolders[]>([]) //儲存所有的資料夾
+const folders = ref<Ifolders[]>([])
 
-const renameInput = ref(null) // 資料夾編輯模式
+const renameInput = ref(null)
 
 const favoriteNotes = ref<Ifolders[]>([])
 
@@ -71,7 +70,7 @@ getAllInformation()
 
 function addFolderName() {
   console.log(folderName.value)
-  if (!folderName.value) return // 如果沒有名字就不做動作
+  if (!folderName.value) return
 
   createFolderName.value.name = folderName.value
 
@@ -90,10 +89,8 @@ function addFolderName() {
 
 function addFolder() {
   addFolderdialog.value.showModal()
-  // const name = prompt('新資料夾')
 }
 
-// 加入收藏功能
 function addfavoriteNote(item) {
   console.log('加入收藏', item)
 
@@ -102,7 +99,6 @@ function addfavoriteNote(item) {
   workSpace.getAll()
 }
 
-// 釘選筆記狀態
 function addPinningNote(item) {
   console.log('加入收藏', item)
 
@@ -137,7 +133,7 @@ function renameFolder(id) {
 }
 
 async function saveName(id) {
-  console.log('saveName 被調用了') // 先加這行測試
+  console.log('saveName 被調用了')
 
   console.log(folderName.value)
   try {
