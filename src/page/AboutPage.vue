@@ -45,7 +45,9 @@ const cardList = ref([
     </div>
 
     <div class="text-2xl">
-      <a href="">開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i></a>
+      <RouterLink to="/noteEditor/edit"
+        >開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i
+      ></RouterLink>
     </div>
   </div>
 </template>
