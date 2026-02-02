@@ -59,15 +59,15 @@ const cards = ref([
     <div
       class="card flex md:w-[95%] bg-blue-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
     >
-      <div class="card-body flex flex-row justify-around items-center w-full">
-        <div class="w-[50%] text-left">
+      <div class="card-body flex w-full flex-col items-center justify-around gap-4 md:flex-row">
+        <div class="w-full text-left md:w-1/2">
           <div class="text-2xl font-black">準備開始你的下一篇技術筆記了嗎？</div>
           <p class="text-sm">
             不需要一次寫出完美文章，只要先把今天學到的兩三個重點記下來，就很夠用了。
           </p>
         </div>
 
-        <div class="w-[50%] flex justify-end gap-3">
+        <div class="w-full flex flex-wrap justify-start gap-3 md:w-1/2 md:justify-end">
           <button class="btn btn-neutral rounded-3xl">開始寫筆記</button>
           <button class="btn btn-primary rounded-3xl">返回首頁</button>
         </div>

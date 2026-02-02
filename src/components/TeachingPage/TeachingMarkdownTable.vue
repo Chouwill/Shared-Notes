@@ -87,7 +87,7 @@ const lists = ref([
                       <td>{{ item.cardTitle }}</td>
                       <td>
                         <div
-                          class="w-auto md:w-[350px] md:p-2 rounded-sm whitespace-pre-line bg-black text-white"
+                          class="w-auto md:w-[350px] p-2 rounded-sm whitespace-pre-line bg-black text-white"
                         >
                           {{ item.cardCode }}
                         </div>
