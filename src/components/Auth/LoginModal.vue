@@ -21,8 +21,8 @@ const loginSchema = z.object({
 const { handleSubmit } = useForm({
   validationSchema: toFormValidator(loginSchema),
   initialValues: {
-    email: '0202@gmail.com',
-    password: 'A1234567a8',
+    email: 'red@gmail.com',
+    password: 'redA123456',
   },
 })
 

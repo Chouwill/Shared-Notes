@@ -102,10 +102,22 @@ export const useAuthStore = defineStore(
       }
     }
 
+    function userLogout() {
+      userToken.value = null
+      showUser.value = false
+      userProfileData.value = null
+      loginMessage.value = null
+      loginErrorMessage.value = null
+      registerMessage.value = null
+      registerErrorMessage.value = null
+      localStorage.removeItem('user-token')
+    }
+
     return {
       onLoginForm,
       onRegisterForm,
       getProfile,
+      userLogout,
       userToken,
       apiStatus,
       showUser,
@@ -120,8 +132,8 @@ export const useAuthStore = defineStore(
     persist: {
       // 自定義keyName
       key: 'user-token',
-      // 指定儲存的變數
-      pick: ['userToken'],
+      // 持久化指定儲存的變數
+      pick: ['userToken', 'userProfileData', 'showUser'],
     },
   },
 )
