@@ -260,6 +260,7 @@ async function viewNotes(id) {
           <div class="flex flex-col gap-3 min-w-0 flex-1">
             <div
               v-for="item in workSpace.rawNotes"
+              :key="item.note_id"
               class="w-full p-0 bg-white truncate min-w-0 cursor-pointer"
             >
               {{ item.title }}
@@ -273,7 +274,7 @@ async function viewNotes(id) {
       <div class="flex gap-2 md:p-2 justify-end p-4">
         <div class="flex w-[280px] gap-2">
           <div class="flex-1"></div>
-          <button class="btn btn-info flex-1" @click="addNotes">
+          <button class="btn btn-primary flex-1" @click="addNotes">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增筆記</div>
           </button>
@@ -310,7 +311,7 @@ async function viewNotes(id) {
                     v-model="editFolderName.name"
                   />
                 </label>
-                <button class="btn btn-neutral p-2" @click="saveName">保存</button>
+                <button class="btn btn-primary btn-sm p-2" @click="saveName">保存</button>
               </div>
 
               <p class="text-sm text-base-content/60 w-[70%] pl-2">{{ item.notes.length }}個項目</p>
@@ -392,7 +393,7 @@ async function viewNotes(id) {
                   ></i>
                   <i
                     class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
-                    v-else="item.favorite"
+                    v-else
                   ></i>
                 </button>
               </div>

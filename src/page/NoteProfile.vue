@@ -364,38 +364,38 @@ function formatDate(dateString: string) {
             >
               目前沒有任何公開筆記
             </div>
-            <div class="flex flex-col gap-3 min-w-0">
+            <div class="flex flex-col gap-4 min-w-0">
               <div
                 v-for="note in workSpace.rawNotes"
                 :key="note.id"
-                class="bg-base-100 w-full md:w-[70%] relative flex flex-col gap-3 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow cursor-pointer border border-transparent hover:border-base-content/10 rounded-lg min-w-0"
+                class="bg-base-100 w-full md:w-[70%] relative flex flex-col gap-4 p-5 sm:p-6 md:p-7 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer border border-base-content/5 hover:border-base-content/15 rounded-xl shadow-sm min-w-0"
               >
                 <h3
-                  class="w-full text-lg sm:text-xl font-bold text-base-content mb-2 hover:text-primary transition-colors break-words"
+                  class="w-full text-xl sm:text-2xl font-bold text-base-content mb-1 hover:text-primary transition-colors break-words leading-tight"
                 >
                   {{ note.title }}
                 </h3>
 
                 <p
-                  class="text-sm sm:text-base text-base-content/70 mb-3 sm:mb-4 leading-relaxed line-clamp-2 break-words"
+                  class="text-sm sm:text-base text-base-content/65 mb-2 sm:mb-3 leading-relaxed line-clamp-2 break-words"
                 >
                   {{ note.content }}
                 </p>
 
                 <div
-                  class="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-base-content/60 relative"
+                  class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-base-content/55 relative mt-auto pt-2 border-t border-base-content/5"
                 >
-                  <div class="flex items-center gap-1 sm:gap-1.5 flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
                     <span class="truncate">
                       {{ (note.created_at || note.updated_at).split('T')[0] }}
                     </span>
                   </div>
 
                   <div
-                    class="flex items-center gap-1 sm:gap-1.5 absolute top-0 right-0 md:relative md:top-auto md:right-auto"
+                    class="flex items-center gap-1.5 sm:gap-2 absolute top-2 right-0 md:relative md:top-auto md:right-auto"
                   >
                     <i
-                      class="fa-solid fa-bookmark text-lg sm:text-xl hover:text-[#605DFF] active:text-[#605DFF]"
+                      class="fa-solid fa-bookmark text-base sm:text-lg hover:text-primary active:text-primary transition-colors"
                     ></i>
                     <span>{{ note.favoriteCount }}</span>
                   </div>

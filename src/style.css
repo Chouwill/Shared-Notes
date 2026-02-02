@@ -45,7 +45,12 @@
 }
 
 a {
-  color: #000;
+  color: hsl(var(--p));
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: hsl(var(--p) / 0.8);
 }
 
 /* 移除 daisy UI 預設 input 外層border */
@@ -87,4 +92,19 @@ button:active {
   filter: brightness(0.95);
   box-shadow: 0 0 0 1px hsl(var(--p) / 0.25);
   transform: translateY(0);
+}
+
+/* 確保 drawer-side 背景色正確 - 只設定 drawer-side 和 menu，不影響其他元素 */
+.drawer-side {
+  background-color: hsl(var(--b2, 220 14% 96%)) !important;
+}
+
+.drawer-side .menu,
+.drawer-side ul.menu {
+  background-color: transparent !important;
+}
+
+/* 移除 drawer-overlay 的背景色 */
+.drawer-overlay {
+  background-color: transparent !important;
 }

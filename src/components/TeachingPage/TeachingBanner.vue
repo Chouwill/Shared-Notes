@@ -14,10 +14,10 @@
 
       <div class="flex gap-2">
         <button class="btn btn-primary rounded-xl">
-          <router-link to="/noteEditor/edit"><p class="text-white">開始寫筆記</p></router-link>
+          <router-link to="/noteEditor/edit" class="text-primary-content">開始寫筆記</router-link>
         </button>
-        <button class="btn btn-outline rounded-xl">
-          <router-link to="/"> 逛公開筆記 </router-link>
+        <button class="btn btn-outline btn-primary rounded-xl">
+          <router-link to="/" class="text-primary">逛公開筆記</router-link>
         </button>
       </div>
 

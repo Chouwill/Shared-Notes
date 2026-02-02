@@ -121,20 +121,20 @@ onUnmounted(() => {
     <div v-else class="flex flex-col gap-6">
       <!-- 筆記標題與資訊 -->
       <div
-        class="card bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20 rounded-xl"
+        class="card bg-base-100 ring-1 ring-base-content/10 shadow-md dark:border dark:border-base-content/10 rounded-xl"
       >
-        <div class="card-body gap-4 p-6">
-          <h1 class="text-3xl font-bold text-base-content">{{ noteData.title }}</h1>
+        <div class="card-body gap-5 p-6 md:p-7">
+          <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">{{ noteData.title }}</h1>
 
           <!-- 分類與標籤 -->
-          <div class="flex flex-wrap items-center gap-3">
+          <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-base-content/5">
             <div v-if="noteData.category" class="badge badge-outline badge-lg">
               {{ noteData.category }}
             </div>
             <div v-for="tag in noteData.tags" :key="tag" class="badge badge-info badge-lg">
               {{ tag }}
             </div>
-            <div v-if="noteData.created_at" class="text-sm text-base-content/60 ml-auto">
+            <div v-if="noteData.created_at" class="text-sm text-base-content/55 ml-auto">
               {{ new Date(noteData.created_at).toLocaleDateString('zh-TW') }}
             </div>
           </div>
@@ -142,8 +142,8 @@ onUnmounted(() => {
       </div>
 
       <!-- Viewer 區域 -->
-      <div class="card bg-base-100 ring-1 ring-base-content/20 shadow-lg rounded-xl relative z-0">
-        <div class="card-body p-6">
+      <div class="card bg-base-100 ring-1 ring-base-content/10 shadow-md rounded-xl relative z-0">
+        <div class="card-body p-6 md:p-7">
           <div ref="viewerRef" class="toastui-editor-contents relative z-0"></div>
         </div>
       </div>

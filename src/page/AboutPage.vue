@@ -45,9 +45,12 @@ const cardList = ref([
     </div>
 
     <div class="text-2xl">
-      <RouterLink to="/noteEditor/edit"
-        >開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i
-      ></RouterLink>
+      <RouterLink 
+        to="/noteEditor/edit"
+        class="text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-2"
+      >
+        開始嘗試使用 <i class="fa-solid fa-arrow-right-long"></i>
+      </RouterLink>
     </div>
   </div>
 </template>

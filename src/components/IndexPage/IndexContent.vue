@@ -109,17 +109,17 @@ function visitNotes(id) {
 
     <p class="text-base text-base-content/80">先把最常用的流程做順：寫、找、分享、再回來整理。</p>
 
-    <div class="flex md:justify-start justify-center items-center md:flex-row flex-wrap gap-4">
+    <div class="flex md:justify-start justify-center items-center md:flex-row flex-wrap gap-5">
       <div
-        class="card md:w-[300px] w-[150px] md:h-[120px] h-[150px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
+        class="card md:w-[300px] w-[150px] md:h-[140px] h-[170px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
         v-for="item in cards"
         :key="item.id"
       >
-        <div class="card-body md:w-[270px] w-[150px]">
-          <h2 class="card-title font-black text-base-content">
+        <div class="card-body md:w-[270px] w-[150px] p-5 md:p-6 flex flex-col gap-2.5">
+          <h2 class="card-title text-lg md:text-xl font-bold text-base-content mb-0 leading-tight">
             {{ item.cardTitle }}
           </h2>
-          <p class="text-base-content/70">
+          <p class="text-sm md:text-base text-base-content/65 leading-relaxed mt-auto">
             {{ item.contText }}
           </p>
         </div>
@@ -169,21 +169,27 @@ function visitNotes(id) {
         class="flex rounded-md md:justify-start border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
       >
         <div
-          class="card md:w-full md:h-[100px] cursor-pointer h-[165px] bg-base-100 ring-1 ring-base-content/20 shadow-lg dark:border dark:border-base-content/20"
+          class="card md:w-full md:h-[140px] cursor-pointer h-auto min-h-[165px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
           v-for="item in paginatedArticles"
           :key="item.note_id"
           @click="visitNotes(item.note_id)"
         >
-          <div class="card-body flex md:gap-0 gap-3 md:flex-row flex-col justify-between">
-            <div class="card-left w-full">
-              <h2 class="card-title font-black text-base-content">
-                {{ item.title }}ppp
+          <div class="card-body flex md:gap-4 gap-4 md:flex-row flex-col justify-between p-5 md:p-6">
+            <div class="card-left w-full flex flex-col gap-2.5">
+              <h2 class="card-title text-xl md:text-2xl font-bold text-base-content leading-tight mb-0">
+                {{ item.title }}
               </h2>
-              <p class="text-base-content/70">Shared Notes • {{ item.updated_at.split('T')[0] }}</p>
+              <p 
+                v-if="item.content" 
+                class="text-sm md:text-base text-base-content/60 leading-relaxed line-clamp-2 mb-1"
+              >
+                {{ item.content.substring(0, 120) }}{{ item.content.length > 120 ? '...' : '' }}
+              </p>
+              <p class="text-xs md:text-sm text-base-content/50 mt-auto">Shared Notes • {{ item.updated_at.split('T')[0] }}</p>
             </div>
-            <div class="card-right flex items-center gap-3">
+            <div class="card-right flex items-start md:items-center gap-2 md:gap-3 flex-shrink-0">
               <div class="card-tag" v-for="(tag, index) in item.tags" :key="index">
-                <div class="badge badge-soft badge-info">{{ tag }}</div>
+                <div class="badge badge-soft badge-info text-xs md:text-sm">{{ tag }}</div>
               </div>
             </div>
           </div>
@@ -193,18 +199,18 @@ function visitNotes(id) {
             class="join join-vertical lg:join-horizontal mx-auto flex justify-center items-center border-3 border-base-200 rounded-2xl w-fit"
           >
             <button
-              class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0"
+              class="btn btn-ghost lg:w-auto w-full min-w-[120px] lg:min-w-0"
               :disabled="currentPage === 1"
               @click="goToPreviousPage"
             >
               <i class="fa-solid fa-angle-left"></i>
             </button>
 
-            <p class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0 text-center">
+            <p class="btn btn-ghost lg:w-auto w-full min-w-[120px] lg:min-w-0 text-center">
               {{ currentPage }} &nbsp; of &nbsp; {{ totalPages }}
             </p>
             <button
-              class="btn lg:w-auto w-full min-w-[120px] lg:min-w-0"
+              class="btn btn-ghost lg:w-auto w-full min-w-[120px] lg:min-w-0"
               :disabled="currentPage === totalPages"
               @click="goToNextPage"
             >
