@@ -183,8 +183,8 @@ async function viewNotes(id) {
 </script>
 
 <template>
-  <div class="md:w-full w-[85%] mx-auto pb-8 flex border border-base-300">
-    <div class="md:flex flex-col gap-2 border-4 hidden">
+  <div class="md:w-full w-[85%] h-[20rem] mx-auto pb-8 flex border border-base-300">
+    <div class="md:flex flex-col gap-2  hidden">
       <div class="border border-base-300 overflow-x-hidden w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
           <div class="card card-side w-full p-4 bg-base-100 shadow-sm">
@@ -272,25 +272,26 @@ async function viewNotes(id) {
     <div class="overflow-x-auto w-full">
       <div class="flex gap-2 md:p-2 justify-end p-4">
         <div class="flex w-[280px] gap-2">
+          <div class="flex-1"></div>
           <button class="btn btn-info flex-1" @click="addNotes">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增筆記</div>
           </button>
-          <button class="btn flex-1" @click="addFolder">
+          <!-- <button class="btn flex-1" @click="addFolder">
             <i class="fa-solid fa-plus text-base"></i>
             <div>新增資料夾</div>
-          </button>
+          </button> -->
         </div>
       </div>
 
       <div
-        class="border border-base-300 flex gap-3 md:pl-8 flex-wrap md:justify-start justify-center items-center"
+        class="border border-base-300 flex gap-3 md:pl-8 flex-wrap md:justify-start justify-center items-start h-[100%]"
       >
-        <div class="w-full flex justify-start items-center gap-2 p-3">
+        <!-- <div class="w-full flex justify-start items-center gap-2 p-3">
           <i class="fa-regular fa-folder text-[22px]"></i>
           <h2 class="text-[20px] font-black">資料夾</h2>
-        </div>
-        <div
+        </div> -->
+        <!-- <div
           class="card bg-base-100 border border-base-300 md:w-[320px] w-full shadow-sm"
           v-for="item in workSpace.userAllFolder"
           :key="item.id"
@@ -338,7 +339,7 @@ async function viewNotes(id) {
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="w-full md:p-5">
           <div class="w-full flex items-center gap-2 p-3">
             <span class="material-symbols-outlined"> sell </span>
