@@ -17,6 +17,6 @@ import MainFooter from '../Footer.vue'
         <router-view></router-view>
       </main>
     </div>
-    <!-- <MainFooter class="fixed bottom-0" /> -->
+    <MainFooter class="fixed bottom-0" />
   </div>
 </template>

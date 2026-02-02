@@ -14,7 +14,12 @@
 
     <!-- GitHub Link -->
     <div>
-      <a href="#" class="github-link block text-lg font-black underline-offset-4 hover:underline">
+      <a
+        href="https://github.com/Chouwill/Shared-Notes"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="github-link block text-lg font-black underline-offset-4 hover:underline"
+      >
         GitHub
       </a>
     </div>

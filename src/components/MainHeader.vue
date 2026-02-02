@@ -50,10 +50,10 @@ function closeDrawer() {
       <input id="mobile-drawer" type="checkbox" class="drawer-toggle" ref="drawerRef" />
       <div class="drawer-content w-full flex justify-center">
         <div class="w-full max-w-[1280px] h-full grid grid-cols-3 items-center">
-          <div class="flex justify-start items-center gap-3 w-full">
+          <div class="flex justify-start items-center gap-3 w-full ">
             <label
               for="mobile-drawer"
-              class="btn btn-ghost drawer-button md:hidden p-2"
+              class="btn btn-ghost drawer-button md:hidden p-2 absolute right-3"
               aria-label="開啟選單"
             >
               <svg
@@ -86,8 +86,8 @@ function closeDrawer() {
           </div>
           <div class="flex justify-end items-center gap-3">
             <template v-if="!authStore.showUser">
-              <button class="btn btn-outline btn-primary rounded-3xl" @click="openLogin">登入</button>
-              <button class="btn btn-primary rounded-3xl" @click="openRegister">註冊</button>
+              <button class="btn btn-outline btn-primary rounded-3xl hidden md:block" @click="openLogin">登入</button>
+              <button class="btn btn-primary rounded-3xl hidden md:block" @click="openRegister">註冊</button>
             </template>
             <div v-else class="flex-none">
               <div class="dropdown dropdown-end">
