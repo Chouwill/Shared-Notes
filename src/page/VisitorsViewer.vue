@@ -65,7 +65,7 @@ async function visitNotes() {
   } finally {
     loading.value = false
     // 等待 loading 狀態更新後，DOM 會重新渲染（v-else 區塊會顯示）
-    // 
+    //
     await nextTick()
 
     // 初始化 Viewer（此時 viewerRef 應該已經在 DOM 中了）

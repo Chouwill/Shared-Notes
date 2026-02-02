@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import axios from 'axios'
 import { onLogin, onRegister, onGetProfile } from '@/api/method'
 
 export const useAuthStore = defineStore(
@@ -8,23 +9,58 @@ export const useAuthStore = defineStore(
     const userToken = ref(null)
     const apiStatus = ref(null) //定義儲存api回傳狀態
     const showUser = ref(false)
+
     const userProfileData = ref(null)
+    const loginMessage = ref(null)
+    const loginErrorMessage = ref(null)
+    const registerMessage = ref(null)
+    const registerErrorMessage = ref(null)
+    let messageTimer: ReturnType<typeof setTimeout> | null = null
+    let registerMessageTimer: ReturnType<typeof setTimeout> | null = null
 
     async function onLoginForm(data) {
+      if (messageTimer) {
+        clearTimeout(messageTimer)
+        messageTimer = null
+      }
+      loginMessage.value = null
+      loginErrorMessage.value = null
       try {
         const res = await onLogin(data)
+        console.log(res)
 
+        loginMessage.value = res.data.message
         console.log(res.data.token)
 
         userToken.value = res.data.token
 
         console.log(userToken.value)
+        console.log('login訊息', loginMessage.value)
         showUser.value = true
+        messageTimer = setTimeout(() => {
+          loginMessage.value = null
+          messageTimer = null
+        }, 2000)
       } catch (error) {
         console.log('登入錯誤', error)
+        const message = axios.isAxiosError(error)
+          ? (error.response?.data?.message ?? error.message)
+          : '未知錯誤'
+        loginErrorMessage.value = message
+        console.log('登入錯誤', loginErrorMessage.value)
+        messageTimer = setTimeout(() => {
+          loginErrorMessage.value = null
+          messageTimer = null
+        }, 2000)
       }
     }
     async function onRegisterForm(data) {
+      if (registerMessageTimer) {
+        clearTimeout(registerMessageTimer)
+        registerMessageTimer = null
+      }
+      registerMessage.value = null
+      registerErrorMessage.value = null
       try {
         const res = await onRegister(data)
 
@@ -34,8 +70,21 @@ export const useAuthStore = defineStore(
         apiStatus.value = res.data.success
 
         console.log(apiStatus)
+        registerMessage.value = res.data.message
+        registerMessageTimer = setTimeout(() => {
+          registerMessage.value = null
+          registerMessageTimer = null
+        }, 5000)
       } catch (error) {
         console.log('註冊錯誤', error)
+        const message = axios.isAxiosError(error)
+          ? (error.response?.data?.message ?? error.message)
+          : '未知錯誤'
+        registerErrorMessage.value = message
+        registerMessageTimer = setTimeout(() => {
+          registerErrorMessage.value = null
+          registerMessageTimer = null
+        }, 5000)
       }
     }
 
@@ -61,6 +110,10 @@ export const useAuthStore = defineStore(
       apiStatus,
       showUser,
       userProfileData,
+      loginMessage,
+      loginErrorMessage,
+      registerMessage,
+      registerErrorMessage,
     }
   },
   {
