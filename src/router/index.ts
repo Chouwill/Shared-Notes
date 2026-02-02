@@ -64,23 +64,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
   const authStore = useAuthStore()
 
   // 如果這頁需要登入
   if (to.meta.requiresAuth) {
-
     if (!authStore.userToken) {
       next('/')
     } else {
       next()
     }
-
   } else {
     next()
   }
-
 })
-
 
 export default router

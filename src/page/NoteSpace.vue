@@ -184,7 +184,7 @@ async function viewNotes(id) {
 
 <template>
   <div class="md:w-full w-[85%] h-[20rem] mx-auto pb-8 flex border border-base-300">
-    <div class="md:flex flex-col gap-2  hidden">
+    <div class="md:flex flex-col gap-2 hidden">
       <div class="border border-base-300 overflow-x-hidden w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
           <div class="card card-side w-full p-4 bg-base-100 shadow-sm">

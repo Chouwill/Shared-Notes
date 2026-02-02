@@ -177,9 +177,9 @@ function visitNotes(id) {
           <div class="card-body flex md:gap-0 gap-3 md:flex-row flex-col justify-between">
             <div class="card-left w-full">
               <h2 class="card-title font-black text-base-content">
-                {{ item.title }}
+                {{ item.title }}ppp
               </h2>
-              <p class="text-base-content/70">{{ item.author }} • {{ item.time }}</p>
+              <p class="text-base-content/70">Shared Notes • {{ item.updated_at.split('T')[0] }}</p>
             </div>
             <div class="card-right flex items-center gap-3">
               <div class="card-tag" v-for="(tag, index) in item.tags" :key="index">

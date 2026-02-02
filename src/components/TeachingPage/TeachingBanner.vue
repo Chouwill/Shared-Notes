@@ -17,9 +17,7 @@
           <router-link to="/noteEditor/edit"><p class="text-white">開始寫筆記</p></router-link>
         </button>
         <button class="btn btn-outline rounded-xl">
-          <router-link to="/">
-            逛公開筆記
-          </router-link>
+          <router-link to="/"> 逛公開筆記 </router-link>
         </button>
       </div>
 

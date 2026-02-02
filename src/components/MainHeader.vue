@@ -43,7 +43,9 @@ function goUserProfile() {
   >
     <div class="w-full max-w-[1280px] h-full px-4 flex justify-between items-center">
       <div class="flex justify-center items-center">
-        <img class="w-[150px] h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
+        <router-link to="/">
+          <img class="w-[150px] h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
+        </router-link>
       </div>
       <div class="w-[130px] hidden md:block bg-base-300 rounded-3xl border border-base-300">
         <div role="tablist" class="tabs tabs-box flex justify-around">
