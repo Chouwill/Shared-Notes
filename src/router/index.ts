@@ -1,6 +1,8 @@
 import EditorLayout from '@/components/Layout/EditorLayout.vue'
 import MainLayout from '@/components/Layout/MainLayout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import LoginModal from '@/components/Auth/LoginModal.vue'
 // import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -27,11 +29,13 @@ const router = createRouter({
         {
           path: 'noteSpace',
           name: 'NoteSpace',
+          meta: { requiresAuth: true },
           component: () => import('@/page/NoteSpace.vue'),
         },
         {
           path: 'noteProfile/:id?',
           name: 'NoteProfile',
+          meta: { requiresAuth: true },
           component: () => import('@/page/NoteProfile.vue'),
         },
         {
@@ -58,5 +62,25 @@ const router = createRouter({
     },
   ],
 })
+
+router.beforeEach((to, from, next) => {
+
+  const authStore = useAuthStore()
+
+  // 如果這頁需要登入
+  if (to.meta.requiresAuth) {
+
+    if (!authStore.userToken) {
+      next('/')
+    } else {
+      next()
+    }
+
+  } else {
+    next()
+  }
+
+})
+
 
 export default router
