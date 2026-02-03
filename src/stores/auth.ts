@@ -10,6 +10,14 @@ export const useAuthStore = defineStore(
     const apiStatus = ref(null) //定義儲存api回傳狀態
     const showUser = ref(false)
 
+    function initAuth() {
+      if (userToken.value) {
+        showUser.value = true
+      }
+    }
+
+    initAuth()
+
     const userProfileData = ref(null)
     const loginMessage = ref(null)
     const loginErrorMessage = ref(null)

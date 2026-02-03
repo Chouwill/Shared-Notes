@@ -1,8 +1,6 @@
-import EditorLayout from '@/components/Layout/EditorLayout.vue'
 import MainLayout from '@/components/Layout/MainLayout.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import LoginModal from '@/components/Auth/LoginModal.vue'
 // import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -52,7 +50,7 @@ const router = createRouter({
     },
     {
       path: '/noteEditor',
-      component: EditorLayout,
+      component: MainLayout,
       children: [
         {
           path: 'edit',
