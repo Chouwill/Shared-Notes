@@ -7,7 +7,6 @@ const baseURL = import.meta.env.VITE_API_BASE_URL || ''
 const instance = axios.create({
   baseURL,
   timeout: 7000,
-  headers: { 'X-Custom-Header': 'foobar' },
 })
 
 export default instance
