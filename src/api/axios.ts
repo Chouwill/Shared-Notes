@@ -2,10 +2,10 @@ import axios from 'axios'
 
 import { useAuthStore } from '@/stores/auth'
 
-// const baseURL = import.meta.env.VITE_API_BASE_URL || ''
+const baseURL = import.meta.env.VITE_API_BASE_URL || ''
 
 const instance = axios.create({
-  // baseURL,
+  baseURL,
   timeout: 7000,
   headers: { 'X-Custom-Header': 'foobar' },
 })
