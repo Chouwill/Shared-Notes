@@ -55,8 +55,33 @@ function enterEditMode() {
   isEditMode.value = true
 }
 
+function startCreateProfile() {
+  editForm.value = {
+    display_name: '',
+    avatar_url: '',
+    birthday: '',
+    bio: '',
+  }
+  isEditMode.value = true
+}
+
 function cancelEdit() {
   isEditMode.value = false
+  if (profileData.value) {
+    editForm.value = {
+      display_name: profileData.value.display_name || '',
+      avatar_url: profileData.value.avatar_url || '',
+      birthday: profileData.value.birthday || '',
+      bio: profileData.value.bio || '',
+    }
+  } else {
+    editForm.value = {
+      display_name: '',
+      avatar_url: '',
+      birthday: '',
+      bio: '',
+    }
+  }
 }
 
 async function updateDateAvatar(event: Event) {
@@ -109,7 +134,7 @@ async function updateDateProfile() {
     const res = await oneditProfile(editForm.value)
     console.log(res)
 
-    userStore.getProfile()
+    await userStore.getProfile()
     isEditMode.value = false
   } catch (error) {
     console.log(error)
@@ -141,68 +166,67 @@ function formatDate(dateString: string) {
       <span class="loading loading-spinner loading-lg"></span>
     </div>
 
-    <div v-else-if="profileData" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0">
+    <div v-else-if="profileData && !isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0">
       <aside class="lg:w-64 w-full shrink-0">
         <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
-          <div class="flex flex-col items-center gap-3 sm:gap-4 lg:items-start">
-            <div class="avatar mb-2 sm:mb-4">
-              <div
-                class="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-base-content/10 overflow-hidden bg-base-200 flex items-center justify-center"
+          <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+            <div class="flex flex-col items-center gap-3 sm:gap-4 lg:items-start">
+              <div class="avatar mb-2 sm:mb-4">
+                <div
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-base-content/10 overflow-hidden bg-base-200 flex items-center justify-center"
+                >
+                  <img
+                    v-if="profileData.avatar_url"
+                    :src="profileData.avatar_url"
+                    alt="頭像"
+                    class="w-full h-full object-cover"
+                    @error="
+                      (e) => {
+                        ;(e.target as HTMLImageElement).style.display = 'none'
+                      }
+                    "
+                  />
+                  <i v-else class="fa-solid fa-user text-2xl sm:text-3xl text-base-content/40"></i>
+                </div>
+              </div>
+              <h1
+                class="text-lg sm:text-xl font-bold text-base-content mb-1 text-center lg:text-left w-full"
               >
-                <img
-                  v-if="profileData.avatar_url"
-                  :src="profileData.avatar_url"
-                  alt="頭像"
-                  class="w-full h-full object-cover"
-                  @error="
-                    (e) => {
-                      ;(e.target as HTMLImageElement).style.display = 'none'
-                    }
-                  "
-                />
-                <i v-else class="fa-solid fa-user text-2xl sm:text-3xl text-base-content/40"></i>
+                {{ profileData.display_name || '' }}
+              </h1>
+
+              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+                <div>
+                  <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
+                  <span class="text-base-content/60 ml-1">筆記</span>
+                </div>
               </div>
-            </div>
-            <h1
-              class="text-lg sm:text-xl font-bold text-base-content mb-1 text-center lg:text-left"
-            >
-              {{ profileData.display_name || '' }}
-            </h1>
 
-            <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4">
-              <div>
-                <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
-                <span class="text-base-content/60 ml-1">筆記</span>
+              <p
+                class="text-xs sm:text-sm text-base-content/70 leading-relaxed mb-3 sm:mb-4 text-center lg:text-left w-full"
+              >
+                {{ profileData.bio || '' }}
+              </p>
+
+              <div
+                v-if="profileData.birthday"
+                class="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-base-content/60 mb-4 sm:mb-6 w-full"
+              >
+                <i class="fa-regular fa-calendar"></i>
+                <span>{{ formatDate(profileData.birthday) }}</span>
               </div>
+
+              <button class="btn btn-primary btn-sm w-full sm:w-auto" @click="enterEditMode">
+                <i class="fa-solid fa-pen"></i>
+                修改個人資料
+              </button>
             </div>
-
-            <p
-              class="text-xs sm:text-sm text-base-content/70 leading-relaxed mb-3 sm:mb-4 text-center lg:text-left px-2 sm:px-0"
-            >
-              {{ profileData.bio || '' }}
-            </p>
-
-            <div
-              v-if="profileData.birthday"
-              class="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-base-content/60 mb-4 sm:mb-6"
-            >
-              <i class="fa-regular fa-calendar"></i>
-              <span>{{ formatDate(profileData.birthday) }}</span>
-            </div>
-
-            <button v-if="!isEditMode" class="btn btn-primary btn-sm" @click="enterEditMode">
-              <i class="fa-solid fa-pen"></i>
-              修改個人資料
-            </button>
           </div>
         </div>
       </aside>
 
       <main class="flex-1 min-w-0">
-        <div
-          v-if="!isEditMode"
-          class="mb-4 sm:mb-6 border-b border-base-content/10 overflow-x-hidden"
-        >
+        <div class="mb-4 sm:mb-6 border-b border-base-content/10 overflow-x-hidden">
           <div class="flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden -mx-1 px-1">
             <button
               @click="activeTab = 'notes'"
@@ -218,128 +242,7 @@ function formatDate(dateString: string) {
           </div>
         </div>
 
-        <div v-if="isEditMode" class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm">
-          <div class="mb-4 sm:mb-6">
-            <h2 class="text-xl sm:text-2xl font-bold text-base-content mb-1 sm:mb-2">
-              編輯個人資料
-            </h2>
-            <p class="text-xs sm:text-sm text-base-content/60">更新您的公開個人資訊</p>
-          </div>
-
-          <div class="space-y-4 sm:space-y-6 flex flex-col gap-3 sm:gap-4">
-            <div
-              class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
-            >
-              <div class="flex items-center gap-3 sm:gap-4 w-full sm:flex-1 min-w-0">
-                <div class="avatar shrink-0">
-                  <div
-                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring-2 ring-base-content/10 overflow-hidden shrink-0 bg-base-200 flex items-center justify-center"
-                  >
-                    <img
-                      v-if="editForm.avatar_url"
-                      :src="editForm.avatar_url"
-                      alt="頭像預覽"
-                      class="w-full h-full object-cover"
-                      @error="
-                        (e) => {
-                          ;(e.target as HTMLImageElement).style.display = 'none'
-                        }
-                      "
-                    />
-                    <i v-else class="fa-solid fa-user text-xl sm:text-2xl text-base-content/40"></i>
-                  </div>
-                </div>
-                <!-- <input
-                  v-model="editForm.avatar_url"
-                  type="text"
-                  placeholder="輸入頭像網址"
-                  class="input input-bordered flex-1 min-w-0 text-sm sm:text-base"
-                  disabled
-                /> -->
-              </div>
-
-              <input
-                ref="avatarFileInput"
-                type="file"
-                accept="image/*"
-                class="file-input file-input-bordered file-input-primary w-full min-w-0 sm:max-w-xs text-xs sm:text-sm"
-                @change="updateDateAvatar"
-              />
-            </div>
-
-            <div>
-              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
-                顯示名稱
-              </label>
-              <input
-                v-model="editForm.display_name"
-                type="text"
-                placeholder="輸入顯示名稱"
-                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
-              />
-            </div>
-
-            <div>
-              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
-                生日
-              </label>
-              <input
-                v-model="editForm.birthday"
-                type="date"
-                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
-              />
-            </div>
-
-            <div>
-              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
-                個人簡介
-              </label>
-              <textarea
-                v-model="editForm.bio"
-                class="textarea textarea-bordered w-full min-w-0 h-20 sm:h-24 text-sm sm:text-base"
-                placeholder="說說您自己..."
-              ></textarea>
-            </div>
-            <div
-              v-if="fromError"
-              class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
-            >
-              <div role="alert" class="alert alert-error">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{{ fromError }}</span>
-              </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
-              <button
-                class="btn btn-ghost btn-sm sm:btn-md flex-1 sm:flex-none"
-                @click="cancelEdit"
-              >
-                取消
-              </button>
-              <button
-                class="btn btn-primary btn-sm sm:btn-md flex-1 sm:flex-none"
-                @click="updateDateProfile"
-              >
-                儲存
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="" v-else>
+        <div>
           <div v-if="activeTab === 'notes'" class="space-y-3 sm:space-y-4 py-3">
             <div
               v-if="workSpace.rawNotes.length === 0"
@@ -430,11 +333,394 @@ function formatDate(dateString: string) {
       </main>
     </div>
 
-    <div v-else class="flex justify-center items-center py-20">
-      <div class="text-center">
-        <p class="text-base-content/60 mb-4">無法載入個人資料</p>
-        <button class="btn btn-primary btn-sm" @click="getUserProfile">重新載入</button>
-      </div>
+    <div v-else-if="profileData && isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8">
+      <aside class="lg:w-64 w-full shrink-0">
+        <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
+          <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+            <div class="flex flex-col items-center gap-3 sm:gap-4 lg:items-start">
+              <div class="avatar mb-2 sm:mb-4">
+                <div
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-base-content/10 overflow-hidden bg-base-200 flex items-center justify-center"
+                >
+                  <img
+                    v-if="editForm.avatar_url"
+                    :src="editForm.avatar_url"
+                    alt="頭像預覽"
+                    class="w-full h-full object-cover"
+                    @error="
+                      (e) => {
+                        ;(e.target as HTMLImageElement).style.display = 'none'
+                      }
+                    "
+                  />
+                  <i v-else class="fa-solid fa-user text-2xl sm:text-3xl text-base-content/40"></i>
+                </div>
+              </div>
+              <h1
+                class="text-lg sm:text-xl font-bold text-base-content mb-1 text-center lg:text-left w-full"
+              >
+                {{ editForm.display_name || '顯示名稱' }}
+              </h1>
+
+              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+                <div>
+                  <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
+                  <span class="text-base-content/60 ml-1">筆記</span>
+                </div>
+              </div>
+
+              <p
+                class="text-xs sm:text-sm text-base-content/70 leading-relaxed mb-3 sm:mb-4 text-center lg:text-left w-full min-h-[3rem]"
+              >
+                {{ editForm.bio || '個人簡介預覽...' }}
+              </p>
+
+              <div
+                v-if="editForm.birthday"
+                class="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-base-content/60 mb-4 sm:mb-6 w-full"
+              >
+                <i class="fa-regular fa-calendar"></i>
+                <span>{{ formatDate(editForm.birthday) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 min-w-0">
+        <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+          <div class="mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-base-content mb-1 sm:mb-2">
+              {{ profileData ? '編輯個人資料' : '建立個人資料' }}
+            </h2>
+            <p class="text-xs sm:text-sm text-base-content/60">
+              {{ profileData ? '更新您的公開個人資訊' : '填寫以下資訊來建立您的個人檔案' }}
+            </p>
+          </div>
+
+          <div class="space-y-4 sm:space-y-6 flex flex-col gap-3 sm:gap-4">
+            <div
+              class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+            >
+              <div class="flex items-center gap-3 sm:gap-4 w-full sm:flex-1 min-w-0">
+                <div class="avatar shrink-0">
+                  <div
+                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring-2 ring-base-content/10 overflow-hidden shrink-0 bg-base-200 flex items-center justify-center"
+                  >
+                    <img
+                      v-if="editForm.avatar_url"
+                      :src="editForm.avatar_url"
+                      alt="頭像預覽"
+                      class="w-full h-full object-cover"
+                      @error="
+                        (e) => {
+                          ;(e.target as HTMLImageElement).style.display = 'none'
+                        }
+                      "
+                    />
+                    <i v-else class="fa-solid fa-user text-xl sm:text-2xl text-base-content/40"></i>
+                  </div>
+                </div>
+              </div>
+
+              <input
+                ref="avatarFileInput"
+                type="file"
+                accept="image/*"
+                class="file-input file-input-bordered file-input-primary w-full min-w-0 sm:max-w-xs text-xs sm:text-sm"
+                @change="updateDateAvatar"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                顯示名稱
+              </label>
+              <input
+                v-model="editForm.display_name"
+                type="text"
+                placeholder="輸入顯示名稱"
+                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                生日
+              </label>
+              <input
+                v-model="editForm.birthday"
+                type="date"
+                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                個人簡介
+              </label>
+              <textarea
+                v-model="editForm.bio"
+                class="textarea textarea-bordered w-full min-w-0 h-20 sm:h-24 text-sm sm:text-base"
+                placeholder="說說您自己..."
+              ></textarea>
+            </div>
+
+            <div
+              v-if="fromError"
+              class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
+            >
+              <div role="alert" class="alert alert-error">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{{ fromError }}</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
+              <button
+                class="btn btn-ghost btn-sm sm:btn-md flex-1 sm:flex-none"
+                @click="cancelEdit"
+              >
+                取消
+              </button>
+              <button
+                class="btn btn-primary btn-sm sm:btn-md flex-1 sm:flex-none"
+                @click="updateDateProfile"
+              >
+                {{ profileData ? '儲存變更' : '建立個人資料' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div v-else-if="!isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8">
+      <aside class="lg:w-64 w-full shrink-0">
+        <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
+          <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+            <div class="flex flex-col items-center gap-3 sm:gap-4">
+              <div class="avatar mb-2 sm:mb-4">
+                <div
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-base-content/10 overflow-hidden bg-base-200 flex items-center justify-center"
+                >
+                  <i class="fa-solid fa-user text-2xl sm:text-3xl text-base-content/40"></i>
+                </div>
+              </div>
+              <h1 class="text-lg sm:text-xl font-bold text-base-content mb-1 text-center">
+                尚未建立個人資料
+              </h1>
+              <p class="text-xs sm:text-sm text-base-content/60 text-center">
+                開始建立您的個人檔案，讓其他人認識您
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 min-w-0">
+        <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+          <div class="mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-base-content mb-1 sm:mb-2">
+              建立個人資料
+            </h2>
+            <p class="text-xs sm:text-sm text-base-content/60">
+              填寫以下資訊來建立您的個人檔案
+            </p>
+          </div>
+
+          <button class="btn btn-primary btn-sm sm:btn-md w-full sm:w-auto mb-6" @click="startCreateProfile">
+            <i class="fa-solid fa-plus"></i>
+            開始建立個人資料
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <div v-else class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8">
+      <aside class="lg:w-64 w-full shrink-0">
+        <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
+          <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+            <div class="flex flex-col items-center gap-3 sm:gap-4 lg:items-start">
+              <div class="avatar mb-2 sm:mb-4">
+                <div
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-2 ring-base-content/10 overflow-hidden bg-base-200 flex items-center justify-center"
+                >
+                  <img
+                    v-if="editForm.avatar_url"
+                    :src="editForm.avatar_url"
+                    alt="頭像預覽"
+                    class="w-full h-full object-cover"
+                    @error="
+                      (e) => {
+                        ;(e.target as HTMLImageElement).style.display = 'none'
+                      }
+                    "
+                  />
+                  <i v-else class="fa-solid fa-user text-2xl sm:text-3xl text-base-content/40"></i>
+                </div>
+              </div>
+              <h1
+                class="text-lg sm:text-xl font-bold text-base-content mb-1 text-center lg:text-left w-full"
+              >
+                {{ editForm.display_name || '顯示名稱' }}
+              </h1>
+
+              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+                <div>
+                  <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
+                  <span class="text-base-content/60 ml-1">筆記</span>
+                </div>
+              </div>
+
+              <p
+                class="text-xs sm:text-sm text-base-content/70 leading-relaxed mb-3 sm:mb-4 text-center lg:text-left w-full min-h-[3rem]"
+              >
+                {{ editForm.bio || '個人簡介預覽...' }}
+              </p>
+
+              <div
+                v-if="editForm.birthday"
+                class="flex items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-base-content/60 mb-4 sm:mb-6 w-full"
+              >
+                <i class="fa-regular fa-calendar"></i>
+                <span>{{ formatDate(editForm.birthday) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 min-w-0">
+        <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
+          <div class="mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-base-content mb-1 sm:mb-2">
+              {{ profileData ? '編輯個人資料' : '建立個人資料' }}
+            </h2>
+            <p class="text-xs sm:text-sm text-base-content/60">
+              {{ profileData ? '更新您的公開個人資訊' : '填寫以下資訊來建立您的個人檔案' }}
+            </p>
+          </div>
+
+          <div class="space-y-4 sm:space-y-6 flex flex-col gap-3 sm:gap-4">
+            <div
+              class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3"
+            >
+              <div class="flex items-center gap-3 sm:gap-4 w-full sm:flex-1 min-w-0">
+                <div class="avatar shrink-0">
+                  <div
+                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring-2 ring-base-content/10 overflow-hidden shrink-0 bg-base-200 flex items-center justify-center"
+                  >
+                    <img
+                      v-if="editForm.avatar_url"
+                      :src="editForm.avatar_url"
+                      alt="頭像預覽"
+                      class="w-full h-full object-cover"
+                      @error="
+                        (e) => {
+                          ;(e.target as HTMLImageElement).style.display = 'none'
+                        }
+                      "
+                    />
+                    <i v-else class="fa-solid fa-user text-xl sm:text-2xl text-base-content/40"></i>
+                  </div>
+                </div>
+              </div>
+
+              <input
+                ref="avatarFileInput"
+                type="file"
+                accept="image/*"
+                class="file-input file-input-bordered file-input-primary w-full min-w-0 sm:max-w-xs text-xs sm:text-sm"
+                @change="updateDateAvatar"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                顯示名稱
+              </label>
+              <input
+                v-model="editForm.display_name"
+                type="text"
+                placeholder="輸入顯示名稱"
+                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                生日
+              </label>
+              <input
+                v-model="editForm.birthday"
+                type="date"
+                class="input input-bordered w-full min-w-0 text-sm sm:text-base"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs sm:text-sm font-semibold text-base-content mb-1 sm:mb-2">
+                個人簡介
+              </label>
+              <textarea
+                v-model="editForm.bio"
+                class="textarea textarea-bordered w-full min-w-0 h-20 sm:h-24 text-sm sm:text-base"
+                placeholder="說說您自己..."
+              ></textarea>
+            </div>
+
+            <div
+              v-if="fromError"
+              class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
+            >
+              <div role="alert" class="alert alert-error">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 shrink-0 stroke-current"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{{ fromError }}</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
+              <button
+                class="btn btn-ghost btn-sm sm:btn-md flex-1 sm:flex-none"
+                @click="cancelEdit"
+              >
+                取消
+              </button>
+              <button
+                class="btn btn-primary btn-sm sm:btn-md flex-1 sm:flex-none"
+                @click="updateDateProfile"
+              >
+                {{ profileData ? '儲存變更' : '建立個人資料' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </template>

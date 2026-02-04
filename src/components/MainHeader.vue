@@ -50,7 +50,7 @@ function closeDrawer() {
       <input id="mobile-drawer" type="checkbox" class="drawer-toggle" ref="drawerRef" />
       <div class="drawer-content w-full flex justify-center">
         <div class="w-full max-w-[1280px] h-full grid grid-cols-3 items-center">
-          <div class="flex justify-start items-center gap-3 w-full ">
+          <div class="flex justify-start items-center gap-3 w-full">
             <label
               for="mobile-drawer"
               class="btn btn-ghost drawer-button md:hidden p-2 absolute right-3"
@@ -72,7 +72,11 @@ function closeDrawer() {
               </svg>
             </label>
             <router-link to="/">
-              <img class="md:w-[150px] md:h-[50px]" src="../assets/images/Shared-Notes.png" alt="" />
+              <img
+                class="md:w-[150px] md:h-[50px]"
+                src="../assets/images/Shared-Notes.png"
+                alt=""
+              />
             </router-link>
           </div>
           <div class="flex justify-center items-center">
@@ -86,8 +90,15 @@ function closeDrawer() {
           </div>
           <div class="flex justify-end items-center gap-3">
             <template v-if="!authStore.showUser">
-              <button class="btn btn-outline btn-primary rounded-3xl hidden md:block" @click="openLogin">登入</button>
-              <button class="btn btn-primary rounded-3xl hidden md:block" @click="openRegister">註冊</button>
+              <button
+                class="btn btn-outline btn-primary rounded-3xl hidden md:block"
+                @click="openLogin"
+              >
+                登入
+              </button>
+              <button class="btn btn-primary rounded-3xl hidden md:block" @click="openRegister">
+                註冊
+              </button>
             </template>
             <div v-else class="flex-none">
               <div class="dropdown dropdown-end">
@@ -150,7 +161,7 @@ function closeDrawer() {
               @click="closeDrawer"
             >
               教學
-              </RouterLink>
+            </RouterLink>
           </li>
           <!-- <li class="mt-4 pt-4 border-t border-base-content/10">
             <div class="dropdown dropdown-top w-full">
@@ -194,8 +205,18 @@ function closeDrawer() {
           </li> -->
           <li v-if="!authStore.showUser" class="mt-4 pt-4 border-t border-base-content/10">
             <div class="flex flex-col gap-3">
-              <button class="btn btn-outline btn-primary w-full rounded-lg" @click="openLogin(); closeDrawer()">登入</button>
-              <button class="btn btn-primary w-full rounded-lg" @click="openRegister(); closeDrawer()">註冊</button>
+              <button
+                class="btn btn-outline btn-primary w-full rounded-lg"
+                @click="openLogin(); closeDrawer()"
+              >
+                登入
+              </button>
+              <button
+                class="btn btn-primary w-full rounded-lg"
+                @click="openRegister(); closeDrawer()"
+              >
+                註冊
+              </button>
             </div>
           </li>
           <li v-if="authStore.showUser" class="mt-4 pt-4 border-t border-base-content/10">
@@ -208,10 +229,18 @@ function closeDrawer() {
             </RouterLink>
           </li>
           <li v-if="authStore.showUser">
-            <a class="text-lg font-medium rounded-lg" @click="goWorkSpace(); closeDrawer()">工作區</a>
+            <a
+              class="text-lg font-medium rounded-lg"
+              @click="goWorkSpace(); closeDrawer()"
+              >工作區</a
+            >
           </li>
           <li v-if="authStore.showUser">
-            <a class="text-lg font-medium rounded-lg" @click="authStore.userLogout(); closeDrawer()">Logout</a>
+            <a
+              class="text-lg font-medium rounded-lg"
+              @click="authStore.userLogout(); closeDrawer()"
+              >Logout</a
+            >
           </li>
         </ul>
       </div>

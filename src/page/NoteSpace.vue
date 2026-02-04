@@ -9,7 +9,6 @@ import { onEditFolder, onviewerNotes } from '@/api/method'
 
 const router = useRouter()
 
-
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
 
@@ -181,18 +180,17 @@ async function viewNotes(id) {
 </script>
 
 <template>
-  {{ authStore.userProfileData }}
-  <div class="md:w-full w-[85%] h-auto overflow-y-scroll mx-auto  flex border border-base-300">
+  <div class="md:w-full w-[85%] h-auto overflow-y-scroll mx-auto flex border border-base-300">
     <div class="md:flex flex-col gap-2 hidden">
-      <div class="border border-base-300  w-56">
+      <div class="border border-base-300 w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
-          <div class="card card-side w-full  flex gap-2 p-4 bg-base-100 shadow-sm">
+          <div class="card card-side w-full flex gap-2 p-4 bg-base-100 shadow-sm">
             <div class="avatar">
-              <div class="w-14 h-30 rounded-xl flex items-center ">
+              <div class="w-14 h-30 rounded-xl flex items-center">
                 <img class="w-14 h-14" :src="authStore.userProfileData.avatar_url" />
               </div>
             </div>
-            <div class="card-body  flex justify-center items-center flex-col truncate">
+            <div class="card-body flex justify-center items-center flex-col truncate">
               <div>{{ authStore.userProfileData.display_name }}</div>
               <div>新手工程師</div>
             </div>
@@ -288,7 +286,7 @@ async function viewNotes(id) {
       </div>
 
       <div
-        class="border border-base-300 flex gap-3  flex-wrap md:justify-start justify-center items-start"
+        class="border border-base-300 flex gap-3 flex-wrap md:justify-start justify-center items-start"
       >
         <!-- <div class="w-full flex justify-start items-center gap-2 p-3">
           <i class="fa-regular fa-folder text-[22px]"></i>

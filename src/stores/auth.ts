@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { onLogin, onRegister, onGetProfile } from '@/api/method'
+import router from '@/router' 
 
 export const useAuthStore = defineStore(
   'user',
@@ -119,6 +120,7 @@ export const useAuthStore = defineStore(
       registerMessage.value = null
       registerErrorMessage.value = null
       localStorage.removeItem('user-token')
+      router.push('/')
     }
 
     return {

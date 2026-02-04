@@ -174,18 +174,24 @@ function visitNotes(id) {
           :key="item.note_id"
           @click="visitNotes(item.note_id)"
         >
-          <div class="card-body flex md:gap-4 gap-4 md:flex-row flex-col justify-between p-5 md:p-6">
+          <div
+            class="card-body flex md:gap-4 gap-4 md:flex-row flex-col justify-between p-5 md:p-6"
+          >
             <div class="card-left w-full flex flex-col gap-2.5">
-              <h2 class="card-title text-xl md:text-2xl font-bold text-base-content leading-tight mb-0">
+              <h2
+                class="card-title text-xl md:text-2xl font-bold text-base-content leading-tight mb-0"
+              >
                 {{ item.title }}
               </h2>
-              <p 
-                v-if="item.content" 
+              <p
+                v-if="item.content"
                 class="text-sm md:text-base text-base-content/60 leading-relaxed line-clamp-2 mb-1"
               >
                 {{ item.content.substring(0, 120) }}{{ item.content.length > 120 ? '...' : '' }}
               </p>
-              <p class="text-xs md:text-sm text-base-content/50 mt-auto">Shared Notes • {{ item.updated_at.split('T')[0] }}</p>
+              <p class="text-xs md:text-sm text-base-content/50 mt-auto">
+                Shared Notes • {{ item.updated_at.split('T')[0] }}
+              </p>
             </div>
             <div class="card-right flex items-start md:items-center gap-2 md:gap-3 flex-shrink-0">
               <div class="card-tag" v-for="(tag, index) in item.tags" :key="index">
