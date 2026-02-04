@@ -3,13 +3,15 @@ import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { useRoute, useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
+import { useAuthStore } from '@/stores/auth'
 
 import { onEditFolder, onviewerNotes } from '@/api/method'
 
 const router = useRouter()
-const route = useRoute()
+
 
 const workSpace = useworkSpace()
+const authStore = useAuthStore()
 
 interface IarticleNote {
   id: string
@@ -179,17 +181,21 @@ async function viewNotes(id) {
 </script>
 
 <template>
-  <div class="md:w-full w-[85%] h-[20rem] mx-auto pb-8 flex border border-base-300">
+  {{ authStore.userProfileData }}
+  <div class="md:w-full w-[85%] h-auto overflow-y-scroll mx-auto  flex border border-base-300">
     <div class="md:flex flex-col gap-2 hidden">
-      <div class="border border-base-300 overflow-x-hidden w-56">
+      <div class="border border-base-300  w-56">
         <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
-          <div class="card card-side w-full p-4 bg-base-100 shadow-sm">
+          <div class="card card-side w-full  flex gap-2 p-4 bg-base-100 shadow-sm">
             <div class="avatar">
-              <div class="w-14 rounded-xl">
-                <img src="https://img.daisyui.com/images/profile/demo/yellingwoman@192.webp" />
+              <div class="w-14 h-30 rounded-xl flex items-center ">
+                <img class="w-14 h-14" :src="authStore.userProfileData.avatar_url" />
               </div>
             </div>
-            <div class="card-body"></div>
+            <div class="card-body  flex justify-center items-center flex-col truncate">
+              <div>{{ authStore.userProfileData.display_name }}</div>
+              <div>新手工程師</div>
+            </div>
           </div>
 
           <label class="input">
@@ -209,7 +215,7 @@ async function viewNotes(id) {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" class="search grow" placeholder="Searchdsads" />
+            <input type="search" class="search grow" placeholder="Search" />
           </label>
         </div>
 
@@ -266,7 +272,7 @@ async function viewNotes(id) {
       </div>
     </div>
 
-    <div class="overflow-x-auto w-full">
+    <div class="w-full">
       <div class="flex gap-2 md:p-2 justify-end p-4">
         <div class="flex w-[280px] gap-2">
           <div class="flex-1"></div>
@@ -282,7 +288,7 @@ async function viewNotes(id) {
       </div>
 
       <div
-        class="border border-base-300 flex gap-3 md:pl-8 flex-wrap md:justify-start justify-center items-start h-[100%]"
+        class="border border-base-300 flex gap-3  flex-wrap md:justify-start justify-center items-start"
       >
         <!-- <div class="w-full flex justify-start items-center gap-2 p-3">
           <i class="fa-regular fa-folder text-[22px]"></i>
