@@ -166,16 +166,8 @@ function addNotes() {
 async function viewNotes(id) {
   console.log(id)
 
+  workSpace.getReadNote(id)
   router.push(`/noteViewer/${id}`)
-
-  // try {
-  //   const res = await onviewerNotes(id)
-
-  //   console.log(res);
-
-  // } catch (error) {
-  //   console.log(error)
-  // }
 }
 </script>
 

@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { onMounted, ref, nextTick } from 'vue'
+import { onMounted, ref, nextTick, reactive } from 'vue'
 import { useRoute } from 'vue-router'
+import { useworkSpace } from '@/stores/workSpace'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
-import { onCreateNote, onuploadImage, onviewerNotes } from '@/api/method'
+import { onuploadImage, onviewerNotes, onEditNote } from '@/api/method'
 
+const workSpace = useworkSpace()
 const route = useRoute()
 const editorRef = ref(null)
 const editor = ref(null)
 const noteId = route.params.id
 
-const noteContext = ref({
+const currentNoteId = ref(null)
+
+const noteContext = reactive({
   title: '',
   category: '',
   content: '',
@@ -19,30 +23,32 @@ const noteContext = ref({
   collaborators: [],
 })
 
-onMounted(async () => {
-  if (noteId) {
-    try {
-      const res = await onviewerNotes(noteId)
-      const data = res.data
+async function userViewerNotes() {
+  try {
+    const res = await onviewerNotes(workSpace.userReadNoteId)
 
-      noteContext.value.title = data.title || ''
-      noteContext.value.category = data.category || ''
-      noteContext.value.content = data.content || ''
-      noteContext.value.is_public = data.is_public || false
-      noteContext.value.tags = data.tags || []
-    } catch (error) {
-      console.error('取得筆記失敗:', error)
-    }
+    console.log(res)
+
+    console.log('作者取回筆記', res.data?.note)
+    currentNoteId.value = res.data.note.note_id
+    noteContext.title = res.data.note.title
+    noteContext.category = res.data.note.category
+    noteContext.content = res.data.note.content
+    noteContext.is_public = res.data.note.is_public
+    noteContext.tags = res.data.note.tags
+  } catch (error) {
+    console.log(error)
   }
+}
 
-  await nextTick()
-
+onMounted(async () => {
+  await userViewerNotes()
   editor.value = new Editor({
     el: editorRef.value,
     height: '500px',
     initialEditType: 'markdown',
     previewStyle: 'vertical',
-    initialValue: noteContext.value.content || '',
+    initialValue: noteContext.content || '',
     hooks: {
       async addImageBlobHook(blob, callback) {
         const formData = new FormData()
@@ -54,9 +60,15 @@ onMounted(async () => {
   })
 })
 
-async function createNote() {
-  noteContext.value.content = editor.value.getMarkdown()
-  await onCreateNote(noteContext.value)
+async function editNote() {
+  try {
+    const res = await onEditNote(currentNoteId.value,noteContext)
+
+    console.log(res);
+
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 
@@ -68,7 +80,7 @@ async function createNote() {
       <div class="card-body gap-6 p-6">
         <div class="grid md:grid-cols-2 gap-4">
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-medium text-base-content/70">筆記名稱</label>
+            <label class="text-sm font-medium text-base-content/70">筆記名稱111</label>
             <input
               type="text"
               placeholder="請輸入筆記名稱"
@@ -112,7 +124,7 @@ async function createNote() {
         </div>
 
         <div class="flex justify-end gap-3 pt-2 border-t border-base-content/10">
-          <button class="btn btn-primary" @click="createNote">修改筆記</button>
+          <button class="btn btn-primary" @click="editNote">修改筆記</button>
         </div>
       </div>
     </div>

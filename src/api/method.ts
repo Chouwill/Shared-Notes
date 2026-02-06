@@ -107,13 +107,25 @@ export function onuploadProfile(data: object) {
   })
 }
 
-// 查看自己的筆記
+// 作者查看自己的筆記
 export function onviewerNotes(id: string) {
   return instance({
     url: `/api/notes/${id}`,
     method: 'get',
   })
 }
+// https://shared-notes-api.onrender.com/api/notes/e6605f62-c85c-4d72-84ec-d9f36956c259
+// 作者修改筆記
+export function onEditNote(id: string,data:any) {
+  return instance({
+    url: `/api/notes/${id}`,
+    method: 'patch',
+    data,
+  })
+}
+
+
+
 // 查看公開的筆記
 export function onvisiteNotes(id: string) {
   return instance({

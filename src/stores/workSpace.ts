@@ -2,12 +2,14 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 // import { useAuthStore } from './auth'
 import { onCreateFolder, getAllFolder, onfavoriteNote, onPinningNote } from '@/api/method'
+import { string } from 'zod'
 
 export const useworkSpace = defineStore(
   'event',
   () => {
     const userAllFolder = ref(null) //取得使用者所有資料夾
     const rawNotes = ref([]) //未分類的筆記
+    const userReadNoteId= ref(null)
 
     async function createFolder(data) {
       try {
@@ -57,13 +59,21 @@ export const useworkSpace = defineStore(
       }
     }
 
+    function getReadNote(id) {
+      console.log('取得要閱讀的ＩＤ', id)
+
+      userReadNoteId.value = id;   //儲存正在閱讀的Ｎotes id
+    }
+
     return {
       createFolder,
       getAll,
       addFavoritelist,
       addPinninglist,
+      getReadNote,
       userAllFolder,
       rawNotes,
+      userReadNoteId
     }
   },
   {

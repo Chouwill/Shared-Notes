@@ -166,7 +166,10 @@ function formatDate(dateString: string) {
       <span class="loading loading-spinner loading-lg"></span>
     </div>
 
-    <div v-else-if="profileData && !isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0">
+    <div
+      v-else-if="profileData && !isEditMode"
+      class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0"
+    >
       <aside class="lg:w-64 w-full shrink-0">
         <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
           <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
@@ -195,7 +198,9 @@ function formatDate(dateString: string) {
                 {{ profileData.display_name || '' }}
               </h1>
 
-              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+              <div
+                class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start"
+              >
                 <div>
                   <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
                   <span class="text-base-content/60 ml-1">筆記</span>
@@ -333,7 +338,10 @@ function formatDate(dateString: string) {
       </main>
     </div>
 
-    <div v-else-if="profileData && isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8">
+    <div
+      v-else-if="profileData && isEditMode"
+      class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8"
+    >
       <aside class="lg:w-64 w-full shrink-0">
         <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
           <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
@@ -362,7 +370,9 @@ function formatDate(dateString: string) {
                 {{ editForm.display_name || '顯示名稱' }}
               </h1>
 
-              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+              <div
+                class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start"
+              >
                 <div>
                   <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
                   <span class="text-base-content/60 ml-1">筆記</span>
@@ -507,7 +517,10 @@ function formatDate(dateString: string) {
       </main>
     </div>
 
-    <div v-else-if="!isEditMode" class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8">
+    <div
+      v-else-if="!isEditMode"
+      class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 min-w-0 py-8"
+    >
       <aside class="lg:w-64 w-full shrink-0">
         <div class="lg:sticky lg:top-24 space-y-4 sm:space-y-6">
           <div class="bg-base-100 rounded-lg p-4 sm:p-6 shadow-sm border border-base-content/10">
@@ -536,12 +549,13 @@ function formatDate(dateString: string) {
             <h2 class="text-xl sm:text-2xl font-bold text-base-content mb-1 sm:mb-2">
               建立個人資料
             </h2>
-            <p class="text-xs sm:text-sm text-base-content/60">
-              填寫以下資訊來建立您的個人檔案
-            </p>
+            <p class="text-xs sm:text-sm text-base-content/60">填寫以下資訊來建立您的個人檔案</p>
           </div>
 
-          <button class="btn btn-primary btn-sm sm:btn-md w-full sm:w-auto mb-6" @click="startCreateProfile">
+          <button
+            class="btn btn-primary btn-sm sm:btn-md w-full sm:w-auto mb-6"
+            @click="startCreateProfile"
+          >
             <i class="fa-solid fa-plus"></i>
             開始建立個人資料
           </button>
@@ -578,7 +592,9 @@ function formatDate(dateString: string) {
                 {{ editForm.display_name || '顯示名稱' }}
               </h1>
 
-              <div class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start">
+              <div
+                class="flex gap-3 sm:gap-4 text-xs sm:text-sm mb-3 sm:mb-4 w-full justify-center lg:justify-start"
+              >
                 <div>
                   <span class="font-semibold">{{ workSpace.rawNotes.length }}個</span>
                   <span class="text-base-content/60 ml-1">筆記</span>
