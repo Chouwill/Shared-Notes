@@ -9,7 +9,7 @@ export const useworkSpace = defineStore(
   () => {
     const userAllFolder = ref(null) //取得使用者所有資料夾
     const rawNotes = ref([]) //未分類的筆記
-    const userReadNoteId= ref(null)
+    const userReadNoteId = ref(null)
 
     async function createFolder(data) {
       try {
@@ -62,7 +62,7 @@ export const useworkSpace = defineStore(
     function getReadNote(id) {
       console.log('取得要閱讀的ＩＤ', id)
 
-      userReadNoteId.value = id;   //儲存正在閱讀的Ｎotes id
+      userReadNoteId.value = id //儲存正在閱讀的Ｎotes id
     }
 
     return {
@@ -73,7 +73,7 @@ export const useworkSpace = defineStore(
       getReadNote,
       userAllFolder,
       rawNotes,
-      userReadNoteId
+      userReadNoteId,
     }
   },
   {

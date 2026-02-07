@@ -62,10 +62,9 @@ onMounted(async () => {
 
 async function editNote() {
   try {
-    const res = await onEditNote(currentNoteId.value,noteContext)
+    const res = await onEditNote(currentNoteId.value, noteContext)
 
-    console.log(res);
-
+    console.log(res)
   } catch (error) {
     console.log(error)
   }

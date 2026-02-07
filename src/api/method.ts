@@ -82,11 +82,10 @@ export function onPinningNote(id: string, data: object) {
 
 // 取得個人會員檔案
 // http://localhost:4000/api/user/profile
-export function onGetProfile(data: object) {
+export function onGetProfile() {
   return instance({
     url: `/api/user/profile`,
     method: 'get',
-    data,
   })
 }
 
@@ -116,15 +115,13 @@ export function onviewerNotes(id: string) {
 }
 // https://shared-notes-api.onrender.com/api/notes/e6605f62-c85c-4d72-84ec-d9f36956c259
 // 作者修改筆記
-export function onEditNote(id: string,data:any) {
+export function onEditNote(id: string, data: any) {
   return instance({
     url: `/api/notes/${id}`,
     method: 'patch',
     data,
   })
 }
-
-
 
 // 查看公開的筆記
 export function onvisiteNotes(id: string) {

@@ -179,11 +179,16 @@ async function viewNotes(id) {
           <div class="card card-side w-full flex gap-2 p-4 bg-base-100 shadow-sm">
             <div class="avatar">
               <div class="w-14 h-30 rounded-xl flex items-center">
-                <img class="w-14 h-14" :src="authStore.userProfileData.avatar_url" />
+                <img
+                  v-if="authStore.userProfileData?.avatar_url"
+                  class="w-14 h-14"
+                  :src="authStore.userProfileData?.avatar_url"
+                />
+                <img v-else alt="使用者頭像" src="../assets/images/default-user.png" />
               </div>
             </div>
             <div class="card-body flex justify-center items-center flex-col truncate">
-              <div>{{ authStore.userProfileData.display_name }}</div>
+              <div>{{ authStore.userProfileData?.display_name }}</div>
               <div>新手工程師</div>
             </div>
           </div>

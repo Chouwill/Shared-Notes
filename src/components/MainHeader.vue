@@ -9,6 +9,8 @@ const registerRef = ref(null)
 const loginRef = ref(null)
 const drawerRef = ref(null)
 
+const menulist = ref(false) //會員中心選單
+
 const authStore = useAuthStore()
 
 authStore.getProfile()
@@ -39,6 +41,12 @@ function closeDrawer() {
   if (drawerRef.value) {
     drawerRef.value.checked = false
   }
+}
+
+function handleMenu() {
+  menulist.value = !menulist.value
+
+  console.log(menulist.value)
 }
 </script>
 
@@ -88,7 +96,7 @@ function closeDrawer() {
               </div>
             </div>
           </div>
-          <div class="flex justify-end items-center gap-3">
+          <div class="flex justify-end items-center gap-3 border">
             <template v-if="!authStore.showUser">
               <button
                 class="btn btn-outline btn-primary rounded-3xl hidden md:block"
@@ -101,24 +109,27 @@ function closeDrawer() {
               </button>
             </template>
             <div v-else class="flex-none">
-              <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost avatar">
+              <div class="dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost avatar"  @click="handleMenu">
                   <div class="w-10 rounded-full">
                     <img
-                      alt="Tailwind CSS Navbar component"
+                      v-if="authStore.userProfileData?.avatar_url"
+                      alt="使用者頭像"
                       :src="authStore.userProfileData?.avatar_url"
                     />
+                    <img v-else alt="使用者頭像" src="../assets/images/default-user.png" />
                   </div>
                 </div>
                 <ul
                   tabindex="-1"
-                  class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                  class="menu menu-sm dropdown-content   absolute md:top-12 md:right-30  top-15 bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                  v-if="menulist"
                 >
                   <li @click="goUserProfile">
                     <a class="justify-between">Profile</a>
                   </li>
                   <li @click="goWorkSpace"><a>工作區</a></li>
-                  <li @click="authStore.userLogout()"><a>Logout</a></li>
+                  <li @click="authStore.userLogout()"><a>登出 </a></li>
                 </ul>
               </div>
             </div>
@@ -163,82 +174,42 @@ function closeDrawer() {
               教學
             </RouterLink>
           </li>
-          <!-- <li class="mt-4 pt-4 border-t border-base-content/10">
-            <div class="dropdown dropdown-top w-full">
-              <div tabindex="0" role="button" class="btn btn-ghost w-full justify-start text-lg rounded-lg">
-                Theme
-                <svg
-                  width="12px"
-                  height="12px"
-                  class="inline-block h-2 w-2 fill-current opacity-60 ml-auto"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 2048 2048"
-                >
-                  <path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
-                </svg>
-              </div>
-              <ul
-                tabindex="-1"
-                class="dropdown-content bg-base-300 rounded-box z-50 w-52 p-2 shadow-2xl mb-2"
-              >
-                <li>
-                  <input
-                    type="radio"
-                    name="theme-mobile"
-                    class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                    aria-label="Light"
-                    value="light"
-                    checked
-                  />
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    name="theme-mobile"
-                    class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
-                    aria-label="Dark"
-                    value="dark"
-                  />
-                </li>
-              </ul>
-            </div>
-          </li> -->
+          <!-- 登入、註冊按鈕 -->
           <li v-if="!authStore.showUser" class="mt-4 pt-4 border-t border-base-content/10">
             <div class="flex flex-col gap-3">
               <button
                 class="btn btn-outline btn-primary w-full rounded-lg"
-                @click="openLogin(); closeDrawer()"
+                @click="(openLogin(), closeDrawer())"
               >
                 登入
               </button>
               <button
                 class="btn btn-primary w-full rounded-lg"
-                @click="openRegister(); closeDrawer()"
+                @click="(openRegister(), closeDrawer())"
               >
                 註冊
               </button>
             </div>
           </li>
-          <li v-if="authStore.showUser" class="mt-4 pt-4 border-t border-base-content/10">
+          <li
+            v-if="authStore.showUser"
+            class="mt-4 pt-4 border-t border-base-content/10 flex flex-col gap-2"
+          >
             <RouterLink
               to="/noteProfile"
-              class="text-lg font-medium rounded-lg"
+              class="text-lg font-medium rounded-lg px-4 py-2 block transition-colors bg-yellow-200 hover:bg-yellow-300"
               @click="closeDrawer"
             >
               Profile
             </RouterLink>
-          </li>
-          <li v-if="authStore.showUser">
             <a
-              class="text-lg font-medium rounded-lg"
-              @click="goWorkSpace(); closeDrawer()"
+              class="text-lg font-medium rounded-lg px-4 py-2 block transition-colors bg-yellow-200 hover:bg-yellow-300 cursor-pointer"
+              @click="(goWorkSpace(), closeDrawer())"
               >工作區</a
             >
-          </li>
-          <li v-if="authStore.showUser">
             <a
-              class="text-lg font-medium rounded-lg"
-              @click="authStore.userLogout(); closeDrawer()"
+              class="text-lg font-medium rounded-lg px-4 py-2 block transition-colors bg-yellow-200 hover:bg-yellow-300 cursor-pointer"
+              @click="(authStore.userLogout(), closeDrawer())"
               >Logout</a
             >
           </li>

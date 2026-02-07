@@ -46,6 +46,7 @@ export const useAuthStore = defineStore(
         console.log(userToken.value)
         console.log('login訊息', loginMessage.value)
         showUser.value = true
+        getProfile()
         messageTimer = setTimeout(() => {
           loginMessage.value = null
           messageTimer = null
