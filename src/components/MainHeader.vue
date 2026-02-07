@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref,watch } from 'vue'
 import RegisterModal from '@/components/Auth/RegisterModal.vue'
 import LoginModal from '@/components/Auth/LoginModal.vue'
 import { useAuthStore } from '@/stores/auth'
@@ -48,6 +48,20 @@ function handleMenu() {
 
   console.log(menulist.value)
 }
+
+watch(
+  () => authStore.showUser,
+  (val) => {
+ console.log("m1",menulist.value);
+
+  }
+)
+
+function onLogout(){
+  authStore.userLogout()
+  menulist.value =false
+}
+
 </script>
 
 <template>
@@ -129,7 +143,7 @@ function handleMenu() {
                     <a class="justify-between">Profile</a>
                   </li>
                   <li @click="goWorkSpace"><a>工作區</a></li>
-                  <li @click="authStore.userLogout()"><a>登出 </a></li>
+                  <li @click="onLogout"><a>登出 </a></li>
                 </ul>
               </div>
             </div>

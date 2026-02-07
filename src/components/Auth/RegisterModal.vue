@@ -96,6 +96,8 @@ async function getRegister() {
     console.log('正常註冊')
     setTimeout(() => {
       authdialog.value.close()
+      emit('switch-to-login') // 通知父組件
+
     }, 2000)
   } else {
     console.log('無法註冊')
