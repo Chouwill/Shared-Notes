@@ -369,7 +369,7 @@ async function viewNotes(id) {
                   <i class="fa-solid fa-pen text-base-content/60 text-[14px]"></i>
                   <!-- <span class="material-symbols-outlined"> sell </span> -->
                 </button>
-                <button @click="addPinningNote(item)" class="flex items-center">
+                <button @click.stop="addPinningNote(item)" class="flex items-center">
                   <span
                     class="material-symbols-outlined text-[20px] transition-transform duration-150 active:scale-95"
                     :class="item.pinning ? 'text-base-content' : 'text-base-content/50'"
@@ -383,7 +383,7 @@ async function viewNotes(id) {
                   </span>
                 </button>
 
-                <button class="flex items-center gap-2" @click="addfavoriteNote(item)">
+                <button class="flex items-center gap-2" @click.stop="addfavoriteNote(item)">
                   <i
                     class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-if="item.favorite"
