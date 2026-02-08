@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref,watch } from 'vue'
+import { ref, watch } from 'vue'
 import RegisterModal from '@/components/Auth/RegisterModal.vue'
 import LoginModal from '@/components/Auth/LoginModal.vue'
 import { useAuthStore } from '@/stores/auth'
@@ -52,16 +52,14 @@ function handleMenu() {
 watch(
   () => authStore.showUser,
   (val) => {
- console.log("m1",menulist.value);
-
-  }
+    console.log('m1', menulist.value)
+  },
 )
 
-function onLogout(){
+function onLogout() {
   authStore.userLogout()
-  menulist.value =false
+  menulist.value = false
 }
-
 </script>
 
 <template>
@@ -103,11 +101,11 @@ function onLogout(){
           </div>
           <div class="flex justify-center items-center">
             <div class="hidden md:block bg-base-300 rounded-3xl border border-base-300">
-              <div role="tablist" class="tabs tabs-box flex justify-around">
-                <RouterLink role="tab" class="tab" to="/"> 首頁 </RouterLink>
-                <RouterLink role="tab" class="tab" to="/about"> 關於 </RouterLink>
-                <RouterLink role="tab" class="tab" to="/teaching"> 教學</RouterLink>
-              </div>
+              <ul class="menu menu-vertical flex justify-around gap-3 lg:menu-horizontal bg-base-300 rounded-box">
+                <li><RouterLink  to="/"> 首頁</RouterLink></li>
+                <li><RouterLink  to="/about"> 關於 </RouterLink></li>
+                <li><RouterLink  to="/teaching"> 教學</RouterLink></li>
+              </ul>
             </div>
           </div>
           <div class="flex justify-end items-center gap-3 border">
@@ -124,7 +122,7 @@ function onLogout(){
             </template>
             <div v-else class="flex-none">
               <div class="dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost avatar"  @click="handleMenu">
+                <div tabindex="0" role="button" class="btn btn-ghost avatar" @click="handleMenu">
                   <div class="w-10 rounded-full">
                     <img
                       v-if="authStore.userProfileData?.avatar_url"
@@ -136,7 +134,7 @@ function onLogout(){
                 </div>
                 <ul
                   tabindex="-1"
-                  class="menu menu-sm dropdown-content   absolute md:top-12 md:right-30  top-15 bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                  class="menu menu-sm dropdown-content absolute md:top-12 md:right-30 top-15 bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
                   v-if="menulist"
                 >
                   <li @click="goUserProfile">
