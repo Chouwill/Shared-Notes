@@ -70,10 +70,10 @@ watch(
 
 function openDraw() {
   drawList.value = !drawList.value
-  drawPhoneList.value= !drawPhoneList.value
+  drawPhoneList.value = !drawPhoneList.value
 }
 function openPhoneDraw() {
-  drawPhoneList.value= !drawPhoneList.value
+  drawPhoneList.value = !drawPhoneList.value
 }
 
 function onLogout() {
@@ -109,7 +109,6 @@ function onLogout() {
             <i class="fa-solid fa-x"></i>
           </li>
 
-
           <li class="text-base"><RouterLink to="/"> 首頁</RouterLink></li>
           <li class="text-base"><RouterLink to="/about"> 關於 </RouterLink></li>
           <li class="text-base"><RouterLink to="/teaching"> 教學</RouterLink></li>
@@ -132,12 +131,18 @@ function onLogout() {
             </button>
           </li>
           <li class="text-base w-[80%] p-2" v-if="authStore.userProfileData?.avatar_url">
-            <button class="md:hidden flex justify-center items-center w-full border-none" @click="openPhoneDraw">
+            <button
+              class="md:hidden flex justify-center items-center w-full border-none"
+              @click="openPhoneDraw"
+            >
               <img :src="authStore.userProfileData?.avatar_url" alt="使用者頭像" />
             </button>
           </li>
           <!-- 手機選單使用者控制項目 -->
-          <li class="text-base w-[80%] flex flex-col justify-center items-center gap-2 p-2" v-if="drawPhoneList">
+          <li
+            class="text-base w-[80%] flex flex-col justify-center items-center gap-2 p-2"
+            v-if="drawPhoneList"
+          >
             <div class="text-base text-right p-1">
               <RouterLink to="/noteProfile"> 個人檔案</RouterLink>
             </div>
@@ -171,9 +176,17 @@ function onLogout() {
           @click="openDraw"
           v-if="authStore.showUser"
         >
-          <img :src="authStore.userProfileData?.avatar_url" alt="使用者頭像" v-if="authStore.userProfileData?.avatar_url"/>
-          <img class="w-[50px] h-[50px] h" src="@/assets/images/default-user.png" v-if="!authStore.userProfileData?.avatar_url" alt="預設User" />
-
+          <img
+            :src="authStore.userProfileData?.avatar_url"
+            alt="使用者頭像"
+            v-if="authStore.userProfileData?.avatar_url"
+          />
+          <img
+            class="w-[50px] h-[50px] h"
+            src="@/assets/images/default-user.png"
+            v-if="!authStore.userProfileData?.avatar_url"
+            alt="預設User"
+          />
         </button>
         <button
           class="border-none flex md:hidden filter-none hover:filter-none"
