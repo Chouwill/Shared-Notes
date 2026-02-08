@@ -108,7 +108,7 @@ function onLogout() {
               </ul>
             </div>
           </div>
-          <div class="flex justify-end items-center gap-3 border">
+          <div class="flex justify-end items-center gap-3">
             <template v-if="!authStore.showUser">
               <button
                 class="btn btn-outline btn-primary rounded-3xl hidden md:block"

@@ -169,7 +169,7 @@ function visitNotes(id) {
         class="flex rounded-md md:justify-start border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
       >
         <div
-          class="card w-[70%] md:w-full border-4 md:h-[140px] cursor-pointer h-auto min-h-[165px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
+          class="card w-[70%] md:w-full  md:h-[140px] cursor-pointer h-auto min-h-[165px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
           v-for="item in paginatedArticles"
           :key="item.note_id"
           @click="visitNotes(item.note_id)"
