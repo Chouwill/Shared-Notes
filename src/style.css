@@ -108,3 +108,9 @@ button:active {
 .drawer-overlay {
   background-color: transparent !important;
 }
+
+/* src/style.css */
+.menu li > a:active {
+  color: hsl(var(--p));
+  background-color: transparent;
+}

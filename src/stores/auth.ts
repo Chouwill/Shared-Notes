@@ -97,7 +97,7 @@ export const useAuthStore = defineStore(
         }, 5000)
       }
     }
-
+    //  取得個人會員檔案
     async function getProfile() {
       try {
         const res = await onGetProfile()
