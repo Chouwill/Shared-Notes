@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { onGetPublicNote, onReviewNote } from '@/api/method'
+import { useworkSpace } from '@/stores/workSpace'
 
+
+
+const workSpace = useworkSpace();
 // 假資料
 const mockNotes = [
   {
@@ -92,7 +96,7 @@ async function submitReview() {
   try {
     const res = await onReviewNote(currentReviewNote.value, reviewData)
     console.log('審核文章', res)
-
+    workSpace.onReadisPublicNote()
     // 更新本地狀態：找到對應的 note 並更新 review_status
     const noteIndex = notes.value.findIndex(note => note.note_id === currentReviewNote.value)
     if (noteIndex !== -1) {
@@ -358,7 +362,7 @@ onMounted(() => {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      通過1
+                      通過
                     </button>
                     <button
                       class="btn btn-xs btn-error gap-1"

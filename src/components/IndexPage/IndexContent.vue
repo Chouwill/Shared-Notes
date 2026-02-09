@@ -72,14 +72,14 @@ const itemsPerPage = ref(3) // 每頁顯示 3 筆文章
 
 // 計算總頁數
 const totalPages = computed(() => {
-  return Math.ceil(workSpace.rawNotes.length / itemsPerPage.value)
+  return Math.ceil(workSpace.isPublicNotes.length / itemsPerPage.value)
 })
 
 // 計算當前頁要顯示的文章
 const paginatedArticles = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
-  return workSpace.rawNotes.slice(start, end)
+  return workSpace.isPublicNotes.slice(start, end)
 })
 
 // 上一頁

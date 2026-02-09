@@ -156,3 +156,12 @@ export function onReviewNote(id: string,data) {
     data,
   })
 }
+
+// 首頁取得已通過審核筆記
+// https://shared-notes-api.onrender.com/api/notes/public/approved
+export function onReadNotes() {
+  return instance({
+    url: `/api/notes/public/approved`,
+    method: 'get',
+  })
+}

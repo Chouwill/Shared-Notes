@@ -1,7 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 // import { useAuthStore } from './auth'
-import { onCreateFolder, getAllFolder, onfavoriteNote, onPinningNote } from '@/api/method'
+import {
+  onCreateFolder,
+  getAllFolder,
+  onfavoriteNote,
+  onPinningNote,
+  onReadNotes,
+} from '@/api/method'
 import { string } from 'zod'
 
 export const useworkSpace = defineStore(
@@ -10,6 +16,7 @@ export const useworkSpace = defineStore(
     const userAllFolder = ref(null) //取得使用者所有資料夾
     const rawNotes = ref([]) //未分類的筆記
     const userReadNoteId = ref(null)
+    const isPublicNotes= ref(null)
 
     async function createFolder(data) {
       try {
@@ -26,7 +33,7 @@ export const useworkSpace = defineStore(
       try {
         const res = await getAllFolder()
 
-        // console.log(res);
+        console.log(res)
 
         userAllFolder.value = res.data.folders
 
@@ -65,14 +72,29 @@ export const useworkSpace = defineStore(
       userReadNoteId.value = id //儲存正在閱讀的Ｎotes id
     }
 
+    async function onReadisPublicNote() {
+      try {
+        const res = await onReadNotes()
+
+        console.log('已審核筆記', res.data.notes)
+        isPublicNotes.value = res.data.notes
+      } catch (error) {
+        console.log(error)
+      }
+
+
+    }
+    onReadisPublicNote()
     return {
       createFolder,
       getAll,
       addFavoritelist,
       addPinninglist,
       getReadNote,
+      onReadisPublicNote,
       userAllFolder,
       rawNotes,
+      isPublicNotes,
       userReadNoteId,
     }
   },
