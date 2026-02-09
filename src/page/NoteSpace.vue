@@ -5,9 +5,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 import { useAuthStore } from '@/stores/auth'
 
-import { onEditFolder, onviewerNotes } from '@/api/method'
+import { onEditFolder, onDeleteNote } from '@/api/method'
 
 const router = useRouter()
+const deleteMessage=ref(null)
 
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
@@ -168,6 +169,32 @@ async function viewNotes(id) {
 
   workSpace.getReadNote(id)
   router.push(`/noteViewer/${id}`)
+}
+
+async function deleteNote(item) {
+  console.log('準備刪除', item)
+  try {
+    const res = await onDeleteNote()
+
+    console.log(res);
+    deleteMessage.value = res.data.message //儲存刪除筆記訊息
+    console.log(res.data.message)
+    console.log(deleteMessage.value)
+
+    setTimeout(() => {
+      deleteMessage.value = null
+      workSpace.getAll()
+    }, 3000)
+
+
+  } catch (error) {
+    console.log(error)
+    console.log(error.response.data.success)
+    deleteMessage.value = error.response.data.success
+
+    setTimeout(() => {
+      deleteMessage.value = null
+    }, 3000)  }
 }
 </script>
 
@@ -365,10 +392,9 @@ async function viewNotes(id) {
               <div>2026-01-01</div>
 
               <div class="flex gap-3">
-                <button @click="renameFolder(item.id)" class="flex items-center">
+                <!-- <button @click="renameFolder(item.id)" class="flex items-center">
                   <i class="fa-solid fa-pen text-base-content/60 text-[14px]"></i>
-                  <!-- <span class="material-symbols-outlined"> sell </span> -->
-                </button>
+                </button> -->
                 <button @click.stop="addPinningNote(item)" class="flex items-center">
                   <span
                     class="material-symbols-outlined text-[20px] transition-transform duration-150 active:scale-95"
@@ -392,6 +418,10 @@ async function viewNotes(id) {
                     class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-else
                   ></i>
+                </button>
+                <!-- 刪除筆記功能 -->
+                <button class="flex items-center gap-2" @click.stop="deleteNote(item)">
+                  <i class="fa-solid fa-trash text-sm text-base-content/60 text-[14px]"></i>
                 </button>
               </div>
             </li>
@@ -420,6 +450,44 @@ async function viewNotes(id) {
 
     <div v-if="message" role="alert" class="alert alert-success h-[50px]">
       <span>資料夾：{{ folderName }} 新增成功</span>
+    </div>
+
+
+    <div class="absolute top-95 left-150">
+      <!-- 成功訊息 -->
+      <div role="alert" class="alert alert-success" v-if="deleteMessage">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{{ deleteMessage }}</span>
+      </div>
+      <!-- 錯誤訊息 -->
+      <div role="alert" class="alert alert-error" v-if="deleteMessage == false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>筆記刪除失敗</span>
+      </div>
     </div>
   </div>
 </template>

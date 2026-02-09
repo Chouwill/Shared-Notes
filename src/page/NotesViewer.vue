@@ -72,8 +72,7 @@ async function editNote() {
 
     setTimeout(() => {
       message.value = null
-          router.push("/noteSpace")
-
+      router.push('/noteSpace')
     }, 3000)
     // router.push('/noteSpace')
   } catch (error) {

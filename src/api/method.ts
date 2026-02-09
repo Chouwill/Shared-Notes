@@ -130,3 +130,12 @@ export function onvisiteNotes(id: string) {
     method: 'get',
   })
 }
+
+//作者刪除筆記
+// https://shared-notes-api.onrender.com/api/notes/88405c91-a37f-4af5-bbd7-4cfbee07d5ec
+export function onDeleteNote(id: string) {
+  return instance({
+    url: `/api/notes/${id}`,
+    method: 'delete',
+  })
+}

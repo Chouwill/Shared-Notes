@@ -4,7 +4,7 @@ import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import { onCreateNote, onuploadImage } from '@/api/method'
 import { useRoute, useRouter } from 'vue-router'
-import { f } from 'vue-router/dist/router-CWoNjPRp.mjs'
+
 
 const editorRef = ref(null)
 const editor = ref(null)
@@ -70,8 +70,7 @@ async function createNote() {
     message.value = res.data.message //儲存建立筆記訊息
     setTimeout(() => {
       message.value = null
-          router.push("/noteSpace")
-
+      router.push('/noteSpace')
     }, 3000)
   } catch (error) {
     console.log(error)
