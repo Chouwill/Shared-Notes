@@ -149,7 +149,7 @@ export function onGetPublicNote() {
 }
 
 // 管理員審核公開文章
-export function onReviewNote(id: string,data) {
+export function onReviewNote(id: string, data) {
   return instance({
     url: `/api/admin/notes/${id}/review`,
     method: 'patch',

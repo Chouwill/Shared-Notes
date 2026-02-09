@@ -16,7 +16,7 @@ export const useworkSpace = defineStore(
     const userAllFolder = ref(null) //取得使用者所有資料夾
     const rawNotes = ref([]) //未分類的筆記
     const userReadNoteId = ref(null)
-    const isPublicNotes= ref(null)
+    const isPublicNotes = ref(null)
 
     async function createFolder(data) {
       try {
@@ -81,8 +81,6 @@ export const useworkSpace = defineStore(
       } catch (error) {
         console.log(error)
       }
-
-
     }
     onReadisPublicNote()
     return {

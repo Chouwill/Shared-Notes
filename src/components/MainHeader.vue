@@ -86,7 +86,7 @@ function onLogout() {
 
 <template>
   <div
-    class="w-full flex justify-center items-center h-[100px] bg-base-200 text-base-content shadow-md backdrop-blur-sm"
+    class="w-full flex justify-center items-center h-[100px] bg-base-200 text-base-content shadow-md backdrop-blur-sm overflow-visible relative"
   >
     <div class="w-full md:w-[85%] mx-auto flex md:justify-between justify-around">
       <div class="w-[90px] h-full flex justify-center items-center">
@@ -103,7 +103,10 @@ function onLogout() {
         </ul>
       </div>
 
-      <div class="flex flex-col h-[320px] py-3 items-center absolute right-0" v-if="phoneMenu">
+      <div
+        class="flex flex-col h-[320px] py-3 items-center absolute right-0 top-[100px] z-50"
+        v-if="phoneMenu"
+      >
         <ul
           class="menu menu-vertical w-[250px] lg:menu-horizontal rounded-box md:hidden bg-base-200 flex flex-col items-center justify-center gap-3"
         >
@@ -140,10 +143,11 @@ function onLogout() {
               <img
                 :src="authStore.userProfileData?.avatar_url"
                 alt="使用者頭像"
+                class="w-[50px] h-[50px] object-cover rounded-full"
                 v-if="authStore.userProfileData?.avatar_url"
               />
               <img
-                class="w-[50px] h-[50px]"
+                class="w-[50px] h-[50px] object-cover rounded-full"
                 src="@/assets/images/default-user.png"
                 v-if="!authStore.userProfileData?.avatar_url"
                 alt="預設User"
@@ -191,10 +195,11 @@ function onLogout() {
           <img
             :src="authStore.userProfileData?.avatar_url"
             alt="使用者頭像"
+            class="w-[50px] h-[50px] object-cover rounded-full"
             v-if="authStore.userProfileData?.avatar_url"
           />
           <img
-            class="w-[50px] h-[50px] h"
+            class="w-[50px] h-[50px] object-cover rounded-full"
             src="@/assets/images/default-user.png"
             v-if="!authStore.userProfileData?.avatar_url"
             alt="預設User"
@@ -213,7 +218,7 @@ function onLogout() {
     </div>
     <div>
       <div
-        class="bg-base-200 flex flex-col gap-2 absolute w-[120px] right-25 top-20"
+        class="bg-base-200 flex flex-col gap-2 absolute w-[120px] right-6 top-20 z-50"
         v-if="drawList"
       >
         <div class="text-base text-right p-1">
@@ -222,7 +227,7 @@ function onLogout() {
         <div class="text-base text-right p-1">
           <RouterLink to="/noteSpace"> 筆記工作站 </RouterLink>
         </div>
-        <div class="text-base text-right p-1" v-if="authStore.currentRole ==='admin'">
+        <div class="text-base text-right p-1" v-if="authStore.currentRole === 'admin'">
           <RouterLink to="/manage">管理員後台</RouterLink>
         </div>
         <div class="text-base text-right p-1">

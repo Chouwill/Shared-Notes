@@ -210,7 +210,12 @@ async function deleteNote(item) {
                   class="w-14 h-14"
                   :src="authStore.userProfileData?.avatar_url"
                 />
-                <img v-else alt="使用者頭像" src="../assets/images/default-user.png" />
+                <img
+                  class="w-14 h-14"
+                  v-else
+                  alt="使用者頭像"
+                  src="../assets/images/default-user.png"
+                />
               </div>
             </div>
             <div class="card-body flex justify-center items-center flex-col truncate">

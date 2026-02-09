@@ -3,9 +3,7 @@ import { onMounted, ref } from 'vue'
 import { onGetPublicNote, onReviewNote } from '@/api/method'
 import { useworkSpace } from '@/stores/workSpace'
 
-
-
-const workSpace = useworkSpace();
+const workSpace = useworkSpace()
 // 假資料
 const mockNotes = [
   {
@@ -91,14 +89,14 @@ async function submitReview() {
   if (!selectedNote.value) return // 選取通過或拒絕
   const reviewData = {
     status: reviewStatus.value,
-    message: reviewMessage.value
+    message: reviewMessage.value,
   }
   try {
     const res = await onReviewNote(currentReviewNote.value, reviewData)
     console.log('審核文章', res)
     workSpace.onReadisPublicNote()
     // 更新本地狀態：找到對應的 note 並更新 review_status
-    const noteIndex = notes.value.findIndex(note => note.note_id === currentReviewNote.value)
+    const noteIndex = notes.value.findIndex((note) => note.note_id === currentReviewNote.value)
     if (noteIndex !== -1) {
       notes.value[noteIndex].review_status = reviewStatus.value
     }

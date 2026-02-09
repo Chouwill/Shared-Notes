@@ -46,7 +46,6 @@ export const useAuthStore = defineStore(
 
         currentRole.value = res.data.user.role
 
-
         console.log(userToken.value)
         console.log('login訊息', loginMessage.value)
         showUser.value = true

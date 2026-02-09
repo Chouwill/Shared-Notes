@@ -7,7 +7,7 @@ import { toFormValidator } from '@vee-validate/zod'
 
 const emit = defineEmits(['switch-to-login'])
 
-const authdialog = ref(null)
+const authdialog = ref<HTMLDialogElement | null>(null)
 
 const authStore = useAuthStore()
 
@@ -124,15 +124,15 @@ defineExpose({
     <!-- Open the modal using ID.showModal() method -->
     <!-- <button class="btn" onclick="my_modal_1.showModal()">open modal</button> -->
     <dialog ref="authdialog" class="modal">
-      <div class="modal-box max-w-xs border-4 relative bg-base-200">
-        <button class="border rounded-full absolute top-1 right-1" @click="closeModal">
+      <div class="modal-box max-w-xs relative bg-base-200 max-h-[85vh] overflow-y-auto">
+        <button class="border rounded-full absolute top-1 right-1 z-10" @click="closeModal">
           <img class="w-[30px]" src="@/assets/images/icon-close.png" alt="" />
         </button>
-        <div class="w-full p-10 flex flex-col gap-3 justify-center items-center">
+        <div class="w-full p-6 flex flex-col gap-3 items-center">
           <div class="w-full flex flex-col gap-2">
             <label for="">帳號</label>
 
-            <label class="input w-full outline-none! focus:outline-none!">
+            <label class="input w-full !outline-none focus:!outline-none">
               <input
                 type="text"
                 placeholder="請輸入 Email"
@@ -141,13 +141,13 @@ defineExpose({
                 name="email"
               />
             </label>
-            <p class="text-red-500 text-center text-sm">{{ emailError }}</p>
+            <p class="text-red-500 text-center text-sm min-h-[20px]">{{ emailError }}</p>
           </div>
 
           <div class="w-full flex flex-col gap-2">
             <label for="">密碼</label>
 
-            <label class="input w-full outline-none! focus:!outline-none!">
+            <label class="input w-full !outline-none focus:!outline-none">
               <input
                 type="text"
                 placeholder="請輸入密碼"
@@ -156,7 +156,7 @@ defineExpose({
                 name="password"
               />
             </label>
-            <p class="text-red-500 text-center text-sm">{{ passwordError }}</p>
+            <p class="text-red-500 text-center text-sm min-h-[20px]">{{ passwordError }}</p>
           </div>
           <div class="w-full flex flex-col gap-2">
             <label for="">確認密碼</label>
@@ -170,7 +170,7 @@ defineExpose({
                 name="doublePassword"
               />
             </label>
-            <p class="text-red-500 text-center text-sm">{{ doublePasswordError }}</p>
+            <p class="text-red-500 text-center text-sm min-h-[20px]">{{ doublePasswordError }}</p>
           </div>
           <div class="w-full flex flex-col gap-2">
             <fieldset class="fieldset">
@@ -184,7 +184,7 @@ defineExpose({
                 />
                 <p class="text-[10px]">本服務為學習用途，不提供第三方。</p>
               </label>
-              <p class="text-red-500 text-center text-sm">{{ agreeError }}</p>
+              <p class="text-red-500 text-center text-sm min-h-[20px]">{{ agreeError }}</p>
             </fieldset>
           </div>
           <div class="w-full flex flex-col gap-2 justify-center items-center">
@@ -203,45 +203,48 @@ defineExpose({
           </div>
         </div>
 
-        <!-- 註冊成功訊息 -->
-        <div class="mt-4 w-full flex flex-col items-center gap-2" v-if="authStore.registerMessage">
-          <div role="alert" class="alert alert-success max-w-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{{ authStore.registerMessage }}</span>
+        <!-- 註冊成功/失敗訊息區域 - 預留固定空間避免尺寸跳動 -->
+        <div class="mt-4 w-full flex flex-col items-center gap-2 min-h-[30px]">
+          <!-- 註冊成功訊息 -->
+          <div v-if="authStore.registerMessage" class="w-full flex flex-col items-center gap-2">
+            <div role="alert" class="alert alert-success max-w-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{{ authStore.registerMessage }}</span>
+            </div>
           </div>
-        </div>
-        <!-- 註冊失敗訊息 -->
-        <div
-          class="mt-4 w-full flex flex-col items-center gap-2"
-          v-else-if="authStore.registerErrorMessage"
-        >
-          <div role="alert" class="alert alert-error max-w-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{{ authStore.registerErrorMessage }}</span>
+          <!-- 註冊失敗訊息 -->
+          <div
+            v-else-if="authStore.registerErrorMessage"
+            class="w-full flex flex-col items-center gap-2"
+          >
+            <div role="alert" class="alert alert-error max-w-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{{ authStore.registerErrorMessage }}</span>
+            </div>
           </div>
         </div>
       </div>
