@@ -46,6 +46,12 @@ const router = createRouter({
           name: 'visiteNotes',
           component: () => import('@/page/VisitorsViewer.vue'),
         },
+        {
+          path: 'manage',
+          name: 'ManagePage',
+          // meta: { requiresAuth: true },
+          component: () => import('@/page/ManagePage.vue'),
+        },
       ],
     },
     {

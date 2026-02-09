@@ -132,10 +132,27 @@ export function onvisiteNotes(id: string) {
 }
 
 //作者刪除筆記
-// https://shared-notes-api.onrender.com/api/notes/88405c91-a37f-4af5-bbd7-4cfbee07d5ec
 export function onDeleteNote(id: string) {
   return instance({
     url: `/api/notes/${id}`,
     method: 'delete',
+  })
+}
+
+// 管理員取得公開筆記列表
+
+export function onGetPublicNote() {
+  return instance({
+    url: `/api/notes/admin/public`,
+    method: 'get',
+  })
+}
+
+// 管理員審核公開文章
+export function onReviewNote(id: string,data) {
+  return instance({
+    url: `/api/admin/notes/${id}/review`,
+    method: 'patch',
+    data,
   })
 }

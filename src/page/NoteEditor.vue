@@ -5,7 +5,6 @@ import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import { onCreateNote, onuploadImage } from '@/api/method'
 import { useRoute, useRouter } from 'vue-router'
 
-
 const editorRef = ref(null)
 const editor = ref(null)
 const router = useRouter()

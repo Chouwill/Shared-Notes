@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/auth'
 import { onEditFolder, onDeleteNote } from '@/api/method'
 
 const router = useRouter()
-const deleteMessage=ref(null)
+const deleteMessage = ref(null)
 
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
@@ -176,7 +176,7 @@ async function deleteNote(item) {
   try {
     const res = await onDeleteNote()
 
-    console.log(res);
+    console.log(res)
     deleteMessage.value = res.data.message //儲存刪除筆記訊息
     console.log(res.data.message)
     console.log(deleteMessage.value)
@@ -185,8 +185,6 @@ async function deleteNote(item) {
       deleteMessage.value = null
       workSpace.getAll()
     }, 3000)
-
-
   } catch (error) {
     console.log(error)
     console.log(error.response.data.success)
@@ -194,7 +192,8 @@ async function deleteNote(item) {
 
     setTimeout(() => {
       deleteMessage.value = null
-    }, 3000)  }
+    }, 3000)
+  }
 }
 </script>
 
@@ -451,7 +450,6 @@ async function deleteNote(item) {
     <div v-if="message" role="alert" class="alert alert-success h-[50px]">
       <span>資料夾：{{ folderName }} 新增成功</span>
     </div>
-
 
     <div class="absolute top-95 left-150">
       <!-- 成功訊息 -->
