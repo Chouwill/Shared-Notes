@@ -79,6 +79,8 @@ function openPhoneDraw() {
 function onLogout() {
   authStore.userLogout()
   menulist.value = false
+  drawList.value = false
+  drawPhoneList.value = false
 }
 </script>
 
@@ -116,7 +118,7 @@ function onLogout() {
             <button
               class="btn btn-primary md:hidden flex w-full"
               @click="openLogin"
-              v-if="!authStore.userProfileData?.avatar_url"
+              v-if="!authStore.showUser"
             >
               登入
             </button>
@@ -125,17 +127,27 @@ function onLogout() {
             <button
               class="btn btn-soft btn-primary md:hidden flex w-full"
               @click="openRegister"
-              v-if="!authStore.userProfileData?.avatar_url"
+              v-if="!authStore.showUser"
             >
               註冊
             </button>
           </li>
-          <li class="text-base w-[80%] p-2" v-if="authStore.userProfileData?.avatar_url">
+          <li class="text-base w-[80%] p-2" v-if="authStore.showUser">
             <button
               class="md:hidden flex justify-center items-center w-full border-none"
               @click="openPhoneDraw"
             >
-              <img :src="authStore.userProfileData?.avatar_url" alt="使用者頭像" />
+              <img
+                :src="authStore.userProfileData?.avatar_url"
+                alt="使用者頭像"
+                v-if="authStore.userProfileData?.avatar_url"
+              />
+              <img
+                class="w-[50px] h-[50px]"
+                src="@/assets/images/default-user.png"
+                v-if="!authStore.userProfileData?.avatar_url"
+                alt="預設User"
+              />
             </button>
           </li>
           <!-- 手機選單使用者控制項目 -->
@@ -160,14 +172,14 @@ function onLogout() {
         <button
           class="btn btn-primary md:flex hidden"
           @click="openLogin"
-          v-if="!authStore.userProfileData?.avatar_url"
+          v-if="!authStore.showUser"
         >
           登入
         </button>
         <button
           class="btn btn-soft btn-primary md:flex hidden"
           @click="openRegister"
-          v-if="!authStore.userProfileData?.avatar_url"
+          v-if="!authStore.showUser"
         >
           註冊
         </button>
