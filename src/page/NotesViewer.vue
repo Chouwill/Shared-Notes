@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted, ref, nextTick, reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import { onuploadImage, onviewerNotes, onEditNote } from '@/api/method'
 
 const workSpace = useworkSpace()
-const route = useRoute()
 const editorRef = ref(null)
 const editor = ref(null)
-const noteId = route.params.id
+const router = useRouter()
+const message = ref(null)
 
 const currentNoteId = ref(null)
 
@@ -65,8 +65,25 @@ async function editNote() {
     const res = await onEditNote(currentNoteId.value, noteContext)
 
     console.log(res)
+    message.value = res.data.message //儲存修改筆記訊息
+    message.value = res.data.message //儲存修改筆記訊息
+    console.log(res.data.message)
+    console.log(message.value)
+
+    setTimeout(() => {
+      message.value = null
+          router.push("/noteSpace")
+
+    }, 3000)
+    // router.push('/noteSpace')
   } catch (error) {
     console.log(error)
+    console.log(error.response.data.success)
+    message.value = error.response.data.success
+
+    setTimeout(() => {
+      message.value = null
+    }, 3000)
   }
 }
 </script>
@@ -79,7 +96,7 @@ async function editNote() {
       <div class="card-body gap-6 p-6">
         <div class="grid md:grid-cols-2 gap-4">
           <div class="flex flex-col gap-2">
-            <label class="text-sm font-medium text-base-content/70">筆記名稱111</label>
+            <label class="text-sm font-medium text-base-content/70">筆記名稱</label>
             <input
               type="text"
               placeholder="請輸入筆記名稱"
@@ -130,6 +147,43 @@ async function editNote() {
 
     <div class="flex-1">
       <div ref="editorRef"></div>
+    </div>
+
+    <div class="absolute top-95 left-150">
+      <!-- 成功訊息 -->
+      <div role="alert" class="alert alert-success" v-if="message">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{{ message }}</span>
+      </div>
+      <!-- 錯誤訊息 -->
+      <div role="alert" class="alert alert-error" v-if="message == false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>筆記建立失敗或不符合規定</span>
+      </div>
     </div>
   </div>
 </template>

@@ -3,11 +3,15 @@ import { onMounted, ref } from 'vue'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import { onCreateNote, onuploadImage } from '@/api/method'
+import { useRoute, useRouter } from 'vue-router'
+import { f } from 'vue-router/dist/router-CWoNjPRp.mjs'
 
 const editorRef = ref(null)
 const editor = ref(null)
+const router = useRouter()
+const message = ref(null)
 
-const customTags = ref('')
+const customTags = ref('') //自定義標籤
 
 const noteContext = ref({
   title: '',
@@ -60,9 +64,23 @@ async function createNote() {
   try {
     const res = await onCreateNote(noteContext.value)
 
+    console.log(res.data.message)
     console.log(res)
+    console.log(res.data.success)
+    message.value = res.data.message //儲存建立筆記訊息
+    setTimeout(() => {
+      message.value = null
+          router.push("/noteSpace")
+
+    }, 3000)
   } catch (error) {
     console.log(error)
+    console.log(error.response.data.success)
+    message.value = error.response.data.success
+
+    setTimeout(() => {
+      message.value = null
+    }, 3000)
   }
 }
 </script>
@@ -136,6 +154,43 @@ async function createNote() {
     <div class="flex-1">
       <!-- <NoteIde /> -->
       <div ref="editorRef"></div>
+    </div>
+
+    <div class="absolute top-95 left-150">
+      <!-- 成功訊息 -->
+      <div role="alert" class="alert alert-success" v-if="message">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{{ message }}</span>
+      </div>
+      <!-- 錯誤訊息 -->
+      <div role="alert" class="alert alert-error" v-if="message == false">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>筆記建立失敗或不符合規定</span>
+      </div>
     </div>
   </div>
 </template>
