@@ -222,6 +222,9 @@ function onLogout() {
         <div class="text-base text-right p-1">
           <RouterLink to="/noteSpace"> 筆記工作站 </RouterLink>
         </div>
+        <div class="text-base text-right p-1" v-if="authStore.currentRole ==='admin'">
+          <RouterLink to="/manage">管理員後台</RouterLink>
+        </div>
         <div class="text-base text-right p-1">
           <RouterLink to="/teaching" @click="onLogout"> 登出</RouterLink>
         </div>

@@ -10,6 +10,7 @@ export const useAuthStore = defineStore(
     const userToken = ref(null)
     const apiStatus = ref(null) //定義儲存api回傳狀態
     const showUser = ref(false)
+    const currentRole = ref(null)
 
     function initAuth() {
       if (userToken.value) {
@@ -42,6 +43,9 @@ export const useAuthStore = defineStore(
         console.log(res.data.token)
 
         userToken.value = res.data.token
+
+        currentRole.value = res.data.user.role
+
 
         console.log(userToken.value)
         console.log('login訊息', loginMessage.value)
@@ -132,6 +136,7 @@ export const useAuthStore = defineStore(
       userToken,
       apiStatus,
       showUser,
+      currentRole,
       userProfileData,
       loginMessage,
       loginErrorMessage,
