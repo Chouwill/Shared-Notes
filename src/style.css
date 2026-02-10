@@ -54,11 +54,11 @@ a:hover {
 }
 
 /* 移除 daisy UI 預設 input、select 外層border */
-.input:focus-within,.select:focus-within {
+.input:focus-within,
+.select:focus-within {
   outline: none !important;
   box-shadow: none !important;
 }
-
 
 /* dropDown 下拉選項樣式 */
 .menu li:empty {
