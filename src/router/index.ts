@@ -5,6 +5,13 @@ import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    // 否則滾動到頂部
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',

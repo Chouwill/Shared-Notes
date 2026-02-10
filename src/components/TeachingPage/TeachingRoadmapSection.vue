@@ -71,7 +71,9 @@ const cards = ref([
           <button class="btn btn-neutral rounded-3xl">
             <Router-link to="/noteEditor/edit"> 開始寫筆記 </Router-link>
           </button>
-          <button class="btn btn-primary rounded-3xl">返回首頁</button>
+          <button class="btn btn-primary rounded-3xl">
+            <Router-link to="/"> 返回首頁 </Router-link>
+          </button>
         </div>
       </div>
     </div>
