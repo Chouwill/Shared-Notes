@@ -53,9 +53,18 @@ a:hover {
   color: hsl(var(--p) / 0.8);
 }
 
-/* 移除 daisy UI 預設 input、select 外層border */
+ /* 移除 daisy UI 所有表單元件的雙外框 */
 .input:focus-within,
-.select:focus-within {
+.select:focus-within,
+.textarea:focus-within,
+.checkbox:focus-within,
+.radio:focus-within,
+.toggle:focus-within,
+.range:focus-within,
+.file-input:focus-within,
+input:focus,
+select:focus,
+textarea:focus {
   outline: none !important;
   box-shadow: none !important;
 }

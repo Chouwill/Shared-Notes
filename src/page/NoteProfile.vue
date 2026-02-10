@@ -8,6 +8,7 @@ const userStore = useAuthStore()
 const workSpace = useworkSpace()
 
 const isEditMode = ref(false)
+const message = ref(false)
 
 const activeTab = ref('notes')
 
@@ -83,7 +84,7 @@ function cancelEdit() {
     }
   }
 }
-
+// 上傳使用者頭像
 async function updateDateAvatar(event: Event) {
   const file = (event.target as HTMLInputElement)?.files?.[0]
 
@@ -122,7 +123,7 @@ async function updateDateAvatar(event: Event) {
     editForm.value.avatar_url = profileData.value?.avatar_url || ''
   }
 }
-
+// 更新個人檔案
 async function updateDateProfile() {
   try {
     if (errorTimer.value) {
@@ -132,7 +133,9 @@ async function updateDateProfile() {
     fromError.value = null
 
     const res = await oneditProfile(editForm.value)
-    console.log(res)
+    console.log(res.data.message)
+
+    message.value = res.data.message //儲存成功更新個人檔案訊息
 
     await userStore.getProfile()
     isEditMode.value = false
@@ -478,7 +481,7 @@ function formatDate(dateString: string) {
 
             <div
               v-if="fromError"
-              class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
+              class="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md"
             >
               <div role="alert" class="alert alert-error">
                 <svg
@@ -738,10 +741,48 @@ function formatDate(dateString: string) {
         </div>
       </main>
     </div>
+
+
+    <div class="absolute top-95 left-150">
+      <!-- 成功訊息 -->
+      <div role="alert" class="alert alert-success" v-if="message">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>{{ message }}</span>
+      </div>
+
+      <div role="alert" class="alert alert-error" v-if="isloginMessage">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>請登入會員開始建立筆記或註冊會員</span>
+      </div>
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped>
 .fa-solid,
 .fa-regular,
 .fa-brands,
