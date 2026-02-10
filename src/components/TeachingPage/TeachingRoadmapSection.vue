@@ -68,7 +68,9 @@ const cards = ref([
         </div>
 
         <div class="w-full flex flex-wrap justify-start gap-3 md:w-1/2 md:justify-end">
-          <button class="btn btn-neutral rounded-3xl">開始寫筆記</button>
+          <button class="btn btn-neutral rounded-3xl">
+            <Router-link to="/noteEditor/edit"> 開始寫筆記 </Router-link>
+          </button>
           <button class="btn btn-primary rounded-3xl">返回首頁</button>
         </div>
       </div>

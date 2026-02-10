@@ -3,12 +3,16 @@ import { onMounted, ref } from 'vue'
 import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import { onCreateNote, onuploadImage } from '@/api/method'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const editorRef = ref(null)
 const editor = ref(null)
 const router = useRouter()
 const message = ref(null)
+
+const isloginMessage = ref(false)
 
 const customTags = ref('') //自定義標籤
 
@@ -60,24 +64,35 @@ async function createNote() {
 
   console.log(noteContext.value)
 
-  try {
-    const res = await onCreateNote(noteContext.value)
+  // 這裡判斷是否有token為登入
+  if (authStore.userToken) {
+    console.log('已登入')
+    try {
+      const res = await onCreateNote(noteContext.value)
 
-    console.log(res.data.message)
-    console.log(res)
-    console.log(res.data.success)
-    message.value = res.data.message //儲存建立筆記訊息
-    setTimeout(() => {
-      message.value = null
-      router.push('/noteSpace')
-    }, 3000)
-  } catch (error) {
-    console.log(error)
-    console.log(error.response.data.success)
-    message.value = error.response.data.success
+      console.log(res.data.message)
+      console.log(res)
+      console.log(res.data.success)
+      message.value = res.data.message //儲存建立筆記訊息
+      setTimeout(() => {
+        message.value = null
+        router.push('/noteSpace')
+      }, 3000)
+    } catch (error) {
+      console.log(error)
+      console.log(error.response.data.success)
+      message.value = error.response.data.success
+
+      setTimeout(() => {
+        message.value = null
+      }, 3000)
+    }
+  } else {
+    //登入狀態為否
+    isloginMessage.value = true // 會打開請登入或註冊訊息
 
     setTimeout(() => {
-      message.value = null
+      isloginMessage.value = false
     }, 3000)
   }
 }
@@ -188,6 +203,23 @@ async function createNote() {
           />
         </svg>
         <span>筆記建立失敗或不符合規定</span>
+      </div>
+
+      <div role="alert" class="alert alert-error" v-if="isloginMessage">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 shrink-0 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>請登入會員開始建立筆記或註冊會員</span>
       </div>
     </div>
   </div>
