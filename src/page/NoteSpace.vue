@@ -280,7 +280,7 @@ const favoriteList = computed(() => {
           class="menu bg-base-200 rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content"
         >
           <i class="fa-regular fa-bookmark text-sm text-base-content/60"></i>
-          <div>收藏111</div>
+          <div>收藏</div>
         </div>
         <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
           <div class="flex flex-col gap-3 min-w-0 flex-1">

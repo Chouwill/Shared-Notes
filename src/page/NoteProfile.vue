@@ -161,6 +161,20 @@ function formatDate(dateString: string) {
   const day = date.getDate()
   return `${year}年${month}月${day}日`
 }
+
+
+const favoriteList = computed(() => {
+  return workSpace.rawNotes.filter(function (item) {
+    return item.favorite === true
+  })
+})
+
+
+async function addfavoriteNote(item) {
+  console.log("被選中的收藏",item);
+
+  await workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
+}
 </script>
 
 <template>
@@ -260,7 +274,7 @@ function formatDate(dateString: string) {
             </div>
             <div class="flex flex-col gap-4 min-w-0">
               <div
-                v-for="note in workSpace.rawNotes"
+                v-for="note in favoriteList"
                 :key="note.id"
                 class="bg-base-100 w-full md:w-[70%] relative flex flex-col gap-4 p-5 sm:p-6 md:p-7 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer border border-base-content/5 hover:border-base-content/15 rounded-xl shadow-sm min-w-0"
               >
@@ -285,7 +299,7 @@ function formatDate(dateString: string) {
                     </span>
                   </div>
 
-                  <div
+                  <div @click="addfavoriteNote(note)"
                     class="flex items-center gap-1.5 sm:gap-2 absolute top-2 right-0 md:relative md:top-auto md:right-auto"
                   >
                     <i
