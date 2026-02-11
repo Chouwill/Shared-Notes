@@ -37,7 +37,7 @@ export const useworkSpace = defineStore(
 
         userAllFolder.value = res.data.folders
 
-        rawNotes.value = res.data.uncategorized.notes
+        rawNotes.value = res.data.uncategorized?.notes || []
 
         console.log(userAllFolder.value)
         console.log(rawNotes.value)
@@ -49,7 +49,19 @@ export const useworkSpace = defineStore(
     async function addFavoritelist(id: string, data) {
       try {
         const res = await onfavoriteNote(id, data)
-
+        if (res?.data?.success && res.data) {
+          const idx = rawNotes.value.findIndex(
+            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
+          )
+          if (idx >= 0) {
+            const notes = rawNotes.value.slice()
+            const patch: Record<string, unknown> = {}
+            if ('favorite' in res.data) patch.favorite = res.data.favorite
+            if ('pinning' in res.data) patch.pinning = res.data.pinning
+            notes[idx] = { ...notes[idx], ...patch }
+            rawNotes.value = notes
+          }
+        }
         console.log(res)
       } catch (error) {
         console.log(error)
@@ -59,7 +71,19 @@ export const useworkSpace = defineStore(
     async function addPinninglist(id: string, data) {
       try {
         const res = await onPinningNote(id, data)
-
+        if (res?.data?.success && res.data) {
+          const idx = rawNotes.value.findIndex(
+            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
+          )
+          if (idx >= 0) {
+            const notes = rawNotes.value.slice()
+            const patch: Record<string, unknown> = {}
+            if ('favorite' in res.data) patch.favorite = res.data.favorite
+            if ('pinning' in res.data) patch.pinning = res.data.pinning
+            notes[idx] = { ...notes[idx], ...patch }
+            rawNotes.value = notes
+          }
+        }
         console.log(res)
       } catch (error) {
         console.log(error)

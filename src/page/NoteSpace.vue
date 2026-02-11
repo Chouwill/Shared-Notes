@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { useRoute, useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
@@ -93,20 +93,12 @@ function addFolder() {
   addFolderdialog.value.showModal()
 }
 
-function addfavoriteNote(item) {
-  console.log('加入收藏', item)
-
-  workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
-
-  workSpace.getAll()
+async function addfavoriteNote(item) {
+  await workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
 }
 
-function addPinningNote(item) {
-  console.log('加入收藏', item)
-
-  workSpace.addPinninglist(item.note_id, { pinning: !item.pinning })
-
-  workSpace.getAll()
+async function addPinningNote(item) {
+  await workSpace.addPinninglist(item.note_id, { pinning: !item.pinning })
 }
 
 function closeDialog() {
@@ -143,7 +135,7 @@ async function saveName(id) {
 
     console.log(res)
 
-    workSpace.getAll()
+    await workSpace.getAll()
   } catch (error) {
     console.log(error)
   }
@@ -174,7 +166,7 @@ async function viewNotes(id) {
 async function deleteNote(item) {
   console.log('準備刪除', item)
   try {
-    const res = await onDeleteNote()
+    const res = await onDeleteNote(item.note_id)
 
     console.log(res)
     deleteMessage.value = res.data.message //儲存刪除筆記訊息
@@ -195,6 +187,12 @@ async function deleteNote(item) {
     }, 3000)
   }
 }
+
+const favoriteList = computed(() => {
+  return workSpace.rawNotes.filter(function (item) {
+    return item.favorite === true
+  })
+})
 </script>
 
 <template>
@@ -282,12 +280,12 @@ async function deleteNote(item) {
           class="menu bg-base-200 rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content"
         >
           <i class="fa-regular fa-bookmark text-sm text-base-content/60"></i>
-          <div>收藏</div>
+          <div>收藏111</div>
         </div>
         <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
           <div class="flex flex-col gap-3 min-w-0 flex-1">
             <div
-              v-for="item in workSpace.rawNotes"
+              v-for="item in favoriteList"
               :key="item.note_id"
               class="w-full p-0 bg-white truncate min-w-0 cursor-pointer"
             >
@@ -394,6 +392,7 @@ async function deleteNote(item) {
               </div>
               <!-- <div>{{ item.created_at }}</div> -->
               <div>2026-01-01</div>
+              除錯用：釘選狀態{{ item.pinning }} 除錯用：favorite狀態{{ item.favorite }}
 
               <div class="flex gap-3">
                 <!-- <button @click="renameFolder(item.id)" class="flex items-center">
@@ -414,12 +413,24 @@ async function deleteNote(item) {
                 </button>
 
                 <button class="flex items-center gap-2" @click.stop="addfavoriteNote(item)">
-                  <i
+                  <!-- <i
                     class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-if="item.favorite"
                   ></i>
+
                   <i
                     class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
+                    v-else
+                  ></i> -->
+                  <i
+                    class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
+                    v-if="item.favorite"
+                  ></i>
+
+                  <!-- --------------------------000000 -->
+
+                  <i
+                    class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-else
                   ></i>
                 </button>
