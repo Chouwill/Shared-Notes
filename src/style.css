@@ -1,6 +1,11 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 
+:root {
+  color-scheme: light;
+}
+
+
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 0,
