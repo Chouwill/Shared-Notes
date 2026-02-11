@@ -162,16 +162,14 @@ function formatDate(dateString: string) {
   return `${year}年${month}月${day}日`
 }
 
-
 const favoriteList = computed(() => {
   return workSpace.rawNotes.filter(function (item) {
     return item.favorite === true
   })
 })
 
-
 async function addfavoriteNote(item) {
-  console.log("被選中的收藏",item);
+  console.log('被選中的收藏', item)
 
   await workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
 }
@@ -299,7 +297,8 @@ async function addfavoriteNote(item) {
                     </span>
                   </div>
 
-                  <div @click="addfavoriteNote(note)"
+                  <div
+                    @click="addfavoriteNote(note)"
                     class="flex items-center gap-1.5 sm:gap-2 absolute top-2 right-0 md:relative md:top-auto md:right-auto"
                   >
                     <i
@@ -755,7 +754,6 @@ async function addfavoriteNote(item) {
         </div>
       </main>
     </div>
-
 
     <div class="absolute top-95 left-150">
       <!-- 成功訊息 -->

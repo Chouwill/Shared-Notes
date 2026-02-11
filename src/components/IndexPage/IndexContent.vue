@@ -2,9 +2,12 @@
 import { ref, computed } from 'vue'
 import { useworkSpace } from '@/stores/workSpace'
 import router from '@/router'
-
+import { noteCategory } from '@/constants/noteCategories'
 const workSpace = useworkSpace()
 
+const options = ref(['技術開發', '專案紀錄', '學習筆記', '工具與環境', '生活與成長'])
+
+const searchNoteValue = ref('')
 const cards = ref([
   {
     id: 1,
@@ -82,6 +85,8 @@ const paginatedArticles = computed(() => {
   return workSpace.isPublicNotes.slice(start, end)
 })
 
+const selectNotes = ref([...paginatedArticles.value])
+
 // 上一頁
 const goToPreviousPage = () => {
   if (currentPage.value > 1) {
@@ -100,6 +105,32 @@ function visitNotes(id) {
   console.log(id)
 
   router.push(`/visiteNotes/${id}`)
+}
+// select 下拉選單查詢
+function selectNote(item) {
+  console.log(item.target.value)
+
+  const filter = paginatedArticles.value.filter(function (value) {
+    console.log(value) // 迭代陣列裡的元素
+    if (!item.target.value) {
+      return true
+    }
+    return value.category === item.target.value
+  })
+  selectNotes.value = filter
+}
+// 搜尋框直接搜尋
+function searchNote() {
+  console.log(searchNoteValue.value)
+
+  const filter = paginatedArticles.value.filter(function (value) {
+    console.log(value) // 迭代陣列裡的元素
+    if (!searchNoteValue.value) {
+      return true
+    }
+    return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
+  })
+  selectNotes.value = filter
 }
 </script>
 
@@ -125,7 +156,7 @@ function visitNotes(id) {
         </div>
       </div>
     </div>
-    <div class="">
+    <div class="flex flex-col gap-3">
       <div class="flex md:flex-row md:gap-0 flex-col justify-between items-center">
         <div class="first-title text-3xl text-base-content p-3">所有主題</div>
         <div class="flex gap-3 items-center">
@@ -133,11 +164,9 @@ function visitNotes(id) {
             <!-- <legend class="fieldset-legend"></legend> -->
 
             <fieldset class="fieldset">
-              <select class="select">
+              <select class="select md:w-64 w-32" @change="selectNote">
                 <option disabled selected>文章分類</option>
-                <option>Chrome</option>
-                <option>FireFox</option>
-                <option>Safari</option>
+                <option v-for="item in noteCategory" :key="item" :value="item">{{ item }}</option>
               </select>
               <!-- <span class="label">Optional</span> -->
             </fieldset>
@@ -159,7 +188,13 @@ function visitNotes(id) {
                   <path d="m21 21-4.3-4.3"></path>
                 </g>
               </svg>
-              <input type="search" required placeholder="Search" />
+              <input
+                type="search"
+                required
+                placeholder="Search"
+                v-model="searchNoteValue"
+                @change="searchNote"
+              />
             </label>
           </div>
         </div>
@@ -169,8 +204,8 @@ function visitNotes(id) {
         class="flex rounded-md md:justify-start border-base-300 justify-center items-center md:flex-row flex-col flex-wrap gap-4"
       >
         <div
-          class="card w-[70%] md:w-full md:h-[140px] cursor-pointer h-auto min-h-[165px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
-          v-for="item in paginatedArticles"
+          class="card w-[100%] md:w-full md:h-[140px] cursor-pointer h-auto min-h-[165px] bg-base-100 ring-1 ring-base-content/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 dark:border dark:border-base-content/10 rounded-xl"
+          v-for="item in selectNotes"
           :key="item.note_id"
           @click="visitNotes(item.note_id)"
         >

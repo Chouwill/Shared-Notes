@@ -5,6 +5,7 @@ import '@toast-ui/editor/dist/toastui-editor.css' // Editor's Style
 import { onCreateNote, onuploadImage } from '@/api/method'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { noteCategory } from '@/constants/noteCategories'
 
 const authStore = useAuthStore()
 const editorRef = ref(null)
@@ -120,9 +121,7 @@ async function createNote() {
             <label class="text-sm font-medium text-base-content/70">文章分類</label>
             <select class="select select-bordered w-full rounded-lg" v-model="noteContext.category">
               <option disabled selected>選擇分類</option>
-              <option>Crimson</option>
-              <option>Amber</option>
-              <option>Velvet</option>
+              <option v-for="item in noteCategory" :key="item" :value="item">{{ item }}</option>
             </select>
           </div>
         </div>

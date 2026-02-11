@@ -12,7 +12,7 @@ const deleteMessage = ref(null)
 
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
-
+const filterNotes = ref([...workSpace.rawNotes])
 interface IarticleNote {
   id: string
   noteId: string
@@ -28,6 +28,7 @@ interface Ifolders {
   id: string
   name: string
 }
+const searchNoteValue = ref('') // 搜尋框的值
 
 const articleNotes = ref<IarticleNote[]>([
   {
@@ -193,6 +194,19 @@ const favoriteList = computed(() => {
     return item.favorite === true
   })
 })
+
+function searchNotes() {
+  console.log(searchNoteValue.value)
+
+  const filter = workSpace.rawNotes.filter(function (value) {
+    if (!searchNoteValue.value) {
+      return true
+    }
+    return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
+  })
+
+  filterNotes.value = filter
+}
 </script>
 
 <template>
@@ -239,7 +253,13 @@ const favoriteList = computed(() => {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" class="search grow" placeholder="Search" />
+            <input
+              type="search"
+              class="search grow"
+              placeholder="Search"
+              @change="searchNotes"
+              v-model="searchNoteValue"
+            />
           </label>
         </div>
 
@@ -376,7 +396,7 @@ const favoriteList = computed(() => {
           <ul class="list bg-base-100 rounded-box shadow-md w-full flex flex-col pr-5">
             <li
               class="list-row flex justify-between cursor-pointer"
-              v-for="item in workSpace.rawNotes"
+              v-for="item in filterNotes"
               :key="item.note_id"
               @click="viewNotes(item.note_id)"
             >

@@ -6,6 +6,8 @@ import Editor from '@toast-ui/editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import { onuploadImage, onviewerNotes, onEditNote } from '@/api/method'
 
+import { noteCategory } from '@/constants/noteCategories'
+
 const workSpace = useworkSpace()
 const editorRef = ref(null)
 const editor = ref(null)
@@ -107,9 +109,7 @@ async function editNote() {
             <label class="text-sm font-medium text-base-content/70">文章分類</label>
             <select class="select select-bordered w-full rounded-lg" v-model="noteContext.category">
               <option disabled>選擇分類</option>
-              <option>Crimson</option>
-              <option>Amber</option>
-              <option>Velvet</option>
+              <option v-for="item in noteCategory" :key="item" :value="item">{{ item }}</option>
             </select>
           </div>
         </div>
