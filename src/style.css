@@ -1,5 +1,24 @@
 @import 'tailwindcss';
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  /* 柔和按鈕配色：降低飽和度，減少突兀感 */
+  --color-primary: oklch(52% 0.12 252);
+  --color-primary-content: oklch(98% 0.012 252);
+  --color-secondary: oklch(62% 0.08 280);
+  --color-secondary-content: oklch(98% 0.01 280);
+  --color-accent: oklch(68% 0.10 185);
+  --color-accent-content: oklch(35% 0.05 185);
+  --color-success: oklch(62% 0.14 165);
+  --color-success-content: oklch(98% 0.01 165);
+  --color-warning: oklch(78% 0.14 85);
+  --color-warning-content: oklch(35% 0.06 85);
+  --color-error: oklch(62% 0.15 25);
+  --color-error-content: oklch(98% 0.01 25);
+}
 
 :root {
   color-scheme: light;
@@ -96,16 +115,16 @@ button {
 }
 
 button:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.06);
   box-shadow:
-    0 0 0 2px hsl(var(--p) / 0.35),
-    0 6px 16px hsl(var(--p) / 0.25);
-  transform: translateY(-1px);
+    0 0 0 2px hsl(var(--p) / 0.2),
+    0 4px 12px hsl(var(--p) / 0.15);
+  transform: translateY(-0.5px);
 }
 
 button:active {
-  filter: brightness(0.95);
-  box-shadow: 0 0 0 1px hsl(var(--p) / 0.25);
+  filter: brightness(0.98);
+  box-shadow: 0 0 0 1px hsl(var(--p) / 0.15);
   transform: translateY(0);
 }
 
