@@ -12,7 +12,7 @@ const deleteMessage = ref(null)
 
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
-const filterNotes = ref([...workSpace.rawNotes])
+// const filterNotes = ref([...workSpace.rawNotes])
 interface IarticleNote {
   id: string
   noteId: string
@@ -195,8 +195,8 @@ const favoriteList = computed(() => {
   })
 })
 
-function searchNotes() {
-  console.log(searchNoteValue.value)
+const filterSearch=computed(()=>{
+    console.log(searchNoteValue.value)
 
   const filter = workSpace.rawNotes.filter(function (value) {
     if (!searchNoteValue.value) {
@@ -204,9 +204,20 @@ function searchNotes() {
     }
     return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
   })
+ return filter
+})
+// const filterSearch() {
+//   console.log(searchNoteValue.value)
 
-  filterNotes.value = filter
-}
+//   const filter = workSpace.rawNotes.filter(function (value) {
+//     if (!searchNoteValue.value) {
+//       return true
+//     }
+//     return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
+//   })
+
+//   filterNotes.value = filter
+// }
 </script>
 
 <template>
@@ -396,7 +407,7 @@ function searchNotes() {
           <ul class="list bg-base-100 rounded-box shadow-md w-full flex flex-col pr-5">
             <li
               class="list-row flex justify-between cursor-pointer"
-              v-for="item in filterNotes"
+              v-for="item in filterSearch"
               :key="item.note_id"
               @click="viewNotes(item.note_id)"
             >
@@ -453,6 +464,7 @@ function searchNotes() {
                     class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-else
                   ></i>
+
                 </button>
                 <!-- 刪除筆記功能 -->
                 <button class="flex items-center gap-2" @click.stop="deleteNote(item)">
