@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, nextTick, watch } from 'vue'
 import Viewer from '@toast-ui/editor/dist/toastui-editor-viewer'
 import '@toast-ui/editor/dist/toastui-editor-viewer.css'
 import { useRoute } from 'vue-router'
-import { onvisiteNotes } from '@/api/method'
+import { onvisiteNotes, onMemberNoteView, onfavoriteNote } from '@/api/method'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const viewerRef = ref(null)
 const viewer = ref(null)
+
+const userStore = useAuthStore()
+
+const currentNote = ref(null)
 
 const noteData = ref({
   title: '',
@@ -22,29 +27,31 @@ const error = ref<string | null>(null)
 
 const noteId = route.params.id as string
 
+watch(
+  () => userStore.userToken,
+  (newToken, oldToken) => {
+    if (!oldToken && newToken) {
+      visitNotes()
+    }
+  },
+)
+
+// 觀看網站公開筆記
 async function visitNotes() {
   if (!noteId) {
     error.value = '缺少筆記 ID'
     return
   }
 
-  console.log('🔍 準備載入筆記，ID:', noteId)
-  console.log('🔍 ID 類型:', typeof noteId)
-  console.log('🔍 完整 URL 會是: /api/notes/public/' + noteId)
-
   try {
     loading.value = true
     error.value = null
 
-    const res = await onvisiteNotes(noteId)
+    const res = userStore.userToken ? await onMemberNoteView(noteId) : await onvisiteNotes(noteId)
     const responseData = res.data
-
-    console.log('✅ API 回應:', responseData)
-
     const note = responseData.note || responseData
 
-    console.log('✅ 載入的筆記資料:', note)
-
+    currentNote.value = note
     noteData.value = {
       title: note.title || '',
       category: note.category || '',
@@ -69,14 +76,24 @@ async function visitNotes() {
         height: 'auto',
         initialValue: noteData.value.content,
       })
-
-      console.log('✅ Viewer 初始化完成，內容長度:', noteData.value.content.length)
     } else {
-      console.warn('⚠️ Viewer 初始化失敗:', {
+      console.warn('Viewer 初始化失敗:', {
         viewerRefExists: !!viewerRef.value,
         hasContent: !!noteData.value.content,
       })
     }
+  }
+}
+
+// 點收藏
+async function addfavoriteNote() {
+  const newVal = !currentNote.value.favorite // 切換收藏狀態
+  try {
+    await onfavoriteNote(currentNote.value.note_id, { favorite: newVal }) // 把切換的值送出去
+    // 直接更新畫面，不用重整。
+    currentNote.value = { ...currentNote.value, favorite: newVal }
+  } catch (error) {
+    console.error('收藏切換失敗', error)
   }
 }
 
@@ -104,13 +121,26 @@ onUnmounted(() => {
 
     <div v-else class="flex flex-col gap-6">
       <div
-        class="card bg-base-100 ring-1 ring-base-content/10 shadow-md dark:border dark:border-base-content/10 rounded-xl"
+        class="card relative bg-base-100 ring-1 ring-base-content/10 shadow-md dark:border dark:border-base-content/10 rounded-xl"
       >
-        <div class="card-body gap-5 p-6 md:p-7">
-          <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">
-            {{ noteData.title }}
-          </h1>
-
+        <div class="card-body gap-5 p-6 md:p-7 ">
+          <div class="flex justify-between ">
+            <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">
+              {{ noteData.title }}
+            </h1>
+            <div class="flex items-center  justify-center gap-3">
+              <button class="absolute top-0" type="button" @click="addfavoriteNote">
+                <i
+                  v-if="currentNote?.favorite"
+                  class="fa-solid fa-bookmark text-sm text-base-content/60 text-[35px]"
+                ></i>
+                <i
+                  v-else
+                  class="fa-regular fa-bookmark text-sm text-base-content/60 text-[35px]"
+                ></i>
+              </button>
+            </div>
+          </div>
           <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-base-content/5">
             <div v-if="noteData.category" class="badge badge-outline badge-lg">
               {{ noteData.category }}
@@ -133,3 +163,33 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.fa-solid,
+.fa-brands,
+.fa-solid::before,
+.fa-brands::before {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
+  font-weight: 900 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.fa-regular,
+.fa-regular::before {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+</style>

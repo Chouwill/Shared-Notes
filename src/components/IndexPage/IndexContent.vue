@@ -266,13 +266,24 @@ function searchNote() {
 
 <style scoped>
 .fa-solid,
-.fa-regular,
 .fa-brands,
 .fa-solid::before,
-.fa-regular::before,
 .fa-brands::before {
   font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
   font-weight: 900 !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.fa-regular,
+.fa-regular::before {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
+  font-weight: 400 !important;
   font-style: normal !important;
   font-variant: normal !important;
   text-rendering: auto !important;

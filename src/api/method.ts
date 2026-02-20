@@ -165,3 +165,12 @@ export function onReadNotes() {
     method: 'get',
   })
 }
+
+// https://shared-notes-api.onrender.com/api/notes/public/4d9e3809-f99c-40fc-810b-aa56261446c3
+// 其他會員已登入查看其他人專屬筆記專用，需呼叫 /view 端點才能回傳正確的 favorite 狀態
+export function onMemberNoteView(id: string) {
+  return instance({
+    url: `/api/notes/public/${id}/view`,
+    method: 'get',
+  })
+}

@@ -195,8 +195,8 @@ const favoriteList = computed(() => {
   })
 })
 
-const filterSearch=computed(()=>{
-    console.log(searchNoteValue.value)
+const filterSearch = computed(() => {
+  console.log(searchNoteValue.value)
 
   const filter = workSpace.rawNotes.filter(function (value) {
     if (!searchNoteValue.value) {
@@ -204,7 +204,7 @@ const filterSearch=computed(()=>{
     }
     return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
   })
- return filter
+  return filter
 })
 // const filterSearch() {
 //   console.log(searchNoteValue.value)
@@ -444,27 +444,15 @@ const filterSearch=computed(()=>{
                 </button>
 
                 <button class="flex items-center gap-2" @click.stop="addfavoriteNote(item)">
-                  <!-- <i
-                    class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
-                    v-if="item.favorite"
-                  ></i>
-
-                  <i
-                    class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
-                    v-else
-                  ></i> -->
                   <i
                     class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-if="item.favorite"
                   ></i>
 
-                  <!-- --------------------------000000 -->
-
                   <i
                     class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
                     v-else
                   ></i>
-
                 </button>
                 <!-- 刪除筆記功能 -->
                 <button class="flex items-center gap-2" @click.stop="deleteNote(item)">
@@ -538,7 +526,7 @@ const filterSearch=computed(()=>{
   </div>
 </template>
 
-<style>
+<style scoped>
 /* 確保 Font Awesome 圖示正確顯示 */
 .fa-solid,
 .fa-brands,

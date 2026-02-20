@@ -259,11 +259,7 @@ async function addfavoriteNote(item) {
             >
               所有公開筆記1111
             </button> -->
-            <div
-              class="text-[25px] p-3"
-            >
-              所有公開筆記
-            </div>
+            <div class="text-[25px] p-3">所有公開筆記</div>
           </div>
         </div>
 
