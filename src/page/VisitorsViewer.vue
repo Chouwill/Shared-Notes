@@ -125,7 +125,7 @@ onUnmounted(() => {
       >
         <div class="card-body gap-5 p-6 md:p-7">
           <div class="flex justify-between">
-            <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">
+            <h1 class="text-lg md:text-4xl font-bold text-base-content leading-tight mb-2">
               {{ noteData.title }}
             </h1>
             <div class="flex items-center justify-center gap-3">
