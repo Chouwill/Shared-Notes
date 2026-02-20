@@ -248,7 +248,7 @@ async function addfavoriteNote(item) {
       <main class="flex-1 min-w-0">
         <div class="mb-4 sm:mb-6 border-b border-base-content/10 overflow-x-hidden">
           <div class="flex gap-4 sm:gap-6 overflow-x-auto overflow-y-hidden -mx-1 px-1">
-            <button
+            <!-- <button
               @click="activeTab = 'notes'"
               class="pb-2 sm:pb-3 px-1 text-sm sm:text-base font-medium transition-colors relative whitespace-nowrap"
               :class="
@@ -257,8 +257,13 @@ async function addfavoriteNote(item) {
                   : 'text-base-content/60 hover:text-base-content'
               "
             >
+              所有公開筆記1111
+            </button> -->
+            <div
+              class="text-[25px] p-3"
+            >
               所有公開筆記
-            </button>
+            </div>
           </div>
         </div>
 
