@@ -165,7 +165,6 @@ async function viewNotes(id) {
   router.push(`/noteViewer/${id}`)
 }
 
-/** 收藏清單點擊：依 author_id 判斷前往編輯模式 */
 function openFavoriteNote(item) {
   const currentUserId = authStore.userProfileData?.id ?? authStore.userProfileData?.user_id
   const isAuthor = item.author_id && currentUserId && item.author_id === currentUserId
@@ -330,7 +329,7 @@ const filterSearch = computed(() => {
         <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
           <div class="flex flex-col gap-3 min-w-0 flex-1">
             <div
-              v-for="item in (workSpace.favoritelistNotes   ?? [])"
+              v-for="item in (workSpace.favoritelistNotes ?? [])"
               :key="item.note_id"
               class="w-full p-0 bg-white truncate min-w-0 cursor-pointer hover:bg-base-200 rounded transition-colors"
               @click="openFavoriteNote(item)"
@@ -542,7 +541,6 @@ const filterSearch = computed(() => {
 </template>
 
 <style scoped>
-/* 確保 Font Awesome 圖示正確顯示 */
 .fa-solid,
 .fa-brands,
 .fa-solid::before,
