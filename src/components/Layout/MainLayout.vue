@@ -20,3 +20,5 @@ import MainFooter from '../Footer.vue'
     <MainFooter class="fixed bottom-0" />
   </div>
 </template>
+
+<style scoped></style>

@@ -17,3 +17,5 @@ import EditorHeader from '@/components/markIde/EditorHeader.vue'
     <Footer class="fixed bottom-0" />
   </div>
 </template>
+
+<style scoped></style>

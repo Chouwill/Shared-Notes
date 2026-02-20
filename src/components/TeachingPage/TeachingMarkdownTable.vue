@@ -103,3 +103,5 @@ const lists = ref([
     </div>
   </div>
 </template>
+
+<style scoped></style>

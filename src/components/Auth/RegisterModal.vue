@@ -251,3 +251,5 @@ defineExpose({
     </dialog>
   </div>
 </template>
+
+<style scoped></style>

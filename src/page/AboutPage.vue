@@ -55,8 +55,7 @@ const cardList = ref([
   </div>
 </template>
 
-<style>
-/* 確保 Font Awesome 圖示正確顯示 */
+<style scoped>
 .fa-solid,
 .fa-regular,
 .fa-brands,

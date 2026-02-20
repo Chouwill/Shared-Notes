@@ -239,3 +239,5 @@ function onLogout() {
     <RegisterModal ref="registerRef" @switch-to-login="handleSwitchToLogin" />
   </div>
 </template>
+
+<style scoped></style>

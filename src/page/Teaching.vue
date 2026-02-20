@@ -15,3 +15,5 @@ import TeachingRoadmapSection from '@/components/TeachingPage/TeachingRoadmapSec
     <TeachingRoadmapSection />
   </div>
 </template>
+
+<style scoped></style>

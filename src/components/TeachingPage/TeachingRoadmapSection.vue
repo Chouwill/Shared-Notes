@@ -79,3 +79,5 @@ const cards = ref([
     </div>
   </div>
 </template>
+
+<style scoped></style>

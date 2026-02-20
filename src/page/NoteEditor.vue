@@ -223,3 +223,5 @@ async function createNote() {
     </div>
   </div>
 </template>
+
+<style scoped></style>
