@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
-import { useRoute, useRouter } from 'vue-router'
+import {  useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 import { useAuthStore } from '@/stores/auth'
 
@@ -67,6 +67,7 @@ const dropdown = ref<string | null>(null)
 
 function getAllInformation() {
   workSpace.getAll()
+  workSpace.getFavorites()
 }
 
 getAllInformation()
@@ -162,6 +163,19 @@ async function viewNotes(id) {
 
   workSpace.getReadNote(id)
   router.push(`/noteViewer/${id}`)
+}
+
+/** 收藏清單點擊：依 author_id 判斷前往編輯模式 */
+function openFavoriteNote(item) {
+  const currentUserId = authStore.userProfileData?.id ?? authStore.userProfileData?.user_id
+  const isAuthor = item.author_id && currentUserId && item.author_id === currentUserId
+
+  if (isAuthor) {
+    workSpace.getReadNote(item.note_id)
+    router.push(`/noteViewer/${item.note_id}`)
+  } else {
+    router.push(`/visiteNotes/${item.note_id}`)
+  }
 }
 
 async function deleteNote(item) {
@@ -311,14 +325,15 @@ const filterSearch = computed(() => {
           class="menu bg-base-200 rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content"
         >
           <i class="fa-regular fa-bookmark text-sm text-base-content/60"></i>
-          <div>收藏</div>
+          <div>我的其他精選</div>
         </div>
         <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
           <div class="flex flex-col gap-3 min-w-0 flex-1">
             <div
-              v-for="item in favoriteList"
+              v-for="item in (workSpace.favoritelistNotes   ?? [])"
               :key="item.note_id"
-              class="w-full p-0 bg-white truncate min-w-0 cursor-pointer"
+              class="w-full p-0 bg-white truncate min-w-0 cursor-pointer hover:bg-base-200 rounded transition-colors"
+              @click="openFavoriteNote(item)"
             >
               {{ item.title }}
             </div>
@@ -423,7 +438,7 @@ const filterSearch = computed(() => {
               </div>
               <!-- <div>{{ item.created_at }}</div> -->
               <div>2026-01-01</div>
-              除錯用：釘選狀態{{ item.pinning }} 除錯用：favorite狀態{{ item.favorite }}
+              <!-- 除錯用：釘選狀態{{ item.pinning }} 除錯用：favorite狀態{{ item.favorite }} -->
 
               <div class="flex gap-3">
                 <!-- <button @click="renameFolder(item.id)" class="flex items-center">

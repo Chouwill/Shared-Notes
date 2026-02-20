@@ -123,12 +123,12 @@ onUnmounted(() => {
       <div
         class="card relative bg-base-100 ring-1 ring-base-content/10 shadow-md dark:border dark:border-base-content/10 rounded-xl"
       >
-        <div class="card-body gap-5 p-6 md:p-7 ">
-          <div class="flex justify-between ">
+        <div class="card-body gap-5 p-6 md:p-7">
+          <div class="flex justify-between">
             <h1 class="text-3xl md:text-4xl font-bold text-base-content leading-tight mb-2">
               {{ noteData.title }}
             </h1>
-            <div class="flex items-center  justify-center gap-3">
+            <div class="flex items-center justify-center gap-3">
               <button class="absolute top-0" type="button" @click="addfavoriteNote">
                 <i
                   v-if="currentNote?.favorite"

@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 import {
   onCreateFolder,
   getAllFolder,
+  getAllNotes,
   onfavoriteNote,
   onPinningNote,
   onReadNotes,
@@ -17,6 +18,7 @@ export const useworkSpace = defineStore(
     const rawNotes = ref([]) //未分類的筆記
     const userReadNoteId = ref(null)
     const isPublicNotes = ref(null)
+    const favoritelistNotes = ref(null)
 
     async function createFolder(data) {
       try {
@@ -28,7 +30,7 @@ export const useworkSpace = defineStore(
       }
     }
 
-    // 取得工作站所有資料
+    // 取得工作站筆記資料
     async function getAll(data) {
       try {
         const res = await getAllFolder()
@@ -45,6 +47,24 @@ export const useworkSpace = defineStore(
         console.log(error)
       }
     }
+
+    // 取得工作站收藏筆記資料
+    async function getFavorites() {
+      try {
+        const res = await getAllNotes()
+
+        console.log(res)
+        console.log(res.data.favorites)
+        favoritelistNotes.value = res.data.favorites
+
+        console.log("fav",favoritelistNotes.value);
+
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getFavorites()
 
     async function addFavoritelist(id: string, data) {
       try {
@@ -113,9 +133,11 @@ export const useworkSpace = defineStore(
       addFavoritelist,
       addPinninglist,
       getReadNote,
+      getFavorites,
       onReadisPublicNote,
       userAllFolder,
       rawNotes,
+      favoritelistNotes,
       isPublicNotes,
       userReadNoteId,
     }

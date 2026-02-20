@@ -52,6 +52,15 @@ export function getAllFolder() {
   })
 }
 
+// https://shared-notes-api.onrender.com/api/notes
+// 取得個人工作站所有筆記
+export function getAllNotes() {
+  return instance({
+    url: `/api/notes`,
+    method: 'get',
+  })
+}
+
 // 修改資料夾名稱
 export function onEditFolder(id: string, data: object) {
   return instance({
