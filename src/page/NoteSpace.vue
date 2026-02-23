@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { nanoid } from 'nanoid'
-import {  useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 import { useAuthStore } from '@/stores/auth'
 
@@ -329,7 +329,7 @@ const filterSearch = computed(() => {
         <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
           <div class="flex flex-col gap-3 min-w-0 flex-1">
             <div
-              v-for="item in (workSpace.favoritelistNotes ?? [])"
+              v-for="item in workSpace.favoritelistNotes ?? []"
               :key="item.note_id"
               class="w-full p-0 bg-white truncate min-w-0 cursor-pointer hover:bg-base-200 rounded transition-colors"
               @click="openFavoriteNote(item)"

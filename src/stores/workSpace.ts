@@ -57,8 +57,7 @@ export const useworkSpace = defineStore(
         console.log(res.data.favorites)
         favoritelistNotes.value = res.data.favorites
 
-        console.log("fav",favoritelistNotes.value);
-
+        console.log('fav', favoritelistNotes.value)
       } catch (error) {
         console.log(error)
       }
