@@ -65,45 +65,53 @@ export const useworkSpace = defineStore(
 
     getFavorites()
 
-    async function addFavoritelist(id: string, data) {
+    async function addFavoritelist(id: string, data: { favorite: boolean }) {
       try {
         const res = await onfavoriteNote(id, data)
-        if (res?.data?.success && res.data) {
+
+        if (res?.data?.success) {
           const idx = rawNotes.value.findIndex(
-            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
+            (n: { note_id?: string; id?: string }) =>
+              n?.note_id === id || n?.id === id
           )
+
           if (idx >= 0) {
             const notes = rawNotes.value.slice()
-            const patch: Record<string, unknown> = {}
-            if ('favorite' in res.data) patch.favorite = res.data.favorite
-            if ('pinning' in res.data) patch.pinning = res.data.pinning
-            notes[idx] = { ...notes[idx], ...patch }
+
+            notes[idx] = {
+              ...notes[idx],
+              favorite: data.favorite,  // 👈 只改 favorite
+            }
+
             rawNotes.value = notes
           }
         }
-        console.log(res)
       } catch (error) {
         console.log(error)
       }
     }
 
-    async function addPinninglist(id: string, data) {
+    async function addPinninglist(id: string, data: { pinning: boolean }) {
       try {
         const res = await onPinningNote(id, data)
-        if (res?.data?.success && res.data) {
+
+        if (res?.data?.success) {
           const idx = rawNotes.value.findIndex(
-            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
+            (n: { note_id?: string; id?: string }) =>
+              n?.note_id === id || n?.id === id
           )
+
           if (idx >= 0) {
             const notes = rawNotes.value.slice()
-            const patch: Record<string, unknown> = {}
-            if ('favorite' in res.data) patch.favorite = res.data.favorite
-            if ('pinning' in res.data) patch.pinning = res.data.pinning
-            notes[idx] = { ...notes[idx], ...patch }
+
+            notes[idx] = {
+              ...notes[idx],
+              pinning: data.pinning,   // 👈 只改 pinning
+            }
+
             rawNotes.value = notes
           }
         }
-        console.log(res)
       } catch (error) {
         console.log(error)
       }

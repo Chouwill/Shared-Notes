@@ -1,173 +1,105 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { nanoid } from 'nanoid'
+import { ref, computed, onMounted } from 'vue'
+import WorkspaceSidebar from '@/components/workspace/WorkspaceSidebar.vue'
+import WorkspaceNoteList from '@/components/workspace/WorkspaceNoteList.vue'
+import WorkspaceDialogs from '@/components/workspace/WorkspaceDialogs.vue'
 import { useRouter } from 'vue-router'
 import { useworkSpace } from '@/stores/workSpace'
 import { useAuthStore } from '@/stores/auth'
-
 import { onEditFolder, onDeleteNote } from '@/api/method'
 
 const router = useRouter()
-const deleteMessage = ref(null)
-
 const workSpace = useworkSpace()
 const authStore = useAuthStore()
-// const filterNotes = ref([...workSpace.rawNotes])
-interface IarticleNote {
-  id: string
-  noteId: string
-  title: string
-  updateDate: string
-  isFavorite: boolean
-  tags: Array<string>
-  pinning: boolean
-  folderId: string
-}
 
-interface Ifolders {
-  id: string
-  name: string
-}
-const searchNoteValue = ref('') // 搜尋框的值
+/* -------------------- UI State -------------------- */
 
-const articleNotes = ref<IarticleNote[]>([
-  {
-    id: '1',
-    noteId: '',
-    title: 'ddd',
-    updateDate: '00000',
-    isFavorite: false,
-    tags: ['1', '2'],
-    pinning: false,
-    folderId: '',
-  },
-])
-const folders = ref<Ifolders[]>([])
-
-const renameInput = ref(null)
-
-const favoriteNotes = ref<Ifolders[]>([])
-
-const selectedNote = ref<number[]>([])
-
-const addFolderdialog = ref<null>(null)
-
-const folderName = ref<string>('請輸入資料夾名稱')
-const editFolderName = ref({
-  name: '',
-})
-
-const createFolderName = ref({
-  name: '',
-})
-
+const searchNoteValue = ref('')
+const renameInput = ref<string | null>(null)
+const folderName = ref('')
 const message = ref(false)
-
+const deleteMessage = ref<string | null>(null)
 const dropdown = ref<string | null>(null)
+const dialogsRef = ref<any>(null)
 
-function getAllInformation() {
-  workSpace.getAll()
-  workSpace.getFavorites()
-}
+/* -------------------- Init -------------------- */
 
-getAllInformation()
+onMounted(async () => {
+  await Promise.all([
+    workSpace.getAll(),
+    workSpace.getFavorites()
+  ])
+})
 
-function addFolderName() {
-  console.log(folderName.value)
-  if (!folderName.value) return
+/* -------------------- Folder -------------------- */
 
-  createFolderName.value.name = folderName.value
+async function addFolderName() {
+  if (!folderName.value.trim()) return
 
-  console.log('createFolderName', createFolderName.value)
-
-  workSpace.createFolder(createFolderName.value)
+  await workSpace.createFolder({ name: folderName.value })
 
   closeDialog()
+  folderName.value = ''
 
   message.value = true
-
-  setTimeout(() => {
-    message.value = false
-  }, 1500)
+  setTimeout(() => (message.value = false), 1500)
 }
 
-function addFolder() {
-  addFolderdialog.value.showModal()
-}
 
-async function addfavoriteNote(item) {
-  await workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
-}
-
-async function addPinningNote(item) {
-  await workSpace.addPinninglist(item.note_id, { pinning: !item.pinning })
-}
 
 function closeDialog() {
-  addFolderdialog.value.close()
+  dialogsRef.value?.close()
+}
+
+function renameFolder(id: string) {
+  renameInput.value = id
+  dropdown.value = null
+}
+
+async function saveName() {
+  if (!renameInput.value) return
+
+  await onEditFolder(renameInput.value, { name: folderName.value })
+  await workSpace.getAll()
+  renameInput.value = null
 }
 
 function selectOption(id: string) {
-  // dropdown.value = dropdown.value === id ? null : id
-  if (dropdown.value === id) {
-    dropdown.value = null
-  } else {
-    dropdown.value = id
-  }
+  dropdown.value = dropdown.value === id ? null : id
 }
 
-function renameFolder(id) {
-  renameInput.value = id
-  console.log('renameInput:', renameInput.value)
-
-  if (dropdown.value === id) {
-    dropdown.value = null
-    console.log('-----')
-  } else {
-    dropdown.value = id
-  }
-}
-
-async function saveName(id) {
-  console.log('saveName 被調用了')
-
-  console.log(folderName.value)
-  try {
-    const res = await onEditFolder(renameInput.value, { name: editFolderName.value.name })
-
-    console.log(res)
-
-    await workSpace.getAll()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function deleteFolder(id: string) {
-  console.log(id)
-
-  const filterResult = folders.value.filter(function (item) {
-    return item.id !== id
-  })
-
-  console.log(filterResult)
-  folders.value = filterResult
-}
+/* -------------------- Notes -------------------- */
 
 function addNotes() {
   router.push('/noteEditor/edit')
 }
 
-async function viewNotes(id) {
-  console.log(id)
-
-  workSpace.getReadNote(id)
+async function viewNotes(id: string) {
+  await workSpace.getReadNote(id)
   router.push(`/noteViewer/${id}`)
 }
 
-function openFavoriteNote(item) {
-  const currentUserId = authStore.userProfileData?.id ?? authStore.userProfileData?.user_id
-  const isAuthor = item.author_id && currentUserId && item.author_id === currentUserId
+async function addfavoriteNote(item: any) {
+  await workSpace.addFavoritelist(item.note_id, {
+    favorite: !item.favorite
+  })
+}
+
+async function addPinningNote(item: any) {
+  await workSpace.addPinninglist(item.note_id, {
+    pinning: !item.pinning
+  })
+}
+
+function openFavoriteNote(item: any) {
+  const currentUserId =
+    authStore.userProfileData?.id ??
+    authStore.userProfileData?.user_id
+
+  const isAuthor =
+    item.author_id &&
+    currentUserId &&
+    item.author_id === currentUserId
 
   if (isAuthor) {
     workSpace.getReadNote(item.note_id)
@@ -177,169 +109,48 @@ function openFavoriteNote(item) {
   }
 }
 
-async function deleteNote(item) {
-  console.log('準備刪除', item)
+async function deleteNote(item: any) {
   try {
     const res = await onDeleteNote(item.note_id)
+    deleteMessage.value = res.data.message
 
-    console.log(res)
-    deleteMessage.value = res.data.message //儲存刪除筆記訊息
-    console.log(res.data.message)
-    console.log(deleteMessage.value)
-
-    setTimeout(() => {
+    setTimeout(async () => {
       deleteMessage.value = null
-      workSpace.getAll()
-    }, 3000)
-  } catch (error) {
-    console.log(error)
-    console.log(error.response.data.success)
-    deleteMessage.value = error.response.data.success
-
-    setTimeout(() => {
-      deleteMessage.value = null
-    }, 3000)
+      await workSpace.getAll()
+    }, 2000)
+  } catch (error: any) {
+    deleteMessage.value = error?.response?.data?.message ?? '刪除失敗'
+    setTimeout(() => (deleteMessage.value = null), 2000)
   }
 }
 
-const favoriteList = computed(() => {
-  return workSpace.rawNotes.filter(function (item) {
-    return item.favorite === true
-  })
-})
+/* -------------------- Search -------------------- */
 
 const filterSearch = computed(() => {
-  console.log(searchNoteValue.value)
+  if (!searchNoteValue.value.trim()) {
+    return workSpace.rawNotes
+  }
 
-  const filter = workSpace.rawNotes.filter(function (value) {
-    if (!searchNoteValue.value) {
-      return true
-    }
-    return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
-  })
-  return filter
+  return workSpace.rawNotes.filter(note =>
+    note.title
+      .toLowerCase()
+      .includes(searchNoteValue.value.toLowerCase())
+  )
 })
-// const filterSearch() {
-//   console.log(searchNoteValue.value)
-
-//   const filter = workSpace.rawNotes.filter(function (value) {
-//     if (!searchNoteValue.value) {
-//       return true
-//     }
-//     return value.title.toLowerCase().includes(searchNoteValue.value.toLowerCase())
-//   })
-
-//   filterNotes.value = filter
-// }
 </script>
 
 <template>
   <div class="md:w-full w-[85%] h-auto overflow-y-scroll mx-auto flex border border-base-300">
-    <div class="md:flex flex-col gap-2 hidden">
-      <div class="border border-base-300 w-56">
-        <div class="border-b border-base-300 flex flex-col items-start gap-3 p-3">
-          <div class="card card-side w-full flex gap-2 p-4 bg-base-100 shadow-sm">
-            <div class="avatar">
-              <div class="w-14 h-30 rounded-xl flex items-center">
-                <img
-                  v-if="authStore.userProfileData?.avatar_url"
-                  class="w-14 h-14"
-                  :src="authStore.userProfileData?.avatar_url"
-                />
-                <img
-                  class="w-14 h-14"
-                  v-else
-                  alt="使用者頭像"
-                  src="../assets/images/default-user.png"
-                />
-              </div>
-            </div>
-            <div class="card-body flex justify-center items-center flex-col truncate">
-              <div>{{ authStore.userProfileData?.display_name }}</div>
-              <div>新手工程師</div>
-            </div>
-          </div>
-
-          <label class="input">
-            <svg
-              class="h-[1em] text-base-content/60"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <g
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input
-              type="search"
-              class="search grow"
-              placeholder="Search"
-              @change="searchNotes"
-              v-model="searchNoteValue"
-            />
-          </label>
-        </div>
-
-        <!-- <div class="font-black text-base text-base-content p-3">資料夾</div>
-        <div class=" p-3">
-          <div class="">
-            <div class="w-full flex justify-start items-center gap-2 p-3" v-for="item in workSpace.userAllFolder">
-              <i class="fa-regular fa-folder text-[18px]"></i>
-              <h2 class="text-[15px] font-black">{{ item.name }}</h2>
-            </div>
-          </div>
-        </div> -->
-
-        <div class="flex flex-col justify-center items-center gap-2">
-          <div
-            v-for="item in folders"
-            :key="item.id"
-            class="bg-base-200 hover:bg-base-300 w-[90%] flex justify-around p-4 rounded-xl transition-colors"
-          >
-            <div class="folder overflow-hidden whitespace-nowrap w-[120px] text-base-content">
-              <div>{{ item.name }}</div>
-              <label class="input" v-if="renameInput === item.id">
-                <input type="text" class="w-full" placeholder="" />
-              </label>
-            </div>
-            <button
-              class="btn-reset w-[25px] h-[25px] shrink-0 rounded-full"
-              @click="renameFolder(item.id)"
-            >
-              <i class="fa-solid fa-pen text-base text-base-content/60 hover:text-base-content"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div
-          class="menu bg-base-200 rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content"
-        >
-          <i class="fa-regular fa-bookmark text-sm text-base-content/60"></i>
-          <div>我的其他精選</div>
-        </div>
-        <div class="menu rounded-box w-56 flex flex-row items-center gap-2 pl-5 text-base-content">
-          <div class="flex flex-col gap-3 min-w-0 flex-1">
-            <div
-              v-for="item in workSpace.favoritelistNotes ?? []"
-              :key="item.note_id"
-              class="w-full p-0 bg-white truncate min-w-0 cursor-pointer hover:bg-base-200 rounded transition-colors"
-              @click="openFavoriteNote(item)"
-            >
-              {{ item.title }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <WorkspaceSidebar
+      :avatar-url="authStore.userProfileData?.avatar_url || null"
+      :display-name="authStore.userProfileData?.display_name"
+      :search-value="searchNoteValue"
+      :folders="workSpace.userAllFolder"      :rename-id="renameInput"
+      :favorite-notes="workSpace.favoritelistNotes ?? []"
+      @update:searchValue="searchNoteValue = $event"
+      @click-favorite="openFavoriteNote"
+      @click-rename-folder="renameFolder"
+    />
 
     <div class="w-full">
       <div class="flex gap-2 md:p-2 justify-end p-4">
@@ -412,131 +223,25 @@ const filterSearch = computed(() => {
             </div>
           </div>
         </div> -->
-        <div class="w-full md:p-5">
-          <div class="w-full flex items-center gap-2 p-3">
-            <span class="material-symbols-outlined"> sell </span>
-
-            <h2 class="text-[20px] font-black">無標籤</h2>
-          </div>
-          <ul class="list bg-base-100 rounded-box shadow-md w-full flex flex-col pr-5">
-            <li
-              class="list-row flex justify-between cursor-pointer"
-              v-for="item in filterSearch"
-              :key="item.note_id"
-              @click="viewNotes(item.note_id)"
-            >
-              <div class="flex gap-2">
-                <img
-                  class="shrink-0 w-[20px]"
-                  src="@/assets/images/google-font-docs.svg"
-                  alt="檔案"
-                />
-                <div class="md:w-[150px] w-[50px] overflow-hidden whitespace-nowrap">
-                  {{ item.title }}
-                </div>
-              </div>
-              <!-- <div>{{ item.created_at }}</div> -->
-              <div>2026-01-01</div>
-              <!-- 除錯用：釘選狀態{{ item.pinning }} 除錯用：favorite狀態{{ item.favorite }} -->
-
-              <div class="flex gap-3">
-                <!-- <button @click="renameFolder(item.id)" class="flex items-center">
-                  <i class="fa-solid fa-pen text-base-content/60 text-[14px]"></i>
-                </button> -->
-                <button @click.stop="addPinningNote(item)" class="flex items-center">
-                  <span
-                    class="material-symbols-outlined text-[20px] transition-transform duration-150 active:scale-95"
-                    :class="item.pinning ? 'text-base-content' : 'text-base-content/50'"
-                    :style="{
-                      fontVariationSettings: item.pinning
-                        ? `'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20`
-                        : `'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20`,
-                    }"
-                  >
-                    keep
-                  </span>
-                </button>
-
-                <button class="flex items-center gap-2" @click.stop="addfavoriteNote(item)">
-                  <i
-                    class="fa-solid fa-bookmark text-sm text-base-content/60 text-[14px]"
-                    v-if="item.favorite"
-                  ></i>
-
-                  <i
-                    class="fa-regular fa-bookmark text-sm text-base-content/60 text-[14px]"
-                    v-else
-                  ></i>
-                </button>
-                <!-- 刪除筆記功能 -->
-                <button class="flex items-center gap-2" @click.stop="deleteNote(item)">
-                  <i class="fa-solid fa-trash text-sm text-base-content/60 text-[14px]"></i>
-                </button>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <WorkspaceNoteList
+          :notes="filterSearch"
+          @view="viewNotes"
+          @pin="addPinningNote"
+          @favorite="addfavoriteNote"
+          @delete="deleteNote"
+        />
       </div>
     </div>
 
-    <dialog ref="addFolderdialog" class="modal">
-      <div
-        class="modal-box h-[200px] relative border border-base-300 flex justify-center items-center gap-3 flex-col"
-      >
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-
-        <label class="text-base-content">請輸入新增的資料夾名稱</label>
-        <input v-model="folderName" type="text" placeholder="" class="input" />
-
-        <div class="flex gap-3">
-          <button @click="addFolderName" class="btn btn-success">新增</button>
-          <button class="btn btn-error">取消</button>
-        </div>
-      </div>
-    </dialog>
-
-    <!-- 編輯資料夾名稱彈窗 -->
-
-    <div v-if="message" role="alert" class="alert alert-success h-[50px]">
-      <span>資料夾：{{ folderName }} 新增成功</span>
-    </div>
-
-    <div class="absolute top-95 left-150">
-      <!-- 成功訊息 -->
-      <div role="alert" class="alert alert-success" v-if="deleteMessage">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>{{ deleteMessage }}</span>
-      </div>
-      <!-- 錯誤訊息 -->
-      <div role="alert" class="alert alert-error" v-if="deleteMessage == false">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 shrink-0 stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>筆記刪除失敗</span>
-      </div>
-    </div>
+    <WorkspaceDialogs
+      ref="dialogsRef"
+      :folder-name="folderName"
+      :message="message"
+      :delete-message="deleteMessage"
+      @update:folderName="folderName = $event"
+      @confirm-add-folder="addFolderName"
+      @close-add-folder="closeDialog"
+    />
   </div>
 </template>
 
