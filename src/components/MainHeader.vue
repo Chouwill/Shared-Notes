@@ -4,13 +4,8 @@ import HeaderNavLinks from '@/components/Layout/HeaderNavLinks.vue'
 import HeaderUserDropdown from '@/components/Layout/HeaderUserDropdown.vue'
 import HeaderMobileMenu from '@/components/Layout/HeaderMobileMenu.vue'
 import HeaderActions from '@/components/Layout/HeaderActions.vue'
-import RegisterModal from '@/components/Auth/RegisterModal.vue'
-import LoginModal from '@/components/Auth/LoginModal.vue'
+import HeaderAuthModals from '@/components/Auth/HeaderAuthModals.vue'
 import { useAuthStore } from '@/stores/auth'
-
-
-const registerRef = ref(null)
-const loginRef = ref(null)
 
 const phoneMenu = ref(false) //手機選單
 const drawList = ref(false) // 登入後的控制項
@@ -18,24 +13,15 @@ const drawPhoneList = ref(false) // 手機版登入後的控制項
 
 const authStore = useAuthStore()
 
-// authStore.getProfile()
+const authModalRef = ref(null) // 登入彈窗
+
+function openLogin() {
+  authModalRef.value?.openLogin()
+}
 
 function openRegister() {
-  registerRef.value.openRegister()
+  authModalRef.value?.openRegister()
 }
-function openLogin() {
-  loginRef.value.openLogin()
-}
-
-function handleSwitchToLogin() {
-  loginRef.value.openLogin()
-}
-
-function handleSwitchToRegister() {
-  registerRef.value.openRegister()
-}
-
-
 
 function handleMenu() {
   phoneMenu.value = !phoneMenu.value
@@ -44,8 +30,6 @@ function handleMenu() {
 function closeMenu() {
   phoneMenu.value = false
 }
-
-
 
 function openDraw() {
   drawList.value = !drawList.value
@@ -90,7 +74,8 @@ function onLogout() {
       <HeaderActions
         :show-user="authStore.showUser"
         :avatar-url="authStore.userProfileData?.avatar_url || null"
-        :show-menu-icon="!phoneMenu"        @open-login="openLogin"
+        :show-menu-icon="!phoneMenu"
+        @open-login="openLogin"
         @open-register="openRegister"
         @toggle-user-dropdown="openDraw"
         @toggle-mobile-menu="handleMenu"
@@ -103,8 +88,7 @@ function onLogout() {
         @logout="onLogout"
       />
     </div>
-    <LoginModal ref="loginRef" @switch-to-register="handleSwitchToRegister" />
-    <RegisterModal ref="registerRef" @switch-to-login="handleSwitchToLogin" />
+    <HeaderAuthModals ref="authModalRef" />
   </div>
 </template>
 
