@@ -25,10 +25,7 @@ const dialogsRef = ref<any>(null)
 /* -------------------- Init -------------------- */
 
 onMounted(async () => {
-  await Promise.all([
-    workSpace.getAll(),
-    workSpace.getFavorites()
-  ])
+  await Promise.all([workSpace.getAll(), workSpace.getFavorites()])
 })
 
 /* -------------------- Folder -------------------- */
@@ -44,8 +41,6 @@ async function addFolderName() {
   message.value = true
   setTimeout(() => (message.value = false), 1500)
 }
-
-
 
 function closeDialog() {
   dialogsRef.value?.close()
@@ -81,25 +76,20 @@ async function viewNotes(id: string) {
 
 async function addfavoriteNote(item: any) {
   await workSpace.addFavoritelist(item.note_id, {
-    favorite: !item.favorite
+    favorite: !item.favorite,
   })
 }
 
 async function addPinningNote(item: any) {
   await workSpace.addPinninglist(item.note_id, {
-    pinning: !item.pinning
+    pinning: !item.pinning,
   })
 }
 
 function openFavoriteNote(item: any) {
-  const currentUserId =
-    authStore.userProfileData?.id ??
-    authStore.userProfileData?.user_id
+  const currentUserId = authStore.userProfileData?.id ?? authStore.userProfileData?.user_id
 
-  const isAuthor =
-    item.author_id &&
-    currentUserId &&
-    item.author_id === currentUserId
+  const isAuthor = item.author_id && currentUserId && item.author_id === currentUserId
 
   if (isAuthor) {
     workSpace.getReadNote(item.note_id)
@@ -131,10 +121,8 @@ const filterSearch = computed(() => {
     return workSpace.rawNotes
   }
 
-  return workSpace.rawNotes.filter(note =>
-    note.title
-      .toLowerCase()
-      .includes(searchNoteValue.value.toLowerCase())
+  return workSpace.rawNotes.filter((note) =>
+    note.title.toLowerCase().includes(searchNoteValue.value.toLowerCase()),
   )
 })
 </script>
@@ -145,7 +133,8 @@ const filterSearch = computed(() => {
       :avatar-url="authStore.userProfileData?.avatar_url || null"
       :display-name="authStore.userProfileData?.display_name"
       :search-value="searchNoteValue"
-      :folders="workSpace.userAllFolder"      :rename-id="renameInput"
+      :folders="workSpace.userAllFolder"
+      :rename-id="renameInput"
       :favorite-notes="workSpace.favoritelistNotes ?? []"
       @update:searchValue="searchNoteValue = $event"
       @click-favorite="openFavoriteNote"

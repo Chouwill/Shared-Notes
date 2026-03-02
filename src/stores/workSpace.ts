@@ -71,8 +71,7 @@ export const useworkSpace = defineStore(
 
         if (res?.data?.success) {
           const idx = rawNotes.value.findIndex(
-            (n: { note_id?: string; id?: string }) =>
-              n?.note_id === id || n?.id === id
+            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
           )
 
           if (idx >= 0) {
@@ -80,7 +79,7 @@ export const useworkSpace = defineStore(
 
             notes[idx] = {
               ...notes[idx],
-              favorite: data.favorite,  // 👈 只改 favorite
+              favorite: data.favorite, // 👈 只改 favorite
             }
 
             rawNotes.value = notes
@@ -97,8 +96,7 @@ export const useworkSpace = defineStore(
 
         if (res?.data?.success) {
           const idx = rawNotes.value.findIndex(
-            (n: { note_id?: string; id?: string }) =>
-              n?.note_id === id || n?.id === id
+            (n: { note_id?: string; id?: string }) => n?.note_id === id || n?.id === id,
           )
 
           if (idx >= 0) {
@@ -106,7 +104,7 @@ export const useworkSpace = defineStore(
 
             notes[idx] = {
               ...notes[idx],
-              pinning: data.pinning,   // 👈 只改 pinning
+              pinning: data.pinning, // 👈 只改 pinning
             }
 
             rawNotes.value = notes
