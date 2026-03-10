@@ -5,6 +5,9 @@ import { z } from 'zod'
 import { useForm, useField } from 'vee-validate'
 import { toFormValidator } from '@vee-validate/zod'
 
+const showPassword = ref(false)
+const showDoublePassword = ref(false)
+
 const emit = defineEmits(['switch-to-login'])
 
 const authdialog = ref<HTMLDialogElement | null>(null)
@@ -149,12 +152,27 @@ defineExpose({
 
             <label class="input w-full !outline-none focus:!outline-none">
               <input
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 placeholder="請輸入密碼"
                 v-model="password"
                 @blur="passwordBlur($event, true)"
                 name="password"
               />
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs px-1"
+                @click.prevent="showPassword = !showPassword"
+              >
+                <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
             </label>
             <p class="text-red-500 text-center text-sm min-h-[20px]">{{ passwordError }}</p>
           </div>
@@ -163,12 +181,27 @@ defineExpose({
 
             <label class="input w-full !outline-none focus:!outline-none">
               <input
-                type="password"
+                :type="showDoublePassword ? 'text' : 'password'"
                 placeholder="請輸入密碼"
                 v-model="doublePassword"
                 @blur="doublePasswordBlur($event, true)"
                 name="doublePassword"
               />
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs px-1"
+                @click.prevent="showDoublePassword = !showDoublePassword"
+              >
+                <svg v-if="showDoublePassword" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
             </label>
             <p class="text-red-500 text-center text-sm min-h-[20px]">{{ doublePasswordError }}</p>
           </div>
