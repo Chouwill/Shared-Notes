@@ -115,7 +115,7 @@ function switchToRegister() {
 
             <label class="input w-full !outline-none focus:!outline-none">
               <input
-                type="text"
+                type="password"
                 placeholder="請輸入密碼"
                 v-model="password"
                 @blur="passwordBlur($event, true)"
@@ -188,5 +188,3 @@ function switchToRegister() {
     </dialog>
   </div>
 </template>
-
-<style scoped></style>

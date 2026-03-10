@@ -149,7 +149,7 @@ defineExpose({
 
             <label class="input w-full !outline-none focus:!outline-none">
               <input
-                type="text"
+                type="password"
                 placeholder="請輸入密碼"
                 v-model="password"
                 @blur="passwordBlur($event, true)"
@@ -163,7 +163,7 @@ defineExpose({
 
             <label class="input w-full !outline-none focus:!outline-none">
               <input
-                type="text"
+                type="password"
                 placeholder="請輸入密碼"
                 v-model="doublePassword"
                 @blur="doublePasswordBlur($event, true)"

@@ -9,7 +9,6 @@ import {
   onPinningNote,
   onReadNotes,
 } from '@/api/method'
-import { string } from 'zod'
 
 export const useworkSpace = defineStore(
   'event',

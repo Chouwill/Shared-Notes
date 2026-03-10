@@ -173,6 +173,12 @@ async function addfavoriteNote(item) {
 
   await workSpace.addFavoritelist(item.note_id, { favorite: !item.favorite })
 }
+
+const filterNotes = computed(() => {
+  return workSpace.rawNotes.filter(function (item) {
+    return item.is_public === true
+  })
+})
 </script>
 
 <template>
@@ -259,7 +265,7 @@ async function addfavoriteNote(item) {
             >
               所有公開筆記1111
             </button> -->
-            <div class="text-[25px] p-3">所有公開筆記</div>
+            <div class="text-[25px] p-3">所有公開筆記222</div>
           </div>
         </div>
 
@@ -273,7 +279,7 @@ async function addfavoriteNote(item) {
             </div>
             <div class="flex flex-col gap-4 min-w-0">
               <div
-                v-for="note in favoriteList"
+                v-for="note in filterNotes"
                 :key="note.id"
                 class="bg-base-100 w-full md:w-[70%] relative flex flex-col gap-4 p-5 sm:p-6 md:p-7 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer border border-base-content/5 hover:border-base-content/15 rounded-xl shadow-sm min-w-0"
               >

@@ -56,7 +56,7 @@ const router = createRouter({
         {
           path: 'manage',
           name: 'ManagePage',
-          // meta: { requiresAuth: true },
+          meta: { requiresAuth: true },
           component: () => import('@/page/ManagePage.vue'),
         },
       ],
