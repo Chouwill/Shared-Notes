@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes: light --default;
+}
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  /* 柔和按鈕配色：降低飽和度，減少突兀感 */
+  --color-primary: oklch(52% 0.12 252);
+  --color-primary-content: oklch(98% 0.012 252);
+  --color-secondary: oklch(62% 0.08 280);
+  --color-secondary-content: oklch(98% 0.01 280);
+  --color-accent: oklch(68% 0.1 185);
+  --color-accent-content: oklch(35% 0.05 185);
+  --color-success: oklch(62% 0.14 165);
+  --color-success-content: oklch(98% 0.01 165);
+  --color-warning: oklch(78% 0.14 85);
+  --color-warning-content: oklch(35% 0.06 85);
+  --color-error: oklch(62% 0.15 25);
+  --color-error-content: oklch(98% 0.01 25);
+}
+
+:root {
+  color-scheme: light;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tabs-box {
+  background-color: transparent;
+}
+
+/* Font Awesome 保護樣式 */
+.fa,
+.fas,
+.fa-solid,
+.far,
+.fa-regular,
+.fab,
+.fa-brands {
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands', 'Font Awesome 6 Pro' !important;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.fa-solid,
+.fas,
+.fa-brands,
+.fab {
+  font-weight: 900;
+}
+
+.fa-regular,
+.far {
+  font-weight: 400;
+}
+
+.fa-solid::before,
+.fa-regular::before,
+.fa-brands::before {
+  display: inline-block;
+}
+
+a {
+  color: hsl(var(--p));
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: hsl(var(--p) / 0.8);
+}
+
+/* 移除 daisy UI 所有表單元件的雙外框 */
+.input:focus-within,
+.select:focus-within,
+.textarea:focus-within,
+.checkbox:focus-within,
+.radio:focus-within,
+.toggle:focus-within,
+.range:focus-within,
+.file-input:focus-within,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* dropDown 下拉選項樣式 */
+.menu li:empty {
+  background-color: transparent;
+  height: 0;
+  margin: 0;
+}
+
+/* dropDown 下拉選項樣式 */
+.menu::before {
+  margin: 3px;
+}
+
+a,
+button {
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+button:hover {
+  filter: brightness(1.06);
+  box-shadow:
+    0 0 0 2px hsl(var(--p) / 0.2),
+    0 4px 12px hsl(var(--p) / 0.15);
+  transform: translateY(-0.5px);
+}
+
+button:active {
+  filter: brightness(0.98);
+  box-shadow: 0 0 0 1px hsl(var(--p) / 0.15);
+  transform: translateY(0);
+}
+
+/* 確保 drawer-side 背景色正確 - 只設定 drawer-side 和 menu，不影響其他元素 */
+.drawer-side {
+  background-color: hsl(var(--b2, 220 14% 96%)) !important;
+}
+
+.drawer-side .menu,
+.drawer-side ul.menu {
+  background-color: transparent !important;
+}
+
+/* 移除 drawer-overlay 的背景色 */
+.drawer-overlay {
+  background-color: transparent !important;
+}
+
+/* src/style.css */
+.menu li > a:active {
+  color: hsl(var(--p));
+  background-color: transparent;
+}
